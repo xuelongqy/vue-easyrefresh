@@ -59,6 +59,8 @@ export default class EasyRefresh extends Vue {
     // 滚轮位置记录
     private wheelPageX: number = 0
     private wheelPageY: number = 0
+    // 重置大小计时器
+    private resizeTimer!: number
 
     // 初始化
     public mounted() {
@@ -88,6 +90,9 @@ export default class EasyRefresh extends Vue {
         if (this.loadMore) {
             console.log('')
         }
+        // setup scroller
+        const rect = this.container!!.getBoundingClientRect()
+        this.scroller.setPosition(rect.left + this.container!!.clientLeft, rect.top + this.container!!.clientTop)
         // snapping
         if (this.snapping) {
             this.scroller.setSnapSize(this.snapWidth, this.snapHeight)
@@ -120,6 +125,7 @@ export default class EasyRefresh extends Vue {
             return
         }
         this.scroller.doTouchStart(e.touches, e.timeStamp)
+        this.onResize()
     }
     // 滑动事件
     private touchMove(e: TouchEvent) {
@@ -155,7 +161,6 @@ export default class EasyRefresh extends Vue {
             pageY: e.pageY,
         }], e.timeStamp)
         this.mousedown = true
-        this.onResize()
     }
     // 鼠标释放事件
     private mouseUp(e: MouseEvent) {
@@ -165,7 +170,6 @@ export default class EasyRefresh extends Vue {
         }
         this.scroller.doTouchEnd(e.timeStamp)
         this.mousedown = false
-        this.onResize()
     }
     // 滚轮事件
     private wheel(e: WheelEvent) {
@@ -181,6 +185,7 @@ export default class EasyRefresh extends Vue {
             this.wheelPageX = e.pageX
             this.wheelPageY = e.pageY
             this.wheelScrolling = true
+            this.onResize()
         }
         // 判断是否到达最大高度
         const scrollerValue = this.scroller.getValues()
@@ -199,9 +204,8 @@ export default class EasyRefresh extends Vue {
             this.wheelScrolling = false
             this.wheelPageX = 0
             this.wheelPageY = 0
-            this.scroller.doTouchEnd(e.timeStamp + 1000)
+            this.scroller.doTouchEnd(e.timeStamp + 200)
         }, 200)
-        this.onResize()
     }
 }
 </script>
