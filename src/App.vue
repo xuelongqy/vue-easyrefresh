@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <EasyRefresh :userSelect="false">
-      <div v-for="(item, index) in items" @click="onItemClick(index)"
+      <div v-for="(item, index) in items"
            class="row" :class="{'grey-bg': index % 2 == 0}">
         {{ item }}
       </div>
@@ -29,9 +29,9 @@ export default class App extends Vue {
     }
   }
 
-  // item点击事件
-  private onItemClick(index: number) {
-    console.log(index)
+  // 刷新方法
+  private onRefresh(done: () => void) {
+    done()
   }
 }
 </script>

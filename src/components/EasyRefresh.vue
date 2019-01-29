@@ -1,6 +1,6 @@
 <template>
     <div class="v-easy-refresh" :id="easyRefreshId"
-         :class="(userSelect ? '' : 'er_user_select_none')"
+         :class="{'er_user_select_none': !userSelect}"
          @touchstart="touchStart($event)"
          @touchmove="touchMove($event)"
          @touchend="touchEnd($event)"
