@@ -1,4 +1,4 @@
-export as namespace ScrollerLib
+export as namespace EasyRefreshLib
 export = Scroller
 
 declare class Scroller {

@@ -1,4 +1,4 @@
-function getContentRender(content) {
+function getContentRender(content, callBack) {
   var global = window;
 
   var docStyle = document.documentElement.style;
@@ -31,12 +31,14 @@ function getContentRender(content) {
 
     return function(left, top, zoom) {
       content.style[transformProperty] = 'translate3d(' + (-left) + 'px,' + (-top) + 'px,0) scale(' + zoom + ')';
+      callBack(left, top, zoom);
     };
 
   } else if (helperElem.style[transformProperty] !== undef) {
 
     return function(left, top, zoom) {
       content.style[transformProperty] = 'translate(' + (-left) + 'px,' + (-top) + 'px) scale(' + zoom + ')';
+      callBack(left, top, zoom);
     };
 
   } else {
@@ -45,6 +47,7 @@ function getContentRender(content) {
       content.style.marginLeft = left ? (-left/zoom) + 'px' : '';
       content.style.marginTop = top ? (-top/zoom) + 'px' : '';
       content.style.zoom = zoom || '';
+      callBack(left, top, zoom);
     };
 
   }

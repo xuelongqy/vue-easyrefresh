@@ -1,42 +1,57 @@
 <template>
-    
+
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import RefreshHeader from './header'
+import { Header } from './header'
 
 @Component
-export default class ClassicsHeader extends Vue implements RefreshHeader {
-    refreshHeight(): number {
-        return 0;
+export default class ClassicsHeader extends Vue implements Header {
+    // 获取实例
+    @Prop()
+    public instance!: (obj: Header) => void
+    // 刷新高度
+    public refreshHeight(): number {
+        return 70;
+    }
+    // 完成延时
+    public finishDuration(): number {
+        return 1000;
     }
 
-    finishDuration(): number {
-        return 0;
+    // 初始化
+    public mounted() {
+        // 返回实例
+        if (this.instance) {
+            this.instance(this)
+        }
     }
 
-    onRefreshEnd(): void {
+    public onRefreshClose(): void {
+        console.log('onRefreshClose')
     }
-
-    onRefreshReady(): void {
+    public onRefreshEnd(): void {
+        console.log('onRefreshEnd')
     }
-
-    onRefreshRestore(): void {
+    public onRefreshReady(): void {
+        console.log('onRefreshReady')
     }
-
-    onRefreshStart(): void {
+    public onRefreshRestore(): void {
+        console.log('onRefreshRestore')
     }
-
-    onRefreshed(): void {
+    public onRefreshStart(): void {
+        console.log('onRefreshStart')
     }
-
-    onRefreshing(): void {
+    public onRefreshed(): void {
+        console.log('onRefreshed')
     }
-
-    updateHeaderHeight(height: number): void {
+    public onRefreshing(): void {
+        console.log('onRefreshing')
     }
-
+    public updateHeaderHeight(height: number): void {
+        // console.log(height)
+    }
 }
 </script>
 

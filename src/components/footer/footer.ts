@@ -1,17 +1,20 @@
 // Footer状态
 enum RefreshFooterStatus {
     NO_LOAD = 1,
-    LOAD_READY = 2,
-    LOADING = 3,
-    LOADED = 4,
+    LOAD_START = 2,
+    LOAD_READY = 3,
+    LOADING = 4,
+    LOADED = 5,
 }
 
 // Footer接口
-interface FooterHeader {
+export default interface FooterHeader {
+    // 获取实例
+    instance: (obj: FooterHeader) => void
     // 加载高度
-    loadHeight: number
-    // 完成延时
-    finishDuration: number
+    loadHeight(): number
+    // 完成延时(ms)
+    finishDuration(): number
     // 高度更新
     updateFooterHeight(height: number): void
     // 开始加载
@@ -31,3 +34,5 @@ interface FooterHeader {
     // 加载关闭
     onLoadClose(): void
 }
+
+export { FooterHeader as Footer, RefreshFooterStatus as FooterStatus }

@@ -1,16 +1,19 @@
 // Header状态
 enum RefreshHeaderStatus {
     NO_REFRESH = 1,
-    REFRESH_READY = 2,
-    REFRESHING = 3,
-    REFRESHED = 4,
+    REFRESH_START = 2,
+    REFRESH_READY = 3,
+    REFRESHING = 4,
+    REFRESHED = 5,
 }
 
 // Header接口
-export default interface RefreshHeader {
+interface RefreshHeader {
+    // 获取实例
+    instance: (obj: RefreshHeader) => void
     // 刷新高度
     refreshHeight(): number
-    // 完成延时
+    // 完成延时(ms)
     finishDuration(): number
     // 高度更新
     updateHeaderHeight(height: number): void
@@ -27,5 +30,7 @@ export default interface RefreshHeader {
     // 刷新结束
     onRefreshEnd(): void
     // 刷新关闭
-    onRefreshEnd(): void
+    onRefreshClose(): void
 }
+
+export { RefreshHeader as Header, RefreshHeaderStatus as HeaderStatus }

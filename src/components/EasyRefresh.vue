@@ -9,7 +9,13 @@
          @mouseup="mouseUp($event)"
          @wheel="wheel($event)">
         <div :id="contentId">
+            <slot name="header">
+                <ClassicsHeader :instance="headerInstance"/>
+            </slot>
             <slot></slot>
+            <slot name="footer">
+                <ClassicsFooter :instance="footerInstance"/>
+            </slot>
         </div>
     </div>
 </template>
@@ -18,9 +24,24 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Scroller from '../module/core'
 import getContentRender from '../module/render'
+import ClassicsHeader from './header/ClassicsHeader.vue'
+import ClassicsFooter from './footer/ClassicsFooter.vue'
+import { Header, HeaderStatus } from './header/header'
+import { Footer, FooterStatus } from './footer/footer'
 
-@Component
+@Component({
+    components: {
+        ClassicsHeader,
+        ClassicsFooter,
+    },
+})
 export default class EasyRefresh extends Vue {
+    @Prop() // 获取实例
+    private instance!: (obj: EasyRefresh) => void
+    @Prop() // Header
+    private header!: Header
+    @Prop() // Footer
+    private footer!: Footer
     @Prop() // 刷新回调
     private onRefresh!: (done: () => void) => void
     @Prop() // 加载回调
@@ -49,9 +70,19 @@ export default class EasyRefresh extends Vue {
     private content!: HTMLElement | null
     // scroller
     private scroller!: Scroller
+    // header
+    private refreshHeader: Header
+    // footer
+    private refreshFooter: Footer
+    // Header状态
+    private headerStatus: HeaderStatus = HeaderStatus.NO_REFRESH
+    // Footer状态
+    private footerStatus: FooterStatus = FooterStatus.NO_LOAD
 
     // 鼠标是否按下
     private mousedown: boolean = false
+    // 用户是否滚动
+    private userScrolling: boolean = false
     // 滚轮计时器
     private wheelTimer!: number
     // 滚轮滚动
@@ -62,12 +93,33 @@ export default class EasyRefresh extends Vue {
     // 重置大小计时器
     private resizeTimer!: number
 
+    // 获取Header
+    get rightHeader(): Header {
+        if (this.header) {
+            return this.header
+        } else {
+            return this.refreshHeader
+        }
+    }
+    // 获取Footer
+    get rightFooter(): Footer {
+        if (this.footer) {
+            return this.footer
+        } else {
+            return this.refreshFooter
+        }
+    }
+
     // 初始化
     public mounted() {
+        // 返回实例
+        if (this.instance) {
+            this.instance(this)
+        }
         // 初始化EasyRefresh以及滚动组件
         this.container = document.getElementById(this.easyRefreshId)
         this.content = document.getElementById(this.contentId)
-        const render = getContentRender(this.content)
+        const render = getContentRender(this.content, this.scrollerCallBack)
         this.scroller = new Scroller(render, {
             scrollingX: false,
             snapping: this.snapping,
@@ -102,6 +154,15 @@ export default class EasyRefresh extends Vue {
         window.addEventListener('resize', this.onResize)
     }
 
+    // Header实例
+    private headerInstance(obj: Header) {
+        this.refreshHeader = obj
+    }
+    // Footer实例
+    private footerInstance(obj: Footer) {
+        this.refreshFooter = obj
+    }
+
     // 刷新完成回调
     private callRefreshFinish() {
         console.log('callRefreshFinish')
@@ -111,6 +172,65 @@ export default class EasyRefresh extends Vue {
         console.log('callLoadMoreFinish')
     }
 
+    // 滚动回调
+    private scrollerCallBack(left: number, top: number, zoom: number) {
+        if (top < 0) {
+            // 更新Header高度
+            this.rightHeader.updateHeaderHeight(top)
+            if (this.headerStatus === HeaderStatus.NO_REFRESH && this.userScrolling) {
+                // 刷新开发
+                this.rightHeader.onRefreshStart()
+                this.headerStatus = HeaderStatus.REFRESH_START
+            } else if (this.headerStatus === HeaderStatus.REFRESH_START &&
+                -top > this.rightHeader.refreshHeight() &&
+                this.userScrolling ) {
+                // 准备刷新
+                this.rightHeader.onRefreshReady()
+                this.headerStatus = HeaderStatus.REFRESH_READY
+            } else if (this.headerStatus === HeaderStatus.REFRESH_READY &&
+                -top < this.rightHeader.refreshHeight() &&
+                this.userScrolling ) {
+                // 刷新恢复
+                this.rightHeader.onRefreshRestore()
+                this.headerStatus = HeaderStatus.REFRESH_START
+            }
+        } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight) {
+            if (top === 0) { return }
+            // 列表可滚动的距离
+            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
+            // 更新Footer高度
+            this.rightFooter.updateFooterHeight(top - scrollableDistance)
+            if (this.footerStatus === FooterStatus.NO_LOAD &&
+                this.userScrolling ) {
+                // 开始加载
+                this.rightFooter.onLoadStart()
+                this.footerStatus = FooterStatus.LOAD_START
+            } else if (this.footerStatus === FooterStatus.LOAD_START &&
+                top - scrollableDistance > this.rightFooter.loadHeight() &&
+                this.userScrolling ) {
+                // 准备加载
+                this.rightFooter.onLoadReady()
+                this.footerStatus = FooterStatus.LOAD_READY
+            } else if (this.footerStatus === FooterStatus.LOAD_READY &&
+                top - scrollableDistance < this.rightFooter.loadHeight() &&
+                this.userScrolling ) {
+                // 恢复加载
+                this.rightFooter.onLoadRestore()
+                this.footerStatus = FooterStatus.LOAD_START
+            }
+        } else {
+            // 刷新关闭
+            if (this.headerStatus === HeaderStatus.REFRESH_START || this.headerStatus === HeaderStatus.REFRESH_READY) {
+                this.rightHeader.onRefreshClose()
+                this.headerStatus = HeaderStatus.NO_REFRESH
+            }
+            // 加载关闭
+            if (this.footerStatus === FooterStatus.LOAD_START || this.footerStatus === FooterStatus.LOAD_READY) {
+                this.rightFooter.onLoadClose()
+                this.footerStatus = FooterStatus.NO_LOAD
+            }
+        }
+    }
     // 大小改变
     private onResize() {
         const container = this.container
@@ -125,6 +245,7 @@ export default class EasyRefresh extends Vue {
             return
         }
         this.scroller.doTouchStart(e.touches, e.timeStamp)
+        this.userScrolling = true
         this.onResize()
     }
     // 滑动事件
@@ -135,6 +256,7 @@ export default class EasyRefresh extends Vue {
     // 触摸结束事件
     private touchEnd(e: TouchEvent) {
         this.scroller.doTouchEnd(e.timeStamp)
+        this.userScrolling = false
     }
     // 鼠标按下事件
     private mouseDown(e: MouseEvent) {
@@ -148,6 +270,7 @@ export default class EasyRefresh extends Vue {
             pageY: e.pageY,
         }], e.timeStamp)
         this.mousedown = true
+        this.userScrolling = true
         this.onResize()
     }
     // 鼠标移动事件
@@ -160,7 +283,6 @@ export default class EasyRefresh extends Vue {
             pageX: e.pageX,
             pageY: e.pageY,
         }], e.timeStamp)
-        this.mousedown = true
     }
     // 鼠标释放事件
     private mouseUp(e: MouseEvent) {
@@ -170,6 +292,7 @@ export default class EasyRefresh extends Vue {
         }
         this.scroller.doTouchEnd(e.timeStamp)
         this.mousedown = false
+        this.userScrolling = false
     }
     // 滚轮事件
     private wheel(e: WheelEvent) {
@@ -185,6 +308,7 @@ export default class EasyRefresh extends Vue {
             this.wheelPageX = e.pageX
             this.wheelPageY = e.pageY
             this.wheelScrolling = true
+            this.userScrolling = true
             this.onResize()
         }
         // 判断是否到达最大高度
@@ -202,6 +326,7 @@ export default class EasyRefresh extends Vue {
         // 设置计时器,结束滚动
         this.wheelTimer = setTimeout(() => {
             this.wheelScrolling = false
+            this.userScrolling = false
             this.wheelPageX = 0
             this.wheelPageY = 0
             this.scroller.doTouchEnd(e.timeStamp + 200)
