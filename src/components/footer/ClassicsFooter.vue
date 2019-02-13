@@ -8,9 +8,6 @@ import { Footer } from './footer'
 
 @Component
 export default class ClassicsFooter extends Vue implements Footer {
-    // 获取实例
-    @Prop()
-    public instance: (obj: Footer) => void
     // 加载高度
     public loadHeight(): number {
         return 70;
@@ -20,13 +17,6 @@ export default class ClassicsFooter extends Vue implements Footer {
         return 1000;
     }
 
-    // 初始化
-    public mounted() {
-        // 返回实例
-        if (this.instance) {
-            this.instance(this)
-        }
-    }
     public onLoadClose(): void {
         console.log('onLoadClose')
     }

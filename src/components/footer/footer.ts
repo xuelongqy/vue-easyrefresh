@@ -9,8 +9,6 @@ enum RefreshFooterStatus {
 
 // Footer接口
 export default interface FooterHeader {
-    // 获取实例
-    instance: (obj: FooterHeader) => void
     // 加载高度
     loadHeight(): number
     // 完成延时(ms)

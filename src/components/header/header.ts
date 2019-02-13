@@ -9,8 +9,6 @@ enum RefreshHeaderStatus {
 
 // Header接口
 interface RefreshHeader {
-    // 获取实例
-    instance: (obj: RefreshHeader) => void
     // 刷新高度
     refreshHeight(): number
     // 完成延时(ms)

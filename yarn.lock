@@ -688,6 +688,15 @@
   resolved "http://r.cnpmjs.org/@nodelib/fs.stat/download/@nodelib/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha1-K1o6s/kYzKSKjHVMCBaOPwPrphs=
 
+"@soda/friendly-errors-webpack-plugin@^1.7.1":
+  version "1.7.1"
+  resolved "http://r.cnpmjs.org/@soda/friendly-errors-webpack-plugin/download/@soda/friendly-errors-webpack-plugin-1.7.1.tgz#706f64bcb4a8b9642b48ae3ace444c70334d615d"
+  integrity sha1-cG9kvLSouWQrSK46zkRMcDNNYV0=
+  dependencies:
+    chalk "^1.1.3"
+    error-stack-parser "^2.0.0"
+    string-width "^2.0.0"
+
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "http://r.cnpmjs.org/@types/q/download/@types/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
@@ -715,10 +724,10 @@
     lodash.kebabcase "^4.1.1"
     svg-tags "^1.0.0"
 
-"@vue/babel-preset-app@^3.3.0":
-  version "3.3.0"
-  resolved "http://r.cnpmjs.org/@vue/babel-preset-app/download/@vue/babel-preset-app-3.3.0.tgz#390dc0ea20a477c9cc09d3a0541f673c0beedb4f"
-  integrity sha1-OQ3A6iCkd8nMCdOgVB9nPAvu208=
+"@vue/babel-preset-app@^3.4.0":
+  version "3.4.0"
+  resolved "http://r.cnpmjs.org/@vue/babel-preset-app/download/@vue/babel-preset-app-3.4.0.tgz#926c718066babc0117ee70cebf890d3aaa812bfa"
+  integrity sha1-kmxxgGa6vAEX7nDOv4kNOqqBK/o=
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-decorators" "^7.1.0"
@@ -728,13 +737,11 @@
     "@babel/preset-env" "^7.0.0"
     "@babel/runtime" "^7.0.0"
     "@babel/runtime-corejs2" "^7.2.0"
-    "@vue/babel-preset-jsx" "^1.0.0-beta.1"
-    babel-helper-vue-jsx-merge-props "^2.0.3"
+    "@vue/babel-preset-jsx" "^1.0.0-beta.2"
     babel-plugin-dynamic-import-node "^2.2.0"
-    babel-plugin-transform-vue-jsx "^4.0.1"
-    core-js "^2.6.1"
+    core-js "^2.6.3"
 
-"@vue/babel-preset-jsx@^1.0.0-beta.1":
+"@vue/babel-preset-jsx@^1.0.0-beta.2":
   version "1.0.0-beta.2"
   resolved "http://r.cnpmjs.org/@vue/babel-preset-jsx/download/@vue/babel-preset-jsx-1.0.0-beta.2.tgz#3e5dc2b73da58391c1c7327c2bd2ef154fe4e46e"
   integrity sha1-Pl3Ctz2lg5HBxzJ8K9LvFU/k5G4=
@@ -781,49 +788,54 @@
     "@vue/babel-plugin-transform-vue-jsx" "^1.0.0-beta.2"
     camelcase "^5.0.0"
 
-"@vue/cli-overlay@^3.3.0":
-  version "3.3.0"
-  resolved "http://r.cnpmjs.org/@vue/cli-overlay/download/@vue/cli-overlay-3.3.0.tgz#286fe26509a949aeadaa45c87648b76c99c52fd2"
-  integrity sha1-KG/iZQmpSa6tqkXIdki3bJnFL9I=
+"@vue/cli-overlay@^3.4.0":
+  version "3.4.0"
+  resolved "http://r.cnpmjs.org/@vue/cli-overlay/download/@vue/cli-overlay-3.4.0.tgz#7fe7cf41eacbaf1f1579efcad93e23b65d4581db"
+  integrity sha1-f+fPQerLrx8Vee/K2T4jtl1Fgds=
 
-"@vue/cli-plugin-babel@^3.3.0":
-  version "3.3.0"
-  resolved "http://r.cnpmjs.org/@vue/cli-plugin-babel/download/@vue/cli-plugin-babel-3.3.0.tgz#5dea0b90b1ce0dc0ee48e33b32af6b859bcf8ff3"
-  integrity sha1-XeoLkLHODcDuSOM7Mq9rhZvPj/M=
+"@vue/cli-plugin-babel@^3.4.0":
+  version "3.4.0"
+  resolved "http://r.cnpmjs.org/@vue/cli-plugin-babel/download/@vue/cli-plugin-babel-3.4.0.tgz#d6e7967995f860b94204bdfb17900fadd4aea2d9"
+  integrity sha1-1ueWeZX4YLlCBL37F5APrdSuotk=
   dependencies:
     "@babel/core" "^7.0.0"
-    "@vue/babel-preset-app" "^3.3.0"
-    babel-loader "^8.0.4"
+    "@vue/babel-preset-app" "^3.4.0"
+    "@vue/cli-shared-utils" "^3.4.0"
+    babel-loader "^8.0.5"
+    webpack ">=4 < 4.29"
 
-"@vue/cli-plugin-typescript@^3.3.0":
-  version "3.3.0"
-  resolved "http://r.cnpmjs.org/@vue/cli-plugin-typescript/download/@vue/cli-plugin-typescript-3.3.0.tgz#a278010e0959ea9be44b23dfdf65d3c3e01c66a9"
-  integrity sha1-ongBDglZ6pvkSyPf32XTw+AcZqk=
+"@vue/cli-plugin-typescript@^3.4.0":
+  version "3.4.0"
+  resolved "http://r.cnpmjs.org/@vue/cli-plugin-typescript/download/@vue/cli-plugin-typescript-3.4.0.tgz#a74f00a30bb253726a9d02e59fd6779853f764e8"
+  integrity sha1-p08AowuyU3JqnQLln9Z3mFP3ZOg=
   dependencies:
     "@types/webpack-env" "^1.13.6"
-    "@vue/cli-shared-utils" "^3.3.0"
+    "@vue/cli-shared-utils" "^3.4.0"
     fork-ts-checker-webpack-plugin "^0.5.2"
-    globby "^8.0.1"
-    ts-loader "^5.3.2"
-    tslint "^5.12.0"
+    globby "^9.0.0"
+    ts-loader "^5.3.3"
+    tslint "^5.12.1"
+    webpack ">=4 < 4.29"
 
-"@vue/cli-service@^3.3.0":
-  version "3.3.1"
-  resolved "http://r.cnpmjs.org/@vue/cli-service/download/@vue/cli-service-3.3.1.tgz#b93d4f83e5f343574c0121b6d05df04409b6893b"
-  integrity sha1-uT1Pg+XzQ1dMASG20F3wRAm2iTs=
+"@vue/cli-service@^3.4.0":
+  version "3.4.0"
+  resolved "http://r.cnpmjs.org/@vue/cli-service/download/@vue/cli-service-3.4.0.tgz#d2160ee4cf9de8dc4e9d780ccd61cc15862f2950"
+  integrity sha1-0hYO5M+d6NxOnXgMzWHMFYYvKVA=
   dependencies:
     "@intervolga/optimize-cssnano-plugin" "^1.0.5"
-    "@vue/cli-overlay" "^3.3.0"
-    "@vue/cli-shared-utils" "^3.3.0"
+    "@soda/friendly-errors-webpack-plugin" "^1.7.1"
+    "@vue/cli-overlay" "^3.4.0"
+    "@vue/cli-shared-utils" "^3.4.0"
+    "@vue/component-compiler-utils" "^2.5.2"
     "@vue/preload-webpack-plugin" "^1.1.0"
     "@vue/web-component-wrapper" "^1.2.0"
-    acorn "^6.0.4"
+    acorn "^6.0.6"
     acorn-walk "^6.1.1"
     address "^1.0.3"
-    autoprefixer "^8.6.5"
-    cache-loader "^1.2.5"
-    case-sensitive-paths-webpack-plugin "^2.1.2"
-    chalk "^2.4.1"
+    autoprefixer "^9.4.7"
+    cache-loader "^2.0.1"
+    case-sensitive-paths-webpack-plugin "^2.2.0"
+    chalk "^2.4.2"
     clipboardy "^1.2.3"
     cliui "^4.1.0"
     copy-webpack-plugin "^4.6.0"
@@ -831,10 +843,9 @@
     cssnano "^4.1.8"
     debug "^4.1.1"
     escape-string-regexp "^1.0.5"
-    file-loader "^2.0.0"
-    friendly-errors-webpack-plugin "^1.7.0"
+    file-loader "^3.0.1"
     fs-extra "^7.0.1"
-    globby "^8.0.1"
+    globby "^9.0.0"
     hash-sum "^1.0.2"
     html-webpack-plugin "^3.2.0"
     launch-editor-middleware "^2.2.1"
@@ -853,20 +864,20 @@
     ssri "^6.0.1"
     string.prototype.padend "^3.0.0"
     terser-webpack-plugin "^1.2.1"
-    thread-loader "^1.2.0"
+    thread-loader "^2.1.2"
     url-loader "^1.1.2"
-    vue-loader "^15.4.2"
+    vue-loader "^15.6.2"
     webpack ">=4 < 4.29"
     webpack-bundle-analyzer "^3.0.3"
     webpack-chain "^4.11.0"
     webpack-dev-server "^3.1.14"
-    webpack-merge "^4.1.5"
+    webpack-merge "^4.2.1"
     yorkie "^2.0.0"
 
-"@vue/cli-shared-utils@^3.3.0":
-  version "3.3.0"
-  resolved "http://r.cnpmjs.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-3.3.0.tgz#aba6c435bf9affb8180c43195ee85eb8d736d70f"
-  integrity sha1-q6bENb+a/7gYDEMZXuheuNc21w8=
+"@vue/cli-shared-utils@^3.4.0":
+  version "3.4.0"
+  resolved "http://r.cnpmjs.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-3.4.0.tgz#4331cb926351e399bf7305a9306bf09d0f2a1b9d"
+  integrity sha1-QzHLkmNR45m/cwWpMGvwnQ8qG50=
   dependencies:
     chalk "^2.4.1"
     execa "^1.0.0"
@@ -895,6 +906,21 @@
     prettier "1.16.0"
     source-map "^0.7.3"
     vue-template-es2015-compiler "^1.6.0"
+
+"@vue/component-compiler-utils@^2.5.2":
+  version "2.5.2"
+  resolved "http://r.cnpmjs.org/@vue/component-compiler-utils/download/@vue/component-compiler-utils-2.5.2.tgz#a8d57e773354ab10e4742c7d6a8dd86184d4d7be"
+  integrity sha1-qNV+dzNUqxDkdCx9ao3YYYTU174=
+  dependencies:
+    consolidate "^0.15.1"
+    hash-sum "^1.0.2"
+    lru-cache "^4.1.2"
+    merge-source-map "^1.1.0"
+    postcss "^7.0.14"
+    postcss-selector-parser "^5.0.0"
+    prettier "1.16.3"
+    source-map "~0.6.1"
+    vue-template-es2015-compiler "^1.8.2"
 
 "@vue/preload-webpack-plugin@^1.1.0":
   version "1.1.0"
@@ -1089,10 +1115,10 @@ acorn@^5.0.0, acorn@^5.6.2, acorn@^5.7.3:
   resolved "http://r.cnpmjs.org/acorn/download/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
   integrity sha1-Z6ojG/iBKXS4UjWpZ3Hra9B+onk=
 
-acorn@^6.0.4:
-  version "6.0.5"
-  resolved "http://r.cnpmjs.org/acorn/download/acorn-6.0.5.tgz#81730c0815f3f3b34d8efa95cb7430965f4d887a"
-  integrity sha1-gXMMCBXz87NNjvqVy3Qwll9NiHo=
+acorn@^6.0.6:
+  version "6.1.0"
+  resolved "http://r.cnpmjs.org/acorn/download/acorn-6.1.0.tgz#b0a3be31752c97a0f7013c5f4903b71a05db6818"
+  integrity sha1-sKO+MXUsl6D3ATxfSQO3GgXbaBg=
 
 address@^1.0.3:
   version "1.0.3"
@@ -1239,7 +1265,7 @@ array-reduce@~0.0.0:
   resolved "http://r.cnpmjs.org/array-reduce/download/array-reduce-0.0.0.tgz#173899d3ffd1c7d9383e4479525dbe278cab5f2b"
   integrity sha1-FziZ0//Rx9k4PkR5Ul2+J4yrXys=
 
-array-union@^1.0.1:
+array-union@^1.0.1, array-union@^1.0.2:
   version "1.0.2"
   resolved "http://r.cnpmjs.org/array-union/download/array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39"
   integrity sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk=
@@ -1255,11 +1281,6 @@ array-unique@^0.3.2:
   version "0.3.2"
   resolved "http://r.cnpmjs.org/array-unique/download/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
-
-arrify@^1.0.1:
-  version "1.0.1"
-  resolved "http://r.cnpmjs.org/arrify/download/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
-  integrity sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=
 
 asn1.js@^4.0.0:
   version "4.10.1"
@@ -1314,13 +1335,6 @@ async@^1.5.2:
   resolved "http://r.cnpmjs.org/async/download/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
-async@^2.3.0:
-  version "2.6.1"
-  resolved "http://r.cnpmjs.org/async/download/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
-  integrity sha1-skWiPKcZMAROxT+kaqAKPofGphA=
-  dependencies:
-    lodash "^4.17.10"
-
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "http://r.cnpmjs.org/asynckit/download/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -1331,17 +1345,17 @@ atob@^2.1.1:
   resolved "http://r.cnpmjs.org/atob/download/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha1-bZUX654DDSQ2ZmZR6GvZ9vE1M8k=
 
-autoprefixer@^8.6.5:
-  version "8.6.5"
-  resolved "http://r.cnpmjs.org/autoprefixer/download/autoprefixer-8.6.5.tgz#343f3d193ed568b3208e00117a1b96eb691d4ee9"
-  integrity sha1-ND89GT7VaLMgjgARehuW62kdTuk=
+autoprefixer@^9.4.7:
+  version "9.4.7"
+  resolved "http://r.cnpmjs.org/autoprefixer/download/autoprefixer-9.4.7.tgz#f997994f9a810eae47b38fa6d8a119772051c4ff"
+  integrity sha1-+ZeZT5qBDq5Hs4+m2KEZdyBRxP8=
   dependencies:
-    browserslist "^3.2.8"
-    caniuse-lite "^1.0.30000864"
+    browserslist "^4.4.1"
+    caniuse-lite "^1.0.30000932"
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
-    postcss "^6.0.23"
-    postcss-value-parser "^3.2.3"
+    postcss "^7.0.14"
+    postcss-value-parser "^3.3.1"
 
 aws-sign2@~0.7.0:
   version "0.7.0"
@@ -1362,12 +1376,7 @@ babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-helper-vue-jsx-merge-props@^2.0.3:
-  version "2.0.3"
-  resolved "http://r.cnpmjs.org/babel-helper-vue-jsx-merge-props/download/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
-  integrity sha1-Iq69OzOQIyjlEyk6jkmSs4T58bY=
-
-babel-loader@^8.0.4:
+babel-loader@^8.0.5:
   version "8.0.5"
   resolved "http://r.cnpmjs.org/babel-loader/download/babel-loader-8.0.5.tgz#225322d7509c2157655840bba52e46b6c2f2fe33"
   integrity sha1-IlMi11CcIVdlWEC7pS5GtsLy/jM=
@@ -1383,13 +1392,6 @@ babel-plugin-dynamic-import-node@^2.2.0:
   integrity sha1-wK37B9lfSkSV6aqsbsOGxNfCUk4=
   dependencies:
     object.assign "^4.1.0"
-
-babel-plugin-transform-vue-jsx@^4.0.1:
-  version "4.0.1"
-  resolved "http://r.cnpmjs.org/babel-plugin-transform-vue-jsx/download/babel-plugin-transform-vue-jsx-4.0.1.tgz#2c8bddce87a6ef09eaa59869ff1bfbeeafc5f88d"
-  integrity sha1-LIvdzoem7wnqpZhp/xv77q/F+I0=
-  dependencies:
-    esutils "^2.0.2"
 
 balanced-match@^1.0.0:
   version "1.0.0"
@@ -1589,15 +1591,7 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-browserslist@^3.2.8:
-  version "3.2.8"
-  resolved "http://r.cnpmjs.org/browserslist/download/browserslist-3.2.8.tgz#b0005361d6471f0f5952797a76fc985f1f978fc6"
-  integrity sha1-sABTYdZHHw9ZUnl6dvyYXx+Xj8Y=
-  dependencies:
-    caniuse-lite "^1.0.30000844"
-    electron-to-chromium "^1.3.47"
-
-browserslist@^4.0.0, browserslist@^4.3.4:
+browserslist@^4.0.0, browserslist@^4.3.4, browserslist@^4.4.1:
   version "4.4.1"
   resolved "http://r.cnpmjs.org/browserslist/download/browserslist-4.4.1.tgz#42e828954b6b29a7a53e352277be429478a69062"
   integrity sha1-QugolUtrKaelPjUid75ClHimkGI=
@@ -1699,15 +1693,16 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
-cache-loader@^1.2.5:
-  version "1.2.5"
-  resolved "http://r.cnpmjs.org/cache-loader/download/cache-loader-1.2.5.tgz#9ab15b0ae5f546f376083a695fc1a75f546cb266"
-  integrity sha1-mrFbCuX1RvN2CDppX8GnX1RssmY=
+cache-loader@^2.0.1:
+  version "2.0.1"
+  resolved "http://r.cnpmjs.org/cache-loader/download/cache-loader-2.0.1.tgz#5758f41a62d7c23941e3c3c7016e6faeb03acb07"
+  integrity sha1-V1j0GmLXwjlB48PHAW5vrrA6ywc=
   dependencies:
     loader-utils "^1.1.0"
     mkdirp "^0.5.1"
-    neo-async "^2.5.0"
-    schema-utils "^0.4.2"
+    neo-async "^2.6.0"
+    normalize-path "^3.0.0"
+    schema-utils "^1.0.0"
 
 call-me-maybe@^1.0.1:
   version "1.0.1"
@@ -1779,12 +1774,17 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000864, caniuse-lite@^1.0.30000929:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000929:
   version "1.0.30000932"
   resolved "http://r.cnpmjs.org/caniuse-lite/download/caniuse-lite-1.0.30000932.tgz#d01763e9ce77810962ca7391ff827b5949ce4272"
   integrity sha1-0Bdj6c53gQliynOR/4J7WUnOQnI=
 
-case-sensitive-paths-webpack-plugin@^2.1.2:
+caniuse-lite@^1.0.30000932:
+  version "1.0.30000936"
+  resolved "http://r.cnpmjs.org/caniuse-lite/download/caniuse-lite-1.0.30000936.tgz#5d33b118763988bf721b9b8ad436d0400e4a116b"
+  integrity sha1-XTOxGHY5iL9yG5uK1DbQQA5KEWs=
+
+case-sensitive-paths-webpack-plugin@^2.2.0:
   version "2.2.0"
   resolved "http://r.cnpmjs.org/case-sensitive-paths-webpack-plugin/download/case-sensitive-paths-webpack-plugin-2.2.0.tgz#3371ef6365ef9c25fa4b81c16ace0e9c7dc58c3e"
   integrity sha1-M3HvY2XvnCX6S4HBas4OnH3FjD4=
@@ -2158,10 +2158,15 @@ copy-webpack-plugin@^4.6.0:
     p-limit "^1.0.0"
     serialize-javascript "^1.4.0"
 
-core-js@^2.5.7, core-js@^2.6.1:
+core-js@^2.5.7:
   version "2.6.3"
   resolved "http://r.cnpmjs.org/core-js/download/core-js-2.6.3.tgz#4b70938bdffdaf64931e66e2db158f0892289c49"
   integrity sha1-S3CTi9/9r2STHmbi2xWPCJIonEk=
+
+core-js@^2.6.3:
+  version "2.6.4"
+  resolved "http://r.cnpmjs.org/core-js/download/core-js-2.6.4.tgz#b8897c062c4d769dd30a0ac5c73976c47f92ea0d"
+  integrity sha1-uIl8BixNdp3TCgrFxzl2xH+S6g0=
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -2642,15 +2647,7 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dir-glob@2.0.0:
-  version "2.0.0"
-  resolved "http://r.cnpmjs.org/dir-glob/download/dir-glob-2.0.0.tgz#0b205d2b6aef98238ca286598a8204d29d0a0034"
-  integrity sha1-CyBdK2rvmCOMooZZioIE0p0KADQ=
-  dependencies:
-    arrify "^1.0.1"
-    path-type "^3.0.0"
-
-dir-glob@^2.0.0:
+dir-glob@^2.0.0, dir-glob@^2.2.1:
   version "2.2.2"
   resolved "http://r.cnpmjs.org/dir-glob/download/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
   integrity sha1-+gnwaUFTyJGLGLoN6vrpR2n8UMQ=
@@ -2782,7 +2779,7 @@ ejs@^2.6.1:
   resolved "http://r.cnpmjs.org/ejs/download/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha1-SY7A1JVlWrxvI81hho2SZGQHGqA=
 
-electron-to-chromium@^1.3.103, electron-to-chromium@^1.3.47:
+electron-to-chromium@^1.3.103:
   version "1.3.108"
   resolved "http://r.cnpmjs.org/electron-to-chromium/download/electron-to-chromium-1.3.108.tgz#2e79a6fcaa4b3e7c75abf871505bda8e268c910e"
   integrity sha1-Lnmm/KpLPnx1q/hxUFvajiaMkQ4=
@@ -3098,7 +3095,7 @@ fast-deep-equal@^2.0.1:
   resolved "http://r.cnpmjs.org/fast-deep-equal/download/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
   integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
 
-fast-glob@^2.0.2:
+fast-glob@^2.2.6:
   version "2.2.6"
   resolved "http://r.cnpmjs.org/fast-glob/download/fast-glob-2.2.6.tgz#a5d5b697ec8deda468d85a74035290a025a95295"
   integrity sha1-pdW2l+yN7aRo2Fp0A1KQoCWpUpU=
@@ -3139,10 +3136,10 @@ figgy-pudding@^3.5.1:
   resolved "http://r.cnpmjs.org/figgy-pudding/download/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
   integrity sha1-hiRwESkBxyeg5JWoB0S9W6odZ5A=
 
-file-loader@^2.0.0:
-  version "2.0.0"
-  resolved "http://r.cnpmjs.org/file-loader/download/file-loader-2.0.0.tgz#39749c82f020b9e85901dcff98e8004e6401cfde"
-  integrity sha1-OXScgvAguehZAdz/mOgATmQBz94=
+file-loader@^3.0.1:
+  version "3.0.1"
+  resolved "http://r.cnpmjs.org/file-loader/download/file-loader-3.0.1.tgz#f8e0ba0b599918b51adfe45d66d1e771ad560faa"
+  integrity sha1-+OC6C1mZGLUa3+RdZtHnca1WD6o=
   dependencies:
     loader-utils "^1.0.2"
     schema-utils "^1.0.0"
@@ -3289,15 +3286,6 @@ fresh@0.5.2:
   version "0.5.2"
   resolved "http://r.cnpmjs.org/fresh/download/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
-
-friendly-errors-webpack-plugin@^1.7.0:
-  version "1.7.0"
-  resolved "http://r.cnpmjs.org/friendly-errors-webpack-plugin/download/friendly-errors-webpack-plugin-1.7.0.tgz#efc86cbb816224565861a1be7a9d84d0aafea136"
-  integrity sha1-78hsu4FiJFZYYaG+ep2E0Kr+oTY=
-  dependencies:
-    chalk "^1.1.3"
-    error-stack-parser "^2.0.0"
-    string-width "^2.0.0"
 
 from2@^2.1.0:
   version "2.3.0"
@@ -3469,18 +3457,18 @@ globby@^7.1.1:
     pify "^3.0.0"
     slash "^1.0.0"
 
-globby@^8.0.1:
-  version "8.0.2"
-  resolved "http://r.cnpmjs.org/globby/download/globby-8.0.2.tgz#5697619ccd95c5275dbb2d6faa42087c1a941d8d"
-  integrity sha1-VpdhnM2VxSdduy1vqkIIfBqUHY0=
+globby@^9.0.0:
+  version "9.0.0"
+  resolved "http://r.cnpmjs.org/globby/download/globby-9.0.0.tgz#3800df736dc711266df39b4ce33fe0d481f94c23"
+  integrity sha1-OADfc23HESZt85tM4z/g1IH5TCM=
   dependencies:
-    array-union "^1.0.1"
-    dir-glob "2.0.0"
-    fast-glob "^2.0.2"
-    glob "^7.1.2"
-    ignore "^3.3.5"
-    pify "^3.0.0"
-    slash "^1.0.0"
+    array-union "^1.0.2"
+    dir-glob "^2.2.1"
+    fast-glob "^2.2.6"
+    glob "^7.1.3"
+    ignore "^4.0.3"
+    pify "^4.0.1"
+    slash "^2.0.0"
 
 globule@^1.0.0:
   version "1.2.1"
@@ -3808,6 +3796,11 @@ ignore@^3.3.5:
   version "3.3.10"
   resolved "http://r.cnpmjs.org/ignore/download/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
   integrity sha1-Cpf7h2mG6AgcYxFg+PnziRV/AEM=
+
+ignore@^4.0.3:
+  version "4.0.6"
+  resolved "http://r.cnpmjs.org/ignore/download/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
+  integrity sha1-dQ49tYYgh7RzfrrIIH/9HvJ7Jfw=
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -4435,7 +4428,7 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
-loader-runner@^2.3.0:
+loader-runner@^2.3.0, loader-runner@^2.3.1:
   version "2.4.0"
   resolved "http://r.cnpmjs.org/loader-runner/download/loader-runner-2.4.0.tgz#ed47066bfe534d7e84c4c7b9998c2a75607d9357"
   integrity sha1-7UcGa/5TTX6ExMe5mYwqdWB9k1c=
@@ -4925,7 +4918,7 @@ negotiator@0.6.1:
   resolved "http://r.cnpmjs.org/negotiator/download/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
   integrity sha1-KzJxhOiZIQEXeyhWP7XnECrNDKk=
 
-neo-async@^2.5.0:
+neo-async@^2.5.0, neo-async@^2.6.0:
   version "2.6.0"
   resolved "http://r.cnpmjs.org/neo-async/download/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
   integrity sha1-udFeTXHGdikIZUtRg+04t1M0CDU=
@@ -5026,7 +5019,7 @@ node-releases@^1.1.3:
   dependencies:
     semver "^5.3.0"
 
-node-sass@^4.9.0:
+node-sass@^4.11.0:
   version "4.11.0"
   resolved "http://r.cnpmjs.org/node-sass/download/node-sass-4.11.0.tgz#183faec398e9cbe93ba43362e2768ca988a6369a"
   integrity sha1-GD+uw5jpy+k7pDNi4naMqYimNpo=
@@ -5087,6 +5080,11 @@ normalize-path@^2.1.1:
   integrity sha1-GrKLVW4Zg2Oowab35vogE3/mrtk=
   dependencies:
     remove-trailing-separator "^1.0.1"
+
+normalize-path@^3.0.0:
+  version "3.0.0"
+  resolved "http://r.cnpmjs.org/normalize-path/download/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
+  integrity sha1-Dc1p/yOhybEf0JeDFmRKA4ghamU=
 
 normalize-range@^0.1.2:
   version "0.1.2"
@@ -5526,6 +5524,11 @@ pify@^3.0.0:
   resolved "http://r.cnpmjs.org/pify/download/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
   integrity sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=
 
+pify@^4.0.1:
+  version "4.0.1"
+  resolved "http://r.cnpmjs.org/pify/download/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
+  integrity sha1-SyzSXFDVmHNcUCkiJP2MbfQeMjE=
+
 pinkie-promise@^2.0.0:
   version "2.0.1"
   resolved "http://r.cnpmjs.org/pinkie-promise/download/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
@@ -5881,7 +5884,7 @@ postcss-unique-selectors@^4.0.1:
     postcss "^7.0.0"
     uniqs "^2.0.0"
 
-postcss-value-parser@^3.0.0, postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0, postcss-value-parser@^3.3.1:
+postcss-value-parser@^3.0.0, postcss-value-parser@^3.3.0, postcss-value-parser@^3.3.1:
   version "3.3.1"
   resolved "http://r.cnpmjs.org/postcss-value-parser/download/postcss-value-parser-3.3.1.tgz#9ff822547e2893213cf1c30efa51ac5fd1ba8281"
   integrity sha1-n/giVH4okyE88cMO+lGsX9G6goE=
@@ -5895,7 +5898,7 @@ postcss@^6.0.1, postcss@^6.0.23:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.5, postcss@^7.0.7:
+postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.5, postcss@^7.0.7:
   version "7.0.14"
   resolved "http://r.cnpmjs.org/postcss/download/postcss-7.0.14.tgz#4527ed6b1ca0d82c53ce5ec1a2041c2346bbd6e5"
   integrity sha1-RSftaxyg2CxTzl7BogQcI0a71uU=
@@ -5908,6 +5911,11 @@ prettier@1.16.0:
   version "1.16.0"
   resolved "http://r.cnpmjs.org/prettier/download/prettier-1.16.0.tgz#104dd25f5ee3d0c9d0a6ce4bb40ced8481d51219"
   integrity sha1-EE3SX17j0MnQps5LtAzthIHVEhk=
+
+prettier@1.16.3:
+  version "1.16.3"
+  resolved "http://r.cnpmjs.org/prettier/download/prettier-1.16.3.tgz#8c62168453badef702f34b45b6ee899574a6a65d"
+  integrity sha1-jGIWhFO63vcC80tFtu6JlXSmpl0=
 
 pretty-error@^2.0.2:
   version "2.1.1"
@@ -6434,7 +6442,7 @@ sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sass-loader@^7.0.1:
+sass-loader@^7.1.0:
   version "7.1.0"
   resolved "http://r.cnpmjs.org/sass-loader/download/sass-loader-7.1.0.tgz#16fd5138cb8b424bf8a759528a1972d72aad069d"
   integrity sha1-Fv1ROMuLQkv4p1lSihly1yqtBp0=
@@ -6451,7 +6459,7 @@ sax@^1.2.4, sax@~1.2.4:
   resolved "http://r.cnpmjs.org/sax/download/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha1-KBYjTiN4vdxOU1T6tcqold9xANk=
 
-schema-utils@^0.4.2, schema-utils@^0.4.4:
+schema-utils@^0.4.4:
   version "0.4.7"
   resolved "http://r.cnpmjs.org/schema-utils/download/schema-utils-0.4.7.tgz#ba74f597d2be2ea880131746ee17d0a093c68187"
   integrity sha1-unT1l9K+LqiAExdG7hfQoJPGgYc=
@@ -7104,14 +7112,14 @@ terser@^3.8.1:
     source-map "~0.6.1"
     source-map-support "~0.5.6"
 
-thread-loader@^1.2.0:
-  version "1.2.0"
-  resolved "http://r.cnpmjs.org/thread-loader/download/thread-loader-1.2.0.tgz#35dedb23cf294afbbce6c45c1339b950ed17e7a4"
-  integrity sha1-Nd7bI88pSvu85sRcEzm5UO0X56Q=
+thread-loader@^2.1.2:
+  version "2.1.2"
+  resolved "http://r.cnpmjs.org/thread-loader/download/thread-loader-2.1.2.tgz#f585dd38e852c7f9cded5d092992108148f5eb30"
+  integrity sha1-9YXdOOhSx/nN7V0JKZIQgUj16zA=
   dependencies:
-    async "^2.3.0"
-    loader-runner "^2.3.0"
+    loader-runner "^2.3.1"
     loader-utils "^1.1.0"
+    neo-async "^2.6.0"
 
 through2@^2.0.0:
   version "2.0.5"
@@ -7224,7 +7232,7 @@ tryer@^1.0.0:
   resolved "http://r.cnpmjs.org/tryer/download/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha1-8shUBoALmw90yfdGW4HqrSQSUvg=
 
-ts-loader@^5.3.2:
+ts-loader@^5.3.3:
   version "5.3.3"
   resolved "http://r.cnpmjs.org/ts-loader/download/ts-loader-5.3.3.tgz#8b4af042e773132d86b3c99ef0acf3b4d325f473"
   integrity sha1-i0rwQudzEy2Gs8me8KzztNMl9HM=
@@ -7240,7 +7248,7 @@ tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   resolved "http://r.cnpmjs.org/tslib/download/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha1-1+TdeSRdhUKMTX5IIqeZF5VMooY=
 
-tslint@^5.12.0:
+tslint@^5.12.1:
   version "5.12.1"
   resolved "http://r.cnpmjs.org/tslint/download/tslint-5.12.1.tgz#8cec9d454cf8a1de9b0a26d7bdbad6de362e52c1"
   integrity sha1-jOydRUz4od6bCibXvbrW3jYuUsE=
@@ -7295,10 +7303,10 @@ typedarray@^0.0.6:
   resolved "http://r.cnpmjs.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.0.0:
-  version "3.2.4"
-  resolved "http://r.cnpmjs.org/typescript/download/typescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
-  integrity sha1-xYXLlSkSJj2RW0YnJs4kS6UQ7z0=
+typescript@^3.3.3:
+  version "3.3.3"
+  resolved "http://r.cnpmjs.org/typescript/download/typescript-3.3.3.tgz#f1657fc7daa27e1a8930758ace9ae8da31403221"
+  integrity sha1-8WV/x9qifhqJMHWKzpro2jFAMiE=
 
 uglify-js@3.4.x:
   version "3.4.9"
@@ -7516,7 +7524,7 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-class-component@^6.0.0, vue-class-component@^6.2.0:
+vue-class-component@^6.2.0, vue-class-component@^6.3.2:
   version "6.3.2"
   resolved "http://r.cnpmjs.org/vue-class-component/download/vue-class-component-6.3.2.tgz#e6037e84d1df2af3bde4f455e50ca1b9eec02be6"
   integrity sha1-5gN+hNHfKvO95PRV5Qyhue7AK+Y=
@@ -7526,7 +7534,7 @@ vue-hot-reload-api@^2.3.0:
   resolved "http://r.cnpmjs.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.1.tgz#b2d3d95402a811602380783ea4f566eb875569a2"
   integrity sha1-stPZVAKoEWAjgHg+pPVm64dVaaI=
 
-vue-loader@^15.4.2:
+vue-loader@^15.6.2:
   version "15.6.2"
   resolved "http://r.cnpmjs.org/vue-loader/download/vue-loader-15.6.2.tgz#892741d96260936ff69e892f72ec361ba4d100d2"
   integrity sha1-iSdB2WJgk2/2nokvcuw2G6TRANI=
@@ -7537,7 +7545,7 @@ vue-loader@^15.4.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-property-decorator@^7.0.0:
+vue-property-decorator@^7.3.0:
   version "7.3.0"
   resolved "http://r.cnpmjs.org/vue-property-decorator/download/vue-property-decorator-7.3.0.tgz#d50d67f0b0f1c814f9f2fba36d6eeccbcc62dbb6"
   integrity sha1-1Q1n8LDxyBT58vujbW7sy8xi27Y=
@@ -7552,23 +7560,23 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.5.21:
-  version "2.5.22"
-  resolved "http://r.cnpmjs.org/vue-template-compiler/download/vue-template-compiler-2.5.22.tgz#c3d3c02c65f1908205c4fbd3b0ef579e51239955"
-  integrity sha1-w9PALGXxkIIFxPvTsO9XnlEjmVU=
+vue-template-compiler@^2.6.6:
+  version "2.6.6"
+  resolved "http://r.cnpmjs.org/vue-template-compiler/download/vue-template-compiler-2.6.6.tgz#a807acbf3d51971d3721d75ecb1b927b517c1a02"
+  integrity sha1-qAesvz1Rlx03IddeyxuSe1F8GgI=
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
 
-vue-template-es2015-compiler@^1.6.0:
+vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.8.2:
   version "1.8.2"
   resolved "http://r.cnpmjs.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.8.2.tgz#dd73e80ba58bb65dd7a8aa2aeef6089cf6116f2a"
   integrity sha1-3XPoC6WLtl3XqKoq7vYInPYRbyo=
 
-vue@^2.5.21:
-  version "2.5.22"
-  resolved "http://r.cnpmjs.org/vue/download/vue-2.5.22.tgz#3bf88041af08b8539c37b268b70ca79245e9cc30"
-  integrity sha1-O/iAQa8IuFOcN7JotwynkkXpzDA=
+vue@^2.6.6:
+  version "2.6.6"
+  resolved "http://r.cnpmjs.org/vue/download/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
+  integrity sha1-3eQeSDwRxGp79SOQn08vgWq2DSU=
 
 watchpack@^1.5.0:
   version "1.6.0"
@@ -7673,7 +7681,7 @@ webpack-log@^2.0.0:
     ansi-colors "^3.0.0"
     uuid "^3.3.2"
 
-webpack-merge@^4.1.5:
+webpack-merge@^4.2.1:
   version "4.2.1"
   resolved "http://r.cnpmjs.org/webpack-merge/download/webpack-merge-4.2.1.tgz#5e923cf802ea2ace4fd5af1d3247368a633489b4"
   integrity sha1-XpI8+ALqKs5P1a8dMkc2imM0ibQ=
