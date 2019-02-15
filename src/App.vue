@@ -2,7 +2,8 @@
   <div id="app">
     <EasyRefresh
         ref="easyRefresh"
-        :userSelect="false">
+        :userSelect="false"
+        :onRefresh="onRefresh">
       <template v-slot:header>
         <ClassicsHeader/>
       </template>

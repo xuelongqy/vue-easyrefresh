@@ -109,12 +109,12 @@ export default class EasyRefresh extends Vue {
         })
         // 开启刷新
         if (this.onRefresh) {
-            this.scroller.activatePullToRefresh(60, () => {
-                console.log('1')
+            this.scroller.activatePullToRefresh(this.header.refreshHeight(), () => {
+                // 超过刷新高度(scrollerCallBack中已实现)
             }, () => {
-                console.log('2')
+                // 低于刷新高度(scrollerCallBack中已实现)
             }, () => {
-                console.log('3')
+                this.header.onRefreshing()
                 this.onRefresh(this.callRefreshFinish)
             })
         }
@@ -136,7 +136,12 @@ export default class EasyRefresh extends Vue {
 
     // 刷新完成回调
     private callRefreshFinish() {
-        console.log('callRefreshFinish')
+        this.header.onRefreshed()
+        setTimeout(() => {
+            this.header.onRefreshEnd()
+            this.scroller.finishPullToRefresh()
+        }, this.header.finishDuration())
+
     }
     // 加载完成回调
     private callLoadMoreFinish() {
@@ -145,7 +150,7 @@ export default class EasyRefresh extends Vue {
 
     // 滚动回调
     private scrollerCallBack(left: number, top: number, zoom: number) {
-        if (top < 0) {
+        if (top < 0 && this.onRefresh) {
             // 更新Header高度
             this.header.updateHeaderHeight(top)
             if (this.headerStatus === HeaderStatus.NO_REFRESH && this.userScrolling) {
@@ -165,7 +170,7 @@ export default class EasyRefresh extends Vue {
                 this.header.onRefreshRestore()
                 this.headerStatus = HeaderStatus.REFRESH_START
             }
-        } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight) {
+        } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight && this.loadMore) {
             if (top === 0) { return }
             // 列表可滚动的距离
             const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
@@ -191,12 +196,14 @@ export default class EasyRefresh extends Vue {
             }
         } else {
             // 刷新关闭
-            if (this.headerStatus === HeaderStatus.REFRESH_START || this.headerStatus === HeaderStatus.REFRESH_READY) {
+            if ((this.headerStatus === HeaderStatus.REFRESH_START || this.headerStatus === HeaderStatus.REFRESH_READY)
+                && this.onRefresh) {
                 this.header.onRefreshClose()
                 this.headerStatus = HeaderStatus.NO_REFRESH
             }
             // 加载关闭
-            if (this.footerStatus === FooterStatus.LOAD_START || this.footerStatus === FooterStatus.LOAD_READY) {
+            if ((this.footerStatus === FooterStatus.LOAD_START || this.footerStatus === FooterStatus.LOAD_READY)
+                && this.loadMore) {
                 this.footer.onLoadClose()
                 this.footerStatus = FooterStatus.NO_LOAD
             }
