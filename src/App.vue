@@ -3,7 +3,8 @@
     <EasyRefresh
         ref="easyRefresh"
         :userSelect="false"
-        :onRefresh="onRefresh">
+        :onRefresh="onRefresh"
+        :loadMore="loadMore">
       <template v-slot:header>
         <ClassicsHeader/>
       </template>
@@ -40,8 +41,13 @@ export default class App extends Vue {
     this.easyRefresh = this.$refs.easyRefresh as EasyRefresh
   }
 
-  // 刷新方法
+  // 刷新回调
   private onRefresh(done: () => void) {
+    done()
+  }
+
+  // 加载回调
+  private loadMore(done: () => void) {
     done()
   }
 }

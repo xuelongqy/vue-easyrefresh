@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
 import Scroller from '../module/core'
 import getContentRender from '../module/render'
 import ClassicsHeader from './header/ClassicsHeader.vue'
@@ -47,6 +47,8 @@ export default class EasyRefresh extends Vue {
     private loadMore!: (done: () => void) => void
     @Prop({default: true}) // 是否复制选择
     private userSelect!: boolean
+    @Prop({default: false}) // 是否自动触发加载
+    private autoLoad!: boolean
 
     @Prop({default: true}) // 动画
     private animating!: boolean
@@ -107,21 +109,6 @@ export default class EasyRefresh extends Vue {
             animationDuration: this.animationDuration,
             bouncing: this.bouncing,
         })
-        // 开启刷新
-        if (this.onRefresh) {
-            this.scroller.activatePullToRefresh(this.header.refreshHeight(), () => {
-                // 超过刷新高度(scrollerCallBack中已实现)
-            }, () => {
-                // 低于刷新高度(scrollerCallBack中已实现)
-            }, () => {
-                this.header.onRefreshing()
-                this.onRefresh(this.callRefreshFinish)
-            })
-        }
-        // 开启加载
-        if (this.loadMore) {
-            console.log('')
-        }
         // setup scroller
         const rect = this.container!!.getBoundingClientRect()
         this.scroller.setPosition(rect.left + this.container!!.clientLeft, rect.top + this.container!!.clientTop)
@@ -136,78 +123,31 @@ export default class EasyRefresh extends Vue {
 
     // 刷新完成回调
     private callRefreshFinish() {
-        this.header.onRefreshed()
-        setTimeout(() => {
-            this.header.onRefreshEnd()
-            this.scroller.finishPullToRefresh()
-        }, this.header.finishDuration())
-
+        this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
+            this.header.onRefreshed()
+            this.userScrolling = false
+            this.mousedown = false
+            this.wheelScrolling = false
+            this.headerStatus = HeaderStatus.REFRESHED
+            setTimeout(() => {
+                this.header.onRefreshEnd()
+                this.scroller.finishPullToRefresh()
+            }, this.header.finishDuration())
+        })
     }
     // 加载完成回调
     private callLoadMoreFinish() {
-        console.log('callLoadMoreFinish')
-    }
-
-    // 滚动回调
-    private scrollerCallBack(left: number, top: number, zoom: number) {
-        if (top < 0 && this.onRefresh) {
-            // 更新Header高度
-            this.header.updateHeaderHeight(top)
-            if (this.headerStatus === HeaderStatus.NO_REFRESH && this.userScrolling) {
-                // 刷新开发
-                this.header.onRefreshStart()
-                this.headerStatus = HeaderStatus.REFRESH_START
-            } else if (this.headerStatus === HeaderStatus.REFRESH_START &&
-                -top > this.header.refreshHeight() &&
-                this.userScrolling ) {
-                // 准备刷新
-                this.header.onRefreshReady()
-                this.headerStatus = HeaderStatus.REFRESH_READY
-            } else if (this.headerStatus === HeaderStatus.REFRESH_READY &&
-                -top < this.header.refreshHeight() &&
-                this.userScrolling ) {
-                // 刷新恢复
-                this.header.onRefreshRestore()
-                this.headerStatus = HeaderStatus.REFRESH_START
-            }
-        } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight && this.loadMore) {
-            if (top === 0) { return }
-            // 列表可滚动的距离
-            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
-            // 更新Footer高度
-            this.footer.updateFooterHeight(top - scrollableDistance)
-            if (this.footerStatus === FooterStatus.NO_LOAD &&
-                this.userScrolling ) {
-                // 开始加载
-                this.footer.onLoadStart()
-                this.footerStatus = FooterStatus.LOAD_START
-            } else if (this.footerStatus === FooterStatus.LOAD_START &&
-                top - scrollableDistance > this.footer.loadHeight() &&
-                this.userScrolling ) {
-                // 准备加载
-                this.footer.onLoadReady()
-                this.footerStatus = FooterStatus.LOAD_READY
-            } else if (this.footerStatus === FooterStatus.LOAD_READY &&
-                top - scrollableDistance < this.footer.loadHeight() &&
-                this.userScrolling ) {
-                // 恢复加载
-                this.footer.onLoadRestore()
-                this.footerStatus = FooterStatus.LOAD_START
-            }
-        } else {
-            // 刷新关闭
-            if ((this.headerStatus === HeaderStatus.REFRESH_START || this.headerStatus === HeaderStatus.REFRESH_READY)
-                && this.onRefresh) {
-                this.header.onRefreshClose()
-                this.headerStatus = HeaderStatus.NO_REFRESH
-            }
-            // 加载关闭
-            if ((this.footerStatus === FooterStatus.LOAD_START || this.footerStatus === FooterStatus.LOAD_READY)
-                && this.loadMore) {
-                this.footer.onLoadClose()
-                this.footerStatus = FooterStatus.NO_LOAD
-            }
-        }
+        this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
+            this.footer.onLoaded()
+            this.userScrolling = false
+            this.mousedown = false
+            this.wheelScrolling = false
+            this.footerStatus = FooterStatus.LOADED
+            setTimeout(() => {
+                this.footer.onLoadEnd()
+                this.scroller.finishPushToLoad()
+            }, this.footer.finishDuration())
+        })
     }
     // 大小改变
     private onResize() {
@@ -216,8 +156,128 @@ export default class EasyRefresh extends Vue {
         this.scroller.setDimensions(container!!.clientWidth, container!!.clientHeight,
             content!!.offsetWidth, content!!.offsetHeight)
     }
+    // 滚动回调
+    private scrollerCallBack(left: number, top: number, zoom: number) {
+        if (top < 0) {
+            if (!this.onRefresh) { return }
+            if (this.headerStatus === HeaderStatus.REFRESHING || this.headerStatus === HeaderStatus.REFRESHED) { return }
+            // 更新Header高度
+            this.header.updateHeaderHeight(top)
+            if (this.headerStatus === HeaderStatus.NO_REFRESH && this.userScrolling) {
+                // 刷新开发
+                this.header.onRefreshStart()
+                this.headerStatus = HeaderStatus.REFRESH_START
+            } else if (this.headerStatus === HeaderStatus.REFRESH_START &&
+                -top > this.header.refreshHeight() &&
+                this.userScrolling) {
+                // 准备刷新
+                this.header.onRefreshReady()
+                this.headerStatus = HeaderStatus.REFRESH_READY
+            } else if (this.headerStatus === HeaderStatus.REFRESH_READY &&
+                -top < this.header.refreshHeight() &&
+                this.userScrolling) {
+                // 刷新恢复
+                this.header.onRefreshRestore()
+                this.headerStatus = HeaderStatus.REFRESH_START
+            }
+        } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight) {
+            if (!this.loadMore) { return }
+            if (this.footerStatus === FooterStatus.LOADING || this.footerStatus === FooterStatus.LOADED) { return }
+            if (top === 0) { return }
+            // 列表可滚动的距离
+            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
+            // 更新Footer高度
+            this.footer.updateFooterHeight(top - scrollableDistance)
+            if (this.footerStatus === FooterStatus.NO_LOAD &&
+                this.userScrolling) {
+                // 开始加载
+                this.footer.onLoadStart()
+                this.footerStatus = FooterStatus.LOAD_START
+            } else if (this.footerStatus === FooterStatus.LOAD_START &&
+                top - scrollableDistance > this.footer.loadHeight() &&
+                this.userScrolling) {
+                // 准备加载
+                this.footer.onLoadReady()
+                this.footerStatus = FooterStatus.LOAD_READY
+            } else if (this.footerStatus === FooterStatus.LOAD_READY &&
+                top - scrollableDistance < this.footer.loadHeight() &&
+                this.userScrolling) {
+                // 恢复加载
+                this.footer.onLoadRestore()
+                this.footerStatus = FooterStatus.LOAD_START
+            }
+        } else {
+            // 刷新关闭
+            if ((this.headerStatus === HeaderStatus.REFRESH_START
+                || this.headerStatus === HeaderStatus.REFRESH_READY
+                || this.headerStatus === HeaderStatus.REFRESHED)
+                && this.onRefresh) {
+                this.header.onRefreshClose()
+                this.headerStatus = HeaderStatus.NO_REFRESH
+            }
+            // 加载关闭
+            if ((this.footerStatus === FooterStatus.LOAD_START
+                || this.footerStatus === FooterStatus.LOAD_READY
+                || this.footerStatus === FooterStatus.LOADED)
+                && this.loadMore) {
+                this.footer.onLoadClose()
+                this.footerStatus = FooterStatus.NO_LOAD
+            }
+        }
+    }
+    // 滚动动作结束(例如手指离开屏幕)
+    private scrollActionEnd(e: UIEvent) {
+        // 判断是否需要刷新
+        if (this.onRefresh) {
+            if (this.headerStatus === HeaderStatus.REFRESHING
+                || this.headerStatus === HeaderStatus.REFRESHED
+                || this.footerStatus === FooterStatus.LOADING
+                || this.footerStatus === FooterStatus.LOADED) {
+                return
+            }
+            // 列表可滚动的距离
+            const {left, top, zoom} = this.scroller.getValues()
+            // 触发刷新
+            if (this.headerStatus === HeaderStatus.REFRESH_READY
+                && -top > this.header.refreshHeight()) {
+                this.scroller.doTouchEnd(e.timeStamp, true)
+                this.scroller.triggerPullToRefresh(this.header.refreshHeight(),() => {
+                    this.header.onRefreshing()
+                    this.headerStatus = HeaderStatus.REFRESHING
+                    this.onRefresh(this.callRefreshFinish)
+                })
+                return
+            }
+        }
+        // 判断是否需要加载更多
+        if (this.loadMore && !this.autoLoad) {
+            if (this.headerStatus === HeaderStatus.REFRESHING
+                || this.headerStatus === HeaderStatus.REFRESHED
+                || this.footerStatus === FooterStatus.LOADING
+                || this.footerStatus === FooterStatus.LOADED) {
+                return
+            }
+            // 列表可滚动的距离
+            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
+            const {left, top, zoom} = this.scroller.getValues()
+            // 触发加载
+            if (this.footerStatus === FooterStatus.LOAD_READY &&
+                top - scrollableDistance > this.footer.loadHeight()) {
+                this.scroller.doTouchEnd(e.timeStamp, true)
+                this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
+                    this.footer.onLoading()
+                    this.footerStatus = FooterStatus.LOADING
+                    this.loadMore(this.callLoadMoreFinish)
+                })
+                return
+            }
+        }
+        this.scroller.doTouchEnd(e.timeStamp, false)
+    }
     // 触摸开始事件
     private touchStart(e: TouchEvent) {
+        // 如果为刷新(加载)完成则不触发事件
+        if (this.headerStatus === HeaderStatus.REFRESHED ||  this.footerStatus == FooterStatus.LOADED) { return }
         // Don't react if initial down happens on a form element
         if ((e.target as HTMLElement).tagName.match(/input|textarea|select/i)) {
             return
@@ -228,17 +288,21 @@ export default class EasyRefresh extends Vue {
     }
     // 滑动事件
     private touchMove(e: TouchEvent) {
+        if (!this.userScrolling) { return }
         e.preventDefault()
         this.scroller.doTouchMove(e.touches, e.timeStamp)
     }
     // 触摸结束事件
     private touchEnd(e: TouchEvent) {
-        this.scroller.doTouchEnd(e.timeStamp)
-        this.userScrolling = false
+        // this.userScrolling = false
+        // this.scroller.doTouchEnd(e.timeStamp)
+        this.scrollActionEnd(e)
     }
     // 鼠标按下事件
     private mouseDown(e: MouseEvent) {
         if (this.userSelect) {return}
+        // 如果为刷新(加载)完成则不触发事件
+        if (this.headerStatus === HeaderStatus.REFRESHED ||  this.footerStatus == FooterStatus.LOADED) { return }
         // Don't react if initial down happens on a form element
         if ((e.target as HTMLElement).tagName.match(/input|textarea|select/i)) {
             return
@@ -268,12 +332,15 @@ export default class EasyRefresh extends Vue {
         if (!this.mousedown) {
             return
         }
-        this.scroller.doTouchEnd(e.timeStamp)
         this.mousedown = false
-        this.userScrolling = false
+        // this.userScrolling = false
+        // this.scroller.doTouchEnd(e.timeStamp)
+        this.scrollActionEnd(e)
     }
     // 滚轮事件
     private wheel(e: WheelEvent) {
+        // 如果为刷新(加载)完成则不触发事件
+        if (this.headerStatus === HeaderStatus.REFRESHED ||  this.footerStatus == FooterStatus.LOADED) { return }
         if (this.wheelScrolling) {
             // 清除上一次计时
             clearTimeout(this.wheelTimer)
@@ -304,10 +371,11 @@ export default class EasyRefresh extends Vue {
         // 设置计时器,结束滚动
         this.wheelTimer = setTimeout(() => {
             this.wheelScrolling = false
-            this.userScrolling = false
             this.wheelPageX = 0
             this.wheelPageY = 0
-            this.scroller.doTouchEnd(e.timeStamp + 200)
+            // this.userScrolling = false
+            // this.scroller.doTouchEnd(e.timeStamp + 200)
+            this.scrollActionEnd(e)
         }, 200)
     }
 }

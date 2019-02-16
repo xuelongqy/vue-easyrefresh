@@ -9,10 +9,12 @@ declare class Scroller {
     public setSnapSize(width: number, height: number): void
     public setDimensions(clientWidth: number, clientHeight: number, contentWidth: number, contentHeight: number): void
     public finishPullToRefresh(): void
-    public triggerPullToRefresh(): void
+    public triggerPullToRefresh(height: number, callBack: () => void): void
+    public finishPushToLoad(): void
+    public triggerPushToLoad(height: number, callBack: () => void): void
     public scrollTo(left: number, top: number, animate: boolean, zoom: number): void
     public scrollBy(left: number, top: number, animate: boolean): void
     public doTouchStart(touches: TouchList | object[], timeStamp: number): void
     public doTouchMove(touches: TouchList | object[], timeStamp: number): void
-    public doTouchEnd(timeStamp: number): void
+    public doTouchEnd(timeStamp: number, refreshActivate: boolean): void
 }

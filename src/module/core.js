@@ -566,7 +566,7 @@
 		/**
 		 * Starts pull-to-refresh manually.
 		 */
-		triggerPullToRefresh: function() {
+		/*triggerPullToRefresh: function() {
 			// Use publish instead of scrollTo to allow scrolling to out of boundary position
 			// We don't need to normalize scrollLeft, zoomLevel, etc. here because we only y-scrolling when pull-to-refresh is enabled
 			this.__publish(this.__scrollLeft, -this.__refreshHeight, this.__zoomLevel, true);
@@ -574,13 +574,13 @@
 			if (this.__refreshStart) {
 				this.__refreshStart();
 			}
-		},
+		},*/
 
 
 		/**
 		 * Signalizes that pull-to-refresh is finished.
 		 */
-		finishPullToRefresh: function() {
+		/*finishPullToRefresh: function() {
 
 			var self = this;
 
@@ -591,8 +591,35 @@
 
 			self.scrollTo(self.__scrollLeft, self.__scrollTop, true);
 
+		},*/
+
+		/**
+		 * 触发上拉刷新
+		 */
+		triggerPullToRefresh: function(height, callBack) {
+			this.__publish(this.__scrollLeft, -height, this.__zoomLevel, true, callBack);
 		},
 
+		/**
+		 * 完成下拉刷新
+		 */
+		finishPullToRefresh: function() {
+			this.scrollTo(this.__scrollLeft, this.__scrollTop, true);
+		},
+
+		/**
+		 * 触发上拉加载
+		 */
+		triggerPushToLoad: function(height, callBack) {
+			this.__publish(this.__scrollLeft, this.__maxScrollTop + height, this.__zoomLevel, true, callBack);
+		},
+
+		/**
+		 * 完成上拉加载
+		 */
+		finishPushToLoad: function() {
+			this.scrollTo(this.__scrollLeft, this.__maxScrollTop, true);
+		},
 
 		/**
 		 * Returns the scroll position and zooming values
@@ -1116,7 +1143,7 @@
 		/**
 		 * Touch end handler for scrolling support
 		 */
-		doTouchEnd: function(timeStamp) {
+		doTouchEnd: function(timeStamp, refreshActivate) {
 
 			if (timeStamp instanceof Date) {
 				timeStamp = timeStamp.valueOf();
@@ -1177,7 +1204,7 @@
 						if (Math.abs(self.__decelerationVelocityX) > minVelocityToStartDeceleration || Math.abs(self.__decelerationVelocityY) > minVelocityToStartDeceleration) {
 
 							// Deactivate pull-to-refresh when decelerating
-							if (!self.__refreshActive) {
+							if (!self.__refreshActive && !refreshActivate) {
 								self.__startDeceleration(timeStamp);
 							}
 						} else {
@@ -1247,7 +1274,7 @@
 		 * @param top {Number} Top scroll position
 		 * @param animate {Boolean?false} Whether animation should be used to move to the new coordinates
 		 */
-		__publish: function(left, top, zoom, animate) {
+		__publish: function(left, top, zoom, animate, callBack) {
 
 			var self = this;
 
@@ -1307,6 +1334,9 @@
 							self.__zoomComplete();
 							self.__zoomComplete = null;
 						}
+					}
+					if (callBack) {
+						callBack()
 					}
 				};
 
