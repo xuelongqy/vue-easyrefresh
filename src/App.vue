@@ -43,12 +43,16 @@ export default class App extends Vue {
 
   // 刷新回调
   private onRefresh(done: () => void) {
-    done()
+    setTimeout(() => {
+      done()
+    }, 1000)
   }
 
   // 加载回调
   private loadMore(done: () => void) {
-    done()
+    setTimeout(() => {
+      done()
+    }, 1000)
   }
 }
 </script>

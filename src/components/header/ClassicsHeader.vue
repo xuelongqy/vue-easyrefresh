@@ -1,5 +1,10 @@
 <template>
-
+    <div ref="header" class="v-easy-refresh-classics-header" align="center">
+        <!--图标-->
+        <span></span>
+        <!--文字-->
+        <span>下拉刷新</span>
+    </div>
 </template>
 
 <script lang="ts">
@@ -39,11 +44,15 @@ export default class ClassicsHeader extends Vue implements Header {
         console.log('onRefreshing')
     }
     public updateHeaderHeight(height: number): void {
-        // console.log(height)
+        // height
     }
 }
 </script>
 
-<style scoped>
-
+<style>
+    .v-easy-refresh-classics-header {
+        height: 70px;
+        width: 100%;
+        margin-top: -70px;
+    }
 </style>

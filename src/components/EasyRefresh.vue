@@ -128,10 +128,10 @@ export default class EasyRefresh extends Vue {
             this.userScrolling = false
             this.mousedown = false
             this.wheelScrolling = false
-            this.headerStatus = HeaderStatus.REFRESHED
             setTimeout(() => {
                 this.header.onRefreshEnd()
                 this.scroller.finishPullToRefresh()
+                this.headerStatus = HeaderStatus.REFRESHED
             }, this.header.finishDuration())
         })
     }
@@ -142,10 +142,10 @@ export default class EasyRefresh extends Vue {
             this.userScrolling = false
             this.mousedown = false
             this.wheelScrolling = false
-            this.footerStatus = FooterStatus.LOADED
             setTimeout(() => {
                 this.footer.onLoadEnd()
                 this.scroller.finishPushToLoad()
+                this.footerStatus = FooterStatus.LOADED
             }, this.footer.finishDuration())
         })
     }
@@ -160,7 +160,7 @@ export default class EasyRefresh extends Vue {
     private scrollerCallBack(left: number, top: number, zoom: number) {
         if (top < 0) {
             if (!this.onRefresh) { return }
-            if (this.headerStatus === HeaderStatus.REFRESHING || this.headerStatus === HeaderStatus.REFRESHED) { return }
+            if (this.headerStatus === HeaderStatus.REFRESHING) { return }
             // 更新Header高度
             this.header.updateHeaderHeight(top)
             if (this.headerStatus === HeaderStatus.NO_REFRESH && this.userScrolling) {
@@ -182,7 +182,7 @@ export default class EasyRefresh extends Vue {
             }
         } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight) {
             if (!this.loadMore) { return }
-            if (this.footerStatus === FooterStatus.LOADING || this.footerStatus === FooterStatus.LOADED) { return }
+            if (this.footerStatus === FooterStatus.LOADING) { return }
             if (top === 0) { return }
             // 列表可滚动的距离
             const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
@@ -229,19 +229,19 @@ export default class EasyRefresh extends Vue {
     private scrollActionEnd(e: UIEvent) {
         // 判断是否需要刷新
         if (this.onRefresh) {
-            if (this.headerStatus === HeaderStatus.REFRESHING
-                || this.headerStatus === HeaderStatus.REFRESHED
-                || this.footerStatus === FooterStatus.LOADING
-                || this.footerStatus === FooterStatus.LOADED) {
-                return
-            }
+            // if (this.headerStatus === HeaderStatus.REFRESHING
+            //     || this.headerStatus === HeaderStatus.REFRESHED
+            //     || this.footerStatus === FooterStatus.LOADING
+            //     || this.footerStatus === FooterStatus.LOADED) {
+            //     return
+            // }
             // 列表可滚动的距离
             const {left, top, zoom} = this.scroller.getValues()
             // 触发刷新
             if (this.headerStatus === HeaderStatus.REFRESH_READY
                 && -top > this.header.refreshHeight()) {
                 this.scroller.doTouchEnd(e.timeStamp, true)
-                this.scroller.triggerPullToRefresh(this.header.refreshHeight(),() => {
+                this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
                     this.header.onRefreshing()
                     this.headerStatus = HeaderStatus.REFRESHING
                     this.onRefresh(this.callRefreshFinish)
@@ -251,12 +251,12 @@ export default class EasyRefresh extends Vue {
         }
         // 判断是否需要加载更多
         if (this.loadMore && !this.autoLoad) {
-            if (this.headerStatus === HeaderStatus.REFRESHING
-                || this.headerStatus === HeaderStatus.REFRESHED
-                || this.footerStatus === FooterStatus.LOADING
-                || this.footerStatus === FooterStatus.LOADED) {
-                return
-            }
+            // if (this.headerStatus === HeaderStatus.REFRESHING
+            //     || this.headerStatus === HeaderStatus.REFRESHED
+            //     || this.footerStatus === FooterStatus.LOADING
+            //     || this.footerStatus === FooterStatus.LOADED) {
+            //     return
+            // }
             // 列表可滚动的距离
             const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             const {left, top, zoom} = this.scroller.getValues()
@@ -277,7 +277,8 @@ export default class EasyRefresh extends Vue {
     // 触摸开始事件
     private touchStart(e: TouchEvent) {
         // 如果为刷新(加载)完成则不触发事件
-        if (this.headerStatus === HeaderStatus.REFRESHED ||  this.footerStatus == FooterStatus.LOADED) { return }
+        // if (this.headerStatus === HeaderStatus.REFRESHED ||
+        //     this.footerStatus === FooterStatus.LOADED) { return }
         // Don't react if initial down happens on a form element
         if ((e.target as HTMLElement).tagName.match(/input|textarea|select/i)) {
             return
@@ -302,7 +303,8 @@ export default class EasyRefresh extends Vue {
     private mouseDown(e: MouseEvent) {
         if (this.userSelect) {return}
         // 如果为刷新(加载)完成则不触发事件
-        if (this.headerStatus === HeaderStatus.REFRESHED ||  this.footerStatus == FooterStatus.LOADED) { return }
+        // if (this.headerStatus === HeaderStatus.REFRESHED ||
+        //     this.footerStatus === FooterStatus.LOADED) { return }
         // Don't react if initial down happens on a form element
         if ((e.target as HTMLElement).tagName.match(/input|textarea|select/i)) {
             return
@@ -340,7 +342,8 @@ export default class EasyRefresh extends Vue {
     // 滚轮事件
     private wheel(e: WheelEvent) {
         // 如果为刷新(加载)完成则不触发事件
-        if (this.headerStatus === HeaderStatus.REFRESHED ||  this.footerStatus == FooterStatus.LOADED) { return }
+        // if (this.headerStatus === HeaderStatus.REFRESHED ||
+        //     this.footerStatus === FooterStatus.LOADED) { return }
         if (this.wheelScrolling) {
             // 清除上一次计时
             clearTimeout(this.wheelTimer)
