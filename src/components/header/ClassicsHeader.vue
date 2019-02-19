@@ -1,18 +1,29 @@
 <template>
-    <div ref="header" class="v-easy-refresh-classics-header" align="center">
+    <div ref="header" class="er-classics-header" :style="'height: ' + headerHeight + 'px;'">
         <!--图标-->
-        <span></span>
+        <span class="er-classics-header-flex er-classics-header-icon">
+            <Arrow class="er-classics-header-arrow-icon"></Arrow>
+        </span>
         <!--文字-->
-        <span>下拉刷新</span>
+        <span class="er-classics-header-flex er-classics-header-content">上拉刷新</span>
+        <span class="er-classics-header-flex"></span>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Header } from './header'
+import Arrow from '../icon/Arrow.vue'
 
-@Component
+@Component({
+    components: {
+        Arrow,
+    },
+})
 export default class ClassicsHeader extends Vue implements Header {
+    // Header的高度
+    private headerHeight: number = 70.0
+
     // 刷新高度
     public refreshHeight(): number {
         return 70;
@@ -44,15 +55,40 @@ export default class ClassicsHeader extends Vue implements Header {
         console.log('onRefreshing')
     }
     public updateHeaderHeight(height: number): void {
-        // height
+        // if (height > this.refreshHeight()) {
+        //     this.headerHeight = height
+        // }else {
+        //     this.headerHeight = this.refreshHeight()
+        // }
     }
 }
 </script>
 
-<style>
-    .v-easy-refresh-classics-header {
-        height: 70px;
+<style lang="scss">
+    .er-classics-header {
         width: 100%;
-        margin-top: -70px;
+        display: flex;
+        justify-content:center;
+        align-items:Center;
+        .er-classics-header-flex {
+            flex: 1;
+        }
+        .er-classics-header-icon {
+            display: flex;
+            justify-content:flex-end;
+            align-items:Center;
+            .er-classics-header-arrow-icon {
+                height: 24px;
+                width: 24px;
+                margin-right: 10px;
+                font-size: 24px;
+                align-self:flex-end;
+            }
+        }
+        .er-classics-header-content {
+            display: flex;
+            justify-content:center;
+            align-items:Center;
+        }
     }
 </style>

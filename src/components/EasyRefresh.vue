@@ -1,18 +1,24 @@
 <template>
-    <div class="v-easy-refresh" :id="easyRefreshId"
-         :class="{'er_user_select_none': !userSelect}"
-         @touchstart="touchStart($event)"
-         @touchmove="touchMove($event)"
-         @touchend="touchEnd($event)"
-         @mousedown="mouseDown($event)"
-         @mousemove="mouseMove($event)"
-         @mouseup="mouseUp($event)"
-         @wheel="wheel($event)">
-        <div :id="contentId">
+    <div class="v-easy-refresh">
+        <div class="v-easy-refresh-body" :id="easyRefreshId"
+             :class="{'er_user_select_none': !userSelect}"
+             @touchstart="touchStart($event)"
+             @touchmove="touchMove($event)"
+             @touchend="touchEnd($event)"
+             @mousedown="mouseDown($event)"
+             @mousemove="mouseMove($event)"
+             @mouseup="mouseUp($event)"
+             @wheel="wheel($event)">
+            <div :id="contentId">
+                <slot></slot>
+            </div>
+        </div>
+        <div class="v-easy-refresh-header" :style="'top: ' + headerTop + 'px;'">
             <slot name="header">
                 <ClassicsHeader ref="header"/>
             </slot>
-            <slot></slot>
+        </div>
+        <div class="v-easy-refresh-footer" :style="'top: ' + footerTop + 'px;'">
             <slot name="footer">
                 <ClassicsFooter ref="footer"/>
             </slot>
@@ -87,6 +93,9 @@ export default class EasyRefresh extends Vue {
     // 滚轮位置记录
     private wheelPageX: number = 0
     private wheelPageY: number = 0
+    // Header和Footer的top
+    private headerTop: number = 0
+    private footerTop: number = 0
 
     // 初始化
     public mounted() {
@@ -118,6 +127,9 @@ export default class EasyRefresh extends Vue {
         }
         // 监听大小变化
         this.onResize()
+        // 初始化Header和Footer的top值
+        this.headerTop = -this.header.refreshHeight()
+        this.footerTop = this.container!!.clientHeight
         window.addEventListener('resize', this.onResize)
     }
 
@@ -158,11 +170,14 @@ export default class EasyRefresh extends Vue {
     }
     // 滚动回调
     private scrollerCallBack(left: number, top: number, zoom: number) {
+        // 设置Header和Footer的top值
+        this.headerTop = -top - this.header.refreshHeight()
+        this.footerTop = -top + this.content!!.offsetHeight
         if (top < 0) {
             if (!this.onRefresh) { return }
             if (this.headerStatus === HeaderStatus.REFRESHING) { return }
             // 更新Header高度
-            this.header.updateHeaderHeight(top)
+            this.header.updateHeaderHeight(-top)
             if (this.headerStatus === HeaderStatus.NO_REFRESH && this.userScrolling) {
                 // 刷新开发
                 this.header.onRefreshStart()
@@ -388,10 +403,23 @@ export default class EasyRefresh extends Vue {
     .v-easy-refresh {
         width: 100%;
         height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        overflow: hidden;
+        position: relative;
+        .v-easy-refresh-body {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+        .v-easy-refresh-header {
+            width: 100%;
+            position: absolute;
+        }
+        .v-easy-refresh-footer {
+            width: 100%;
+            position: absolute;
+        }
     }
     .er_user_select_none {
         -webkit-user-select: none;

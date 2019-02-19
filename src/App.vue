@@ -58,7 +58,14 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+  body {
+    margin: 0;
+  }
   #app {
+    position: fixed;
+    margin: 0;
+    width: 100%;
+    height: 100%;
     .row {
       width: 100%;
       height: 30px;

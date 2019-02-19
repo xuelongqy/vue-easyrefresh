@@ -1,5 +1,10 @@
 <template>
-    
+    <div ref="header" class="v-easy-refresh-classics-footer" align="center">
+        <!--图标-->
+        <span></span>
+        <!--文字-->
+        <span>下拉刷新</span>
+    </div>
 </template>
 
 <script lang="ts">
@@ -47,6 +52,9 @@ export default class ClassicsFooter extends Vue implements Footer {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    .v-easy-refresh-classics-footer {
+        height: 70px;
+        width: 100%;
+    }
 </style>
