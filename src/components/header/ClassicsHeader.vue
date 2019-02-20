@@ -2,10 +2,10 @@
     <div ref="header" class="er-classics-header" :style="'height: ' + headerHeight + 'px;'">
         <!--图标-->
         <span class="er-classics-header-flex er-classics-header-icon">
-            <Arrow class="er-classics-header-arrow-icon"></Arrow>
+            <Arrow :rotate="rotateArrow" class="er-classics-header-arrow-icon"></Arrow>
         </span>
         <!--文字-->
-        <span class="er-classics-header-flex er-classics-header-content">上拉刷新</span>
+        <span class="er-classics-header-flex er-classics-header-content">{{showText}}</span>
         <span class="er-classics-header-flex"></span>
     </div>
 </template>
@@ -21,45 +21,74 @@ import Arrow from '../icon/Arrow.vue'
     },
 })
 export default class ClassicsHeader extends Vue implements Header {
+    // 提示刷新文字
+    @Prop({default: 'Pull to refresh'})
+    private refreshText!: string
+    // 准备刷新文字
+    @Prop({default: 'Release to refresh'})
+    private refreshReadyText!: string
+    // 正在刷新文字
+    @Prop({default: 'Refreshing...'})
+    private refreshingText!: string
+    // 刷新完成文字
+    @Prop({default: 'Refresh finished'})
+    private refreshedText!: string
+
+    // 显示文字
+    private showText = this.refreshText
+
     // Header的高度
-    private headerHeight: number = 70.0
+    private defaultHeaderHeight: number = 70
+    private headerHeight: number = this.defaultHeaderHeight
+    // 旋转箭头
+    private rotateArrow: boolean = false
+
+    // 初始化
+    public mounted() {
+        // 初始化显示文字
+        this.showText = this.refreshText
+    }
 
     // 刷新高度
     public refreshHeight(): number {
-        return 70;
+        return 70
     }
     // 完成延时
     public finishDuration(): number {
-        return 1000;
+        return 1000
     }
 
     public onRefreshClose(): void {
-        console.log('onRefreshClose')
+        this.showText = this.refreshText
     }
     public onRefreshEnd(): void {
-        console.log('onRefreshEnd')
+        this.showText = this.refreshedText
     }
     public onRefreshReady(): void {
-        console.log('onRefreshReady')
+        this.rotateArrow = true
+        this.showText = this.refreshReadyText
     }
     public onRefreshRestore(): void {
-        console.log('onRefreshRestore')
+        this.rotateArrow = false
+        this.showText = this.refreshText
     }
     public onRefreshStart(): void {
-        console.log('onRefreshStart')
+        this.rotateArrow = false
+        this.showText = this.refreshText
     }
     public onRefreshed(): void {
-        console.log('onRefreshed')
+        this.rotateArrow = false
+        this.showText = this.refreshedText
     }
     public onRefreshing(): void {
-        console.log('onRefreshing')
+        this.showText = this.refreshingText
     }
     public updateHeaderHeight(height: number): void {
-        // if (height > this.refreshHeight()) {
-        //     this.headerHeight = height
-        // }else {
-        //     this.headerHeight = this.refreshHeight()
-        // }
+        if (height > this.defaultHeaderHeight) {
+            this.headerHeight = height
+        } else {
+            this.headerHeight = this.defaultHeaderHeight
+        }
     }
 }
 </script>

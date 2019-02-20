@@ -13,7 +13,7 @@
                 <slot></slot>
             </div>
         </div>
-        <div class="v-easy-refresh-header" :style="'top: ' + headerTop + 'px;'">
+        <div class="v-easy-refresh-header" :style="'bottom: ' + headerBottom + 'px;'">
             <slot name="header">
                 <ClassicsHeader ref="header"/>
             </slot>
@@ -93,8 +93,8 @@ export default class EasyRefresh extends Vue {
     // 滚轮位置记录
     private wheelPageX: number = 0
     private wheelPageY: number = 0
-    // Header和Footer的top
-    private headerTop: number = 0
+    // Header和Footer的位置
+    private headerBottom: number = 0
     private footerTop: number = 0
 
     // 初始化
@@ -128,7 +128,7 @@ export default class EasyRefresh extends Vue {
         // 监听大小变化
         this.onResize()
         // 初始化Header和Footer的top值
-        this.headerTop = -this.header.refreshHeight()
+        this.headerBottom = -this.container!!.clientHeight
         this.footerTop = this.container!!.clientHeight
         window.addEventListener('resize', this.onResize)
     }
@@ -170,15 +170,16 @@ export default class EasyRefresh extends Vue {
     }
     // 滚动回调
     private scrollerCallBack(left: number, top: number, zoom: number) {
-        // 设置Header和Footer的top值
-        this.headerTop = -top - this.header.refreshHeight()
+        // 设置Header和Footer的位置
+        this.headerBottom = this.container!!.clientHeight + top
         this.footerTop = -top + this.content!!.offsetHeight
         if (top < 0) {
             if (!this.onRefresh) { return }
             if (this.headerStatus === HeaderStatus.REFRESHING) { return }
             // 更新Header高度
             this.header.updateHeaderHeight(-top)
-            if (this.headerStatus === HeaderStatus.NO_REFRESH && this.userScrolling) {
+            if (this.headerStatus === HeaderStatus.NO_REFRESH
+                && this.userScrolling) {
                 // 刷新开发
                 this.header.onRefreshStart()
                 this.headerStatus = HeaderStatus.REFRESH_START
@@ -242,6 +243,7 @@ export default class EasyRefresh extends Vue {
     }
     // 滚动动作结束(例如手指离开屏幕)
     private scrollActionEnd(e: UIEvent) {
+        this.userScrolling = false
         // 判断是否需要刷新
         if (this.onRefresh) {
             // if (this.headerStatus === HeaderStatus.REFRESHING
