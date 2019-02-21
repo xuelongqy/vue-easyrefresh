@@ -50,7 +50,7 @@ export default class EasyRefresh extends Vue {
     @Prop() // 刷新回调
     private onRefresh!: (done: () => void) => void
     @Prop() // 加载回调
-    private loadMore!: (done: () => void) => void
+    private loadMore!: (done: (noMore: boolean) => void) => void
     @Prop({default: true}) // 是否复制选择
     private userSelect!: boolean
     @Prop({default: false}) // 是否自动触发加载
@@ -148,9 +148,13 @@ export default class EasyRefresh extends Vue {
         })
     }
     // 加载完成回调
-    private callLoadMoreFinish() {
+    private callLoadMoreFinish(noMore: boolean = false) {
         this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
-            this.footer.onLoaded()
+            if (noMore) {
+                this.footer.onNoMore()
+            } else {
+                this.footer.onLoaded()
+            }
             this.userScrolling = false
             this.mousedown = false
             this.wheelScrolling = false

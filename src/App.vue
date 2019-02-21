@@ -44,14 +44,25 @@ export default class App extends Vue {
   // 刷新回调
   private onRefresh(done: () => void) {
     setTimeout(() => {
+      this.items = []
+      for (let i = 1; i <= 20; i++) {
+        this.items.push(i)
+      }
       done()
     }, 1000)
   }
 
   // 加载回调
-  private loadMore(done: () => void) {
+  private loadMore(done: (noMore: boolean) => void) {
     setTimeout(() => {
-      done()
+      if (this.items.length >= 20) {
+        done(true)
+      } else {
+        for (let i = 1; i <= 20; i++) {
+          this.items.push(i)
+        }
+        done(false)
+      }
     }, 1000)
   }
 }
