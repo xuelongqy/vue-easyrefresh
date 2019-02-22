@@ -3,7 +3,7 @@
         <!--图标-->
         <span class="er-classics-header-flex er-classics-header-icon">
             <CircularProgress v-if="headerStatus === 4" :color="textColor"></CircularProgress>
-            <Done v-else-if="headerStatus === 5" :color="textColor" class="er-classics-header-done-icon"></Done>
+            <Done v-else-if="headerStatus === 5 || headerStatus === 6" :color="textColor" class="er-classics-header-done-icon"></Done>
             <Arrow v-else :color="textColor" :rotate="rotateArrow" class="er-classics-header-arrow-icon"></Arrow>
         </span>
         <!--文字-->
@@ -77,7 +77,7 @@ export default class ClassicsHeader extends Vue implements Header {
     }
     public onRefreshEnd(): void {
         this.showText = this.refreshedText
-        this.headerStatus = HeaderStatus.REFRESHED
+        this.headerStatus = HeaderStatus.REFRESHEND
     }
     public onRefreshReady(): void {
         this.rotateArrow = true

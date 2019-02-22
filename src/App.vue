@@ -35,7 +35,7 @@ export default class App extends Vue {
 
   // 初始化
   private mounted() {
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 1; i <= 4; i++) {
       this.items.push(i)
     }
     this.easyRefresh = this.$refs.easyRefresh as EasyRefresh
@@ -55,7 +55,7 @@ export default class App extends Vue {
   // 加载回调
   private loadMore(done: (noMore: boolean) => void) {
     setTimeout(() => {
-      if (this.items.length >= 20) {
+      if (this.items.length >= 40) {
         done(true)
       } else {
         for (let i = 1; i <= 20; i++) {

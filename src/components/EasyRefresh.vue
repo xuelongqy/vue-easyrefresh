@@ -96,6 +96,8 @@ export default class EasyRefresh extends Vue {
     // Header和Footer的位置
     private headerBottom: number = 0
     private footerTop: number = 0
+    // 是否正在刷新/加载
+    private isRefresh: boolean = false
 
     // 初始化
     public mounted() {
@@ -132,39 +134,6 @@ export default class EasyRefresh extends Vue {
         this.footerTop = this.container!!.clientHeight
         window.addEventListener('resize', this.onResize)
     }
-
-    // 刷新完成回调
-    private callRefreshFinish() {
-        this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
-            this.header.onRefreshed()
-            this.userScrolling = false
-            this.mousedown = false
-            this.wheelScrolling = false
-            setTimeout(() => {
-                this.header.onRefreshEnd()
-                this.scroller.finishPullToRefresh()
-                this.headerStatus = HeaderStatus.REFRESHED
-            }, this.header.finishDuration())
-        })
-    }
-    // 加载完成回调
-    private callLoadMoreFinish(noMore: boolean = false) {
-        this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
-            if (noMore) {
-                this.footer.onNoMore()
-            } else {
-                this.footer.onLoaded()
-            }
-            this.userScrolling = false
-            this.mousedown = false
-            this.wheelScrolling = false
-            setTimeout(() => {
-                this.footer.onLoadEnd()
-                this.scroller.finishPushToLoad()
-                this.footerStatus = FooterStatus.LOADED
-            }, this.footer.finishDuration())
-        })
-    }
     // 大小改变
     private onResize() {
         const container = this.container
@@ -176,10 +145,17 @@ export default class EasyRefresh extends Vue {
     private scrollerCallBack(left: number, top: number, zoom: number) {
         // 设置Header和Footer的位置
         this.headerBottom = this.container!!.clientHeight + top
-        this.footerTop = -top + this.content!!.offsetHeight
+        // 如果没有超过底部则显示在底部
+        if (this.content!!.clientHeight < this.container!!.clientHeight) {
+            console.log(this.container!!.clientHeight - top)
+            this.footerTop = this.container!!.clientHeight - top
+        } else {
+            this.footerTop = -top + this.content!!.offsetHeight
+        }
         if (top < 0) {
             if (!this.onRefresh) { return }
-            if (this.headerStatus === HeaderStatus.REFRESHING) { return }
+            if (this.headerStatus === HeaderStatus.REFRESHING ||
+                this.headerStatus === HeaderStatus.REFRESHED) { return }
             // 更新Header高度
             this.header.updateHeaderHeight(-top)
             if (this.headerStatus === HeaderStatus.NO_REFRESH
@@ -202,25 +178,32 @@ export default class EasyRefresh extends Vue {
             }
         } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight) {
             if (!this.loadMore) { return }
-            if (this.footerStatus === FooterStatus.LOADING) { return }
+            if (this.footerStatus === FooterStatus.LOADING ||
+                this.footerStatus === FooterStatus.LOADED) { return }
             if (top === 0) { return }
             // 列表可滚动的距离
             const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
-            // 更新Footer高度
-            this.footer.updateFooterHeight(top - scrollableDistance)
+            let footerHeight = 0
+            // 更新Footer高度，判断是否超过屏幕底部
+            if (this.content!!.clientHeight < this.container!!.clientHeight) {
+                footerHeight = top
+            } else {
+                footerHeight = top - scrollableDistance
+            }
+            this.footer.updateFooterHeight(footerHeight)
             if (this.footerStatus === FooterStatus.NO_LOAD &&
                 this.userScrolling) {
                 // 开始加载
                 this.footer.onLoadStart()
                 this.footerStatus = FooterStatus.LOAD_START
             } else if (this.footerStatus === FooterStatus.LOAD_START &&
-                top - scrollableDistance > this.footer.loadHeight() &&
+                footerHeight > this.footer.loadHeight() &&
                 this.userScrolling) {
                 // 准备加载
                 this.footer.onLoadReady()
                 this.footerStatus = FooterStatus.LOAD_READY
             } else if (this.footerStatus === FooterStatus.LOAD_READY &&
-                top - scrollableDistance < this.footer.loadHeight() &&
+                footerHeight < this.footer.loadHeight() &&
                 this.userScrolling) {
                 // 恢复加载
                 this.footer.onLoadRestore()
@@ -230,7 +213,8 @@ export default class EasyRefresh extends Vue {
             // 刷新关闭
             if ((this.headerStatus === HeaderStatus.REFRESH_START
                 || this.headerStatus === HeaderStatus.REFRESH_READY
-                || this.headerStatus === HeaderStatus.REFRESHED)
+                || this.headerStatus === HeaderStatus.REFRESHED
+                || this.headerStatus === HeaderStatus.REFRESHEND)
                 && this.onRefresh) {
                 this.header.onRefreshClose()
                 this.headerStatus = HeaderStatus.NO_REFRESH
@@ -238,24 +222,74 @@ export default class EasyRefresh extends Vue {
             // 加载关闭
             if ((this.footerStatus === FooterStatus.LOAD_START
                 || this.footerStatus === FooterStatus.LOAD_READY
-                || this.footerStatus === FooterStatus.LOADED)
+                || this.footerStatus === FooterStatus.LOADED
+                || this.footerStatus === FooterStatus.LOADEND)
                 && this.loadMore) {
                 this.footer.onLoadClose()
                 this.footerStatus = FooterStatus.NO_LOAD
             }
         }
     }
+    // 刷新完成回调
+    private callRefreshFinish() {
+        this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
+            this.userScrolling = false
+            this.mousedown = false
+            this.wheelScrolling = false
+            this.headerStatus = HeaderStatus.REFRESHED
+            this.header.onRefreshed()
+            setTimeout(() => {
+                this.header.onRefreshEnd()
+                this.isRefresh = false
+                this.headerStatus = HeaderStatus.REFRESHEND
+                // 判断刷新过程中是否滑动到其他位置
+                const {left, top, zoom} = this.scroller.getValues()
+                if (-top !== this.header.refreshHeight()) {
+                    this.header.onRefreshClose()
+                    this.headerStatus = HeaderStatus.NO_REFRESH
+                    this.header.updateHeaderHeight(0)
+                }
+                this.scroller.finishPullToRefresh()
+            }, this.header.finishDuration())
+        })
+    }
+    // 加载完成回调
+    private callLoadMoreFinish(noMore: boolean = false) {
+        this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
+            this.userScrolling = false
+            this.mousedown = false
+            this.wheelScrolling = false
+            this.footerStatus = FooterStatus.LOADED
+            if (noMore) {
+                this.footer.onNoMore()
+            } else {
+                this.footer.onLoaded()
+            }
+            setTimeout(() => {
+                this.footer.onLoadEnd()
+                this.isRefresh = false
+                this.footerStatus = FooterStatus.LOADEND
+                // 判断刷新过程中是否滑动到其他位置
+                const {left, top, zoom} = this.scroller.getValues()
+                if (-top + this.content!!.offsetHeight !==
+                    this.container!!.clientHeight - this.footer.loadHeight()) {
+                    this.footer.onLoadClose()
+                    this.footerStatus = FooterStatus.NO_LOAD
+                    this.footer.updateFooterHeight(0)
+                } else {
+                    this.scroller.finishPushToLoad()
+                }
+            }, this.footer.finishDuration())
+        })
+    }
     // 滚动动作结束(例如手指离开屏幕)
     private scrollActionEnd(e: UIEvent) {
         this.userScrolling = false
+        if (this.isRefresh) {
+            this.scroller.doTouchEnd(e.timeStamp, false)
+        }
         // 判断是否需要刷新
         if (this.onRefresh) {
-            // if (this.headerStatus === HeaderStatus.REFRESHING
-            //     || this.headerStatus === HeaderStatus.REFRESHED
-            //     || this.footerStatus === FooterStatus.LOADING
-            //     || this.footerStatus === FooterStatus.LOADED) {
-            //     return
-            // }
             // 列表可滚动的距离
             const {left, top, zoom} = this.scroller.getValues()
             // 触发刷新
@@ -267,29 +301,33 @@ export default class EasyRefresh extends Vue {
                     this.headerStatus = HeaderStatus.REFRESHING
                     this.onRefresh(this.callRefreshFinish)
                 })
+                this.isRefresh = true
                 return
             }
         }
         // 判断是否需要加载更多
         if (this.loadMore && !this.autoLoad) {
-            // if (this.headerStatus === HeaderStatus.REFRESHING
-            //     || this.headerStatus === HeaderStatus.REFRESHED
-            //     || this.footerStatus === FooterStatus.LOADING
-            //     || this.footerStatus === FooterStatus.LOADED) {
-            //     return
-            // }
             // 列表可滚动的距离
             const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             const {left, top, zoom} = this.scroller.getValues()
+            if (this.content!!.clientHeight <= this.container!!.clientHeight) {
+                this.footer.updateFooterHeight(top)
+            } else {
+                this.footer.updateFooterHeight(top - scrollableDistance)
+            }
             // 触发加载
             if (this.footerStatus === FooterStatus.LOAD_READY &&
-                top - scrollableDistance > this.footer.loadHeight()) {
+                ((this.content!!.clientHeight >= this.container!!.clientHeight &&
+                    top - scrollableDistance >= this.footer.loadHeight()) ||
+                (this.content!!.clientHeight < this.container!!.clientHeight &&
+                    top >= this.footer.loadHeight()))) {
                 this.scroller.doTouchEnd(e.timeStamp, true)
                 this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
                     this.footer.onLoading()
                     this.footerStatus = FooterStatus.LOADING
                     this.loadMore(this.callLoadMoreFinish)
                 })
+                this.isRefresh = true
                 return
             }
         }

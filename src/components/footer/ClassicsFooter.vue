@@ -3,7 +3,7 @@
         <!--图标-->
         <span class="er-classics-footer-flex er-classics-footer-icon">
             <CircularProgress v-if="footerStatus === 4" :color="textColor"></CircularProgress>
-            <Done v-else-if="footerStatus === 5" :color="textColor" class="er-classics-footer-done-icon"></Done>
+            <Done v-else-if="footerStatus === 5 || footerStatus === 6" :color="textColor" class="er-classics-footer-done-icon"></Done>
             <Arrow v-else direction="up" :color="textColor" :rotate="rotateArrow" class="er-classics-footer-arrow-icon"></Arrow>
         </span>
         <!--文字-->
@@ -81,7 +81,7 @@ export default class ClassicsFooter extends Vue implements Footer {
     }
     public onLoadEnd(): void {
         this.showText = this.loadedText
-        this.footerStatus = FooterStatus.LOADED
+        this.footerStatus = FooterStatus.LOADEND
     }
     public onLoadReady(): void {
         this.rotateArrow = true
