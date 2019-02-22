@@ -607,8 +607,13 @@
         /**
          * 触发上拉加载
          */
-        triggerPushToLoad: function (height, callBack) {
-            this.__publish(this.__scrollLeft, this.__maxScrollTop + height, this.__zoomLevel, true, callBack)
+        triggerPushToLoad: function (height, callBack, scroll) {
+            if (scroll) {
+                this.__publish(this.__scrollLeft, this.__maxScrollTop + height, this.__zoomLevel, true, callBack)
+            } else {
+                this.__publish(this.__scrollLeft, this.__scrollTop, this.__zoomLevel, true)
+                callBack(false)
+            }
         },
 
         /**
@@ -1331,7 +1336,7 @@
                         }
                     }
                     if (callBack) {
-                        callBack()
+                        callBack(true)
                     }
                 }
 

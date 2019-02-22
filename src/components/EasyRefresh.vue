@@ -98,6 +98,8 @@ export default class EasyRefresh extends Vue {
     private footerTop: number = 0
     // 是否正在刷新/加载
     private isRefresh: boolean = false
+    // 没有更多数据
+    private noMore: boolean = false
 
     // 初始化
     public mounted() {
@@ -144,13 +146,16 @@ export default class EasyRefresh extends Vue {
     // 滚动回调
     private scrollerCallBack(left: number, top: number, zoom: number) {
         // 设置Header和Footer的位置
-        this.headerBottom = this.container!!.clientHeight + top
-        // 如果没有超过底部则显示在底部
-        if (this.content!!.clientHeight < this.container!!.clientHeight) {
-            console.log(this.container!!.clientHeight - top)
-            this.footerTop = this.container!!.clientHeight - top
-        } else {
-            this.footerTop = -top + this.content!!.offsetHeight
+        if (this.onRefresh) {
+            this.headerBottom = this.container!!.clientHeight + top
+        }
+        if (this.loadMore) {
+            // 如果没有超过底部则显示在底部
+            if (this.content!!.clientHeight < this.container!!.clientHeight) {
+                this.footerTop = this.container!!.clientHeight - top
+            } else {
+                this.footerTop = -top + this.content!!.offsetHeight
+            }
         }
         if (top < 0) {
             if (!this.onRefresh) { return }
@@ -165,7 +170,7 @@ export default class EasyRefresh extends Vue {
                 this.headerStatus = HeaderStatus.REFRESH_START
             } else if (this.headerStatus === HeaderStatus.REFRESH_START &&
                 -top > this.header.refreshHeight() &&
-                this.userScrolling) {
+                this.userScrolling && !this.isRefresh) {
                 // 准备刷新
                 this.header.onRefreshReady()
                 this.headerStatus = HeaderStatus.REFRESH_READY
@@ -190,7 +195,18 @@ export default class EasyRefresh extends Vue {
             } else {
                 footerHeight = top - scrollableDistance
             }
+            // 判断是否自动加载
+            if (this.autoLoad && footerHeight > 0 && !this.noMore &&
+                this.content!!.clientHeight >= this.container!!.clientHeight) {
+                this.footer.updateFooterHeight(this.footer.loadHeight())
+                this.footer.onLoading()
+                this.footerStatus = FooterStatus.LOADING
+                this.loadMore(this.callLoadMoreFinish)
+                this.isRefresh = true
+                return
+            }
             this.footer.updateFooterHeight(footerHeight)
+            if (this.noMore) { return }
             if (this.footerStatus === FooterStatus.NO_LOAD &&
                 this.userScrolling) {
                 // 开始加载
@@ -198,7 +214,7 @@ export default class EasyRefresh extends Vue {
                 this.footerStatus = FooterStatus.LOAD_START
             } else if (this.footerStatus === FooterStatus.LOAD_START &&
                 footerHeight > this.footer.loadHeight() &&
-                this.userScrolling) {
+                this.userScrolling && !this.isRefresh) {
                 // 准备加载
                 this.footer.onLoadReady()
                 this.footerStatus = FooterStatus.LOAD_READY
@@ -225,7 +241,9 @@ export default class EasyRefresh extends Vue {
                 || this.footerStatus === FooterStatus.LOADED
                 || this.footerStatus === FooterStatus.LOADEND)
                 && this.loadMore) {
-                this.footer.onLoadClose()
+                if (!this.noMore) {
+                    this.footer.onLoadClose()
+                }
                 this.footerStatus = FooterStatus.NO_LOAD
             }
         }
@@ -255,7 +273,9 @@ export default class EasyRefresh extends Vue {
     }
     // 加载完成回调
     private callLoadMoreFinish(noMore: boolean = false) {
-        this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
+        this.noMore = noMore
+        // 判断刷新过程中是否滑动到其他位置
+        this.scroller.triggerPushToLoad(this.footer.loadHeight(), (scroll) => {
             this.userScrolling = false
             this.mousedown = false
             this.wheelScrolling = false
@@ -266,27 +286,30 @@ export default class EasyRefresh extends Vue {
                 this.footer.onLoaded()
             }
             setTimeout(() => {
-                this.footer.onLoadEnd()
+                if (!this.noMore) {
+                    this.footer.onLoadEnd()
+                }
                 this.isRefresh = false
                 this.footerStatus = FooterStatus.LOADEND
-                // 判断刷新过程中是否滑动到其他位置
-                const {left, top, zoom} = this.scroller.getValues()
-                if (-top + this.content!!.offsetHeight !==
-                    this.container!!.clientHeight - this.footer.loadHeight()) {
-                    this.footer.onLoadClose()
-                    this.footerStatus = FooterStatus.NO_LOAD
-                    this.footer.updateFooterHeight(0)
-                } else {
+                if (scroll) {
                     this.scroller.finishPushToLoad()
+                } else {
+                    if (!this.noMore) {
+                        this.footer.onLoadClose()
+                    }
+                    this.footerStatus = FooterStatus.NO_LOAD
+                    this.footerTop = this.container!!.clientHeight
+                    this.footer.updateFooterHeight(0)
                 }
             }, this.footer.finishDuration())
-        })
+        }, noMore)
     }
     // 滚动动作结束(例如手指离开屏幕)
     private scrollActionEnd(e: UIEvent) {
         this.userScrolling = false
         if (this.isRefresh) {
             this.scroller.doTouchEnd(e.timeStamp, false)
+            return
         }
         // 判断是否需要刷新
         if (this.onRefresh) {
@@ -298,6 +321,7 @@ export default class EasyRefresh extends Vue {
                 this.scroller.doTouchEnd(e.timeStamp, true)
                 this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
                     this.header.onRefreshing()
+                    this.noMore = false
                     this.headerStatus = HeaderStatus.REFRESHING
                     this.onRefresh(this.callRefreshFinish)
                 })
@@ -306,15 +330,10 @@ export default class EasyRefresh extends Vue {
             }
         }
         // 判断是否需要加载更多
-        if (this.loadMore && !this.autoLoad) {
+        if (this.loadMore && !this.noMore) {
             // 列表可滚动的距离
             const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             const {left, top, zoom} = this.scroller.getValues()
-            if (this.content!!.clientHeight <= this.container!!.clientHeight) {
-                this.footer.updateFooterHeight(top)
-            } else {
-                this.footer.updateFooterHeight(top - scrollableDistance)
-            }
             // 触发加载
             if (this.footerStatus === FooterStatus.LOAD_READY &&
                 ((this.content!!.clientHeight >= this.container!!.clientHeight &&
@@ -326,7 +345,7 @@ export default class EasyRefresh extends Vue {
                     this.footer.onLoading()
                     this.footerStatus = FooterStatus.LOADING
                     this.loadMore(this.callLoadMoreFinish)
-                })
+                }, true)
                 this.isRefresh = true
                 return
             }
@@ -335,9 +354,6 @@ export default class EasyRefresh extends Vue {
     }
     // 触摸开始事件
     private touchStart(e: TouchEvent) {
-        // 如果为刷新(加载)完成则不触发事件
-        // if (this.headerStatus === HeaderStatus.REFRESHED ||
-        //     this.footerStatus === FooterStatus.LOADED) { return }
         // Don't react if initial down happens on a form element
         if ((e.target as HTMLElement).tagName.match(/input|textarea|select/i)) {
             return
@@ -354,8 +370,6 @@ export default class EasyRefresh extends Vue {
     }
     // 触摸结束事件
     private touchEnd(e: TouchEvent) {
-        // this.userScrolling = false
-        // this.scroller.doTouchEnd(e.timeStamp)
         this.scrollActionEnd(e)
     }
     // 鼠标按下事件
@@ -394,15 +408,10 @@ export default class EasyRefresh extends Vue {
             return
         }
         this.mousedown = false
-        // this.userScrolling = false
-        // this.scroller.doTouchEnd(e.timeStamp)
         this.scrollActionEnd(e)
     }
     // 滚轮事件
     private wheel(e: WheelEvent) {
-        // 如果为刷新(加载)完成则不触发事件
-        // if (this.headerStatus === HeaderStatus.REFRESHED ||
-        //     this.footerStatus === FooterStatus.LOADED) { return }
         if (this.wheelScrolling) {
             // 清除上一次计时
             clearTimeout(this.wheelTimer)
@@ -435,8 +444,6 @@ export default class EasyRefresh extends Vue {
             this.wheelScrolling = false
             this.wheelPageX = 0
             this.wheelPageY = 0
-            // this.userScrolling = false
-            // this.scroller.doTouchEnd(e.timeStamp + 200)
             this.scrollActionEnd(e)
         }, 200)
     }

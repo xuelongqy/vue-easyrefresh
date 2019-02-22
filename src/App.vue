@@ -4,7 +4,8 @@
         ref="easyRefresh"
         :userSelect="false"
         :onRefresh="onRefresh"
-        :loadMore="loadMore">
+        :loadMore="loadMore"
+        :autoLoad="true">
       <template v-slot:header>
         <ClassicsHeader/>
       </template>
@@ -35,7 +36,7 @@ export default class App extends Vue {
 
   // 初始化
   private mounted() {
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 20; i++) {
       this.items.push(i)
     }
     this.easyRefresh = this.$refs.easyRefresh as EasyRefresh

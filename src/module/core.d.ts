@@ -11,7 +11,7 @@ declare class Scroller {
     public finishPullToRefresh(): void
     public triggerPullToRefresh(height: number, callBack: () => void): void
     public finishPushToLoad(): void
-    public triggerPushToLoad(height: number, callBack: () => void): void
+    public triggerPushToLoad(height: number, callBack: (scroll: boolean) => void, scroll: boolean): void
     public scrollTo(left: number, top: number, animate: boolean, zoom: number): void
     public scrollBy(left: number, top: number, animate: boolean): void
     public doTouchStart(touches: TouchList | object[], timeStamp: number): void
