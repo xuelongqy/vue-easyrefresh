@@ -61,7 +61,7 @@ export default class ClassicsHeader extends Vue implements Header {
     // 显示文字
     private showText: string = this.refreshText
     // 显示更多信息
-    private showMoreInfo: string = ""
+    private showMoreInfo: string = ''
     // Header的高度
     private defaultHeaderHeight: number = 70
     private headerHeight: number = this.defaultHeaderHeight
@@ -134,10 +134,10 @@ export default class ClassicsHeader extends Vue implements Header {
     }
     // 获取更新信息
     private getMoreInfo(): string {
-        let date = new Date()
-        let fillChar = date.getMinutes() < 10 ? "0" : ""
-        let moreInfo = this.moreInfo
-        return moreInfo.replace("%T", "" + date.getHours() + ":" + fillChar + date.getMinutes())
+        const date = new Date()
+        const fillChar = date.getMinutes() < 10 ? '0' : ''
+        const moreInfo = this.moreInfo
+        return moreInfo.replace('%T', '' + date.getHours() + ':' + fillChar + date.getMinutes())
     }
 }
 </script>

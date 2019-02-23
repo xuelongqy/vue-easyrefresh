@@ -64,7 +64,7 @@ export default class ClassicsFooter extends Vue implements Footer {
     // 显示文字
     private showText = this.loadText
     // 显示更多信息
-    private showMoreInfo: string = ""
+    private showMoreInfo: string = ''
     // Footer的高度
     private defaultFooterHeight: number = 70
     private footerHeight: number = this.defaultFooterHeight
@@ -91,7 +91,7 @@ export default class ClassicsFooter extends Vue implements Footer {
     }
     // 是否浮动
     public isFooterFloat(): boolean {
-        return true
+        return false
     }
 
     public onLoadClose(): void {
@@ -141,10 +141,10 @@ export default class ClassicsFooter extends Vue implements Footer {
     }
     // 获取更新信息
     private getMoreInfo(): string {
-        let date = new Date()
-        let fillChar = date.getMinutes() < 10 ? "0" : ""
-        let moreInfo = this.moreInfo
-        return moreInfo.replace("%T", "" + date.getHours() + ":" + fillChar + date.getMinutes())
+        const date = new Date()
+        const fillChar = date.getMinutes() < 10 ? '0' : ''
+        const moreInfo = this.moreInfo
+        return moreInfo.replace('%T', '' + date.getHours() + ':' + fillChar + date.getMinutes())
     }
 }
 </script>

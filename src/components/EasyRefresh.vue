@@ -36,6 +36,28 @@ import ClassicsFooter from './footer/ClassicsFooter.vue'
 import { Header, HeaderStatus } from './header/header'
 import { Footer, FooterStatus } from './footer/footer'
 
+// Header回调状态
+enum HeaderCallBackStatus {
+    START = 1,
+    READY = 2,
+    REFRESHING = 3,
+    REFRESHED = 4,
+    RESTORE = 5,
+    END = 6,
+    CLOSE = 7,
+}
+// Footer回调状态
+enum FooterCallBackStatus {
+    START = 1,
+    READY = 2,
+    LOADING = 3,
+    LOADED = 4,
+    NO_MORE = 5,
+    RESTORE = 6,
+    END = 7,
+    CLOSE = 8,
+}
+
 @Component({
     components: {
         ClassicsHeader,
@@ -56,7 +78,6 @@ export default class EasyRefresh extends Vue {
     private userSelect!: boolean
     @Prop({default: false}) // 是否自动触发加载
     private autoLoad!: boolean
-
     @Prop({default: true}) // 动画
     private animating!: boolean
     @Prop({default: 250}) // 动画时长
@@ -69,6 +90,14 @@ export default class EasyRefresh extends Vue {
     private snapWidth!: number
     @Prop({default: 100}) // 捕捉高度
     private snapHeight!: number
+    @Prop({default: null}) // Header高度更新
+    private updateHeaderHeight!: (height: number) => void
+    @Prop({default: null}) // Header状态改变
+    private headerStatusChanged!: (status: number) => void
+    @Prop({default: null}) // Footer高度更新
+    private updateFooterHeight!: (height: number) => void
+    @Prop({default: null}) // Footer状态改变
+    private footerStatusChanged!: (status: number) => void
 
     // EasyRefresh id
     private easyRefreshId: string = 'easy-refresh-' + Math.random().toString(36).substring(3, 8)
@@ -166,6 +195,9 @@ export default class EasyRefresh extends Vue {
                 this.headerStatus === HeaderStatus.REFRESHED) { return }
             // 更新Header高度
             this.header.updateHeaderHeight(-top)
+            if (this.updateHeaderHeight) {
+                this.updateHeaderHeight(-top)
+            }
             // 判断是否为浮动布局
             if (this.header.isHeaderFloat()) {
                 this.floatTop = top;
@@ -174,18 +206,27 @@ export default class EasyRefresh extends Vue {
                 && this.userScrolling) {
                 // 刷新开发
                 this.header.onRefreshStart()
+                if (this.headerStatusChanged) {
+                    this.headerStatusChanged(HeaderCallBackStatus.START)
+                }
                 this.headerStatus = HeaderStatus.REFRESH_START
             } else if (this.headerStatus === HeaderStatus.REFRESH_START &&
                 -top > this.header.refreshHeight() &&
                 this.userScrolling && !this.isRefresh) {
                 // 准备刷新
                 this.header.onRefreshReady()
+                if (this.headerStatusChanged) {
+                    this.headerStatusChanged(HeaderCallBackStatus.READY)
+                }
                 this.headerStatus = HeaderStatus.REFRESH_READY
             } else if (this.headerStatus === HeaderStatus.REFRESH_READY &&
                 -top < this.header.refreshHeight() &&
                 this.userScrolling) {
                 // 刷新恢复
                 this.header.onRefreshRestore()
+                if (this.headerStatusChanged) {
+                    this.headerStatusChanged(HeaderCallBackStatus.RESTORE)
+                }
                 this.headerStatus = HeaderStatus.REFRESH_START
             }
         } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight) {
@@ -210,30 +251,48 @@ export default class EasyRefresh extends Vue {
             if (this.autoLoad && footerHeight > 0 && !this.noMore &&
                 this.content!!.clientHeight >= this.container!!.clientHeight) {
                 this.footer.updateFooterHeight(this.footer.loadHeight())
+                if (this.updateFooterHeight) {
+                    this.updateFooterHeight(this.footer.loadHeight())
+                }
                 this.footer.onLoading()
+                if (this.footerStatusChanged) {
+                    this.footerStatusChanged(FooterCallBackStatus.LOADING)
+                }
                 this.footerStatus = FooterStatus.LOADING
                 this.loadMore(this.callLoadMoreFinish)
                 this.isRefresh = true
                 return
             }
             this.footer.updateFooterHeight(footerHeight)
+            if (this.updateFooterHeight) {
+                this.updateFooterHeight(footerHeight)
+            }
             if (this.noMore) { return }
             if (this.footerStatus === FooterStatus.NO_LOAD &&
                 this.userScrolling) {
                 // 开始加载
                 this.footer.onLoadStart()
+                if (this.footerStatusChanged) {
+                    this.footerStatusChanged(FooterCallBackStatus.START)
+                }
                 this.footerStatus = FooterStatus.LOAD_START
             } else if (this.footerStatus === FooterStatus.LOAD_START &&
                 footerHeight > this.footer.loadHeight() &&
                 this.userScrolling && !this.isRefresh) {
                 // 准备加载
                 this.footer.onLoadReady()
+                if (this.footerStatusChanged) {
+                    this.footerStatusChanged(FooterCallBackStatus.READY)
+                }
                 this.footerStatus = FooterStatus.LOAD_READY
             } else if (this.footerStatus === FooterStatus.LOAD_READY &&
                 footerHeight < this.footer.loadHeight() &&
                 this.userScrolling) {
                 // 恢复加载
                 this.footer.onLoadRestore()
+                if (this.footerStatusChanged) {
+                    this.footerStatusChanged(FooterCallBackStatus.RESTORE)
+                }
                 this.footerStatus = FooterStatus.LOAD_START
             }
         } else {
@@ -244,6 +303,9 @@ export default class EasyRefresh extends Vue {
                 || this.headerStatus === HeaderStatus.REFRESHEND)
                 && this.onRefresh) {
                 this.header.onRefreshClose()
+                if (this.headerStatusChanged) {
+                    this.headerStatusChanged(HeaderCallBackStatus.CLOSE)
+                }
                 this.headerStatus = HeaderStatus.NO_REFRESH
             }
             // 加载关闭
@@ -254,6 +316,9 @@ export default class EasyRefresh extends Vue {
                 && this.loadMore) {
                 if (!this.noMore) {
                     this.footer.onLoadClose()
+                    if (this.footerStatusChanged) {
+                        this.footerStatusChanged(FooterCallBackStatus.CLOSE)
+                    }
                 }
                 this.footerStatus = FooterStatus.NO_LOAD
             }
@@ -267,16 +332,28 @@ export default class EasyRefresh extends Vue {
             this.wheelScrolling = false
             this.headerStatus = HeaderStatus.REFRESHED
             this.header.onRefreshed()
+            if (this.headerStatusChanged) {
+                this.headerStatusChanged(HeaderCallBackStatus.REFRESHED)
+            }
             setTimeout(() => {
                 this.header.onRefreshEnd()
+                if (this.headerStatusChanged) {
+                    this.headerStatusChanged(HeaderCallBackStatus.END)
+                }
                 this.isRefresh = false
                 this.headerStatus = HeaderStatus.REFRESHEND
                 // 判断刷新过程中是否滑动到其他位置
                 const {left, top, zoom} = this.scroller.getValues()
                 if (-top !== this.header.refreshHeight()) {
                     this.header.onRefreshClose()
+                    if (this.headerStatusChanged) {
+                        this.headerStatusChanged(HeaderCallBackStatus.CLOSE)
+                    }
                     this.headerStatus = HeaderStatus.NO_REFRESH
                     this.header.updateHeaderHeight(0)
+                    if (this.updateHeaderHeight) {
+                        this.updateHeaderHeight(0)
+                    }
                 }
                 this.scroller.finishPullToRefresh()
             }, this.header.headerFinishDuration())
@@ -293,12 +370,21 @@ export default class EasyRefresh extends Vue {
             this.footerStatus = FooterStatus.LOADED
             if (noMore) {
                 this.footer.onNoMore()
+                if (this.footerStatusChanged) {
+                    this.footerStatusChanged(FooterCallBackStatus.NO_MORE)
+                }
             } else {
                 this.footer.onLoaded()
+                if (this.footerStatusChanged) {
+                    this.footerStatusChanged(FooterCallBackStatus.LOADED)
+                }
             }
             setTimeout(() => {
                 if (!this.noMore) {
                     this.footer.onLoadEnd()
+                    if (this.footerStatusChanged) {
+                        this.footerStatusChanged(FooterCallBackStatus.END)
+                    }
                 }
                 this.isRefresh = false
                 this.footerStatus = FooterStatus.LOADEND
@@ -307,10 +393,16 @@ export default class EasyRefresh extends Vue {
                 } else {
                     if (!this.noMore) {
                         this.footer.onLoadClose()
+                        if (this.footerStatusChanged) {
+                            this.footerStatusChanged(FooterCallBackStatus.CLOSE)
+                        }
                     }
                     this.footerStatus = FooterStatus.NO_LOAD
                     this.footerTop = this.container!!.clientHeight
                     this.footer.updateFooterHeight(0)
+                    if (this.updateFooterHeight) {
+                        this.updateFooterHeight(0)
+                    }
                 }
             }, this.footer.footerFinishDuration())
         }, noMore)
@@ -332,6 +424,9 @@ export default class EasyRefresh extends Vue {
                 this.scroller.doTouchEnd(e.timeStamp, true)
                 this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
                     this.header.onRefreshing()
+                    if (this.headerStatusChanged) {
+                        this.headerStatusChanged(HeaderCallBackStatus.REFRESHING)
+                    }
                     this.noMore = false
                     this.headerStatus = HeaderStatus.REFRESHING
                     this.onRefresh(this.callRefreshFinish)
@@ -354,6 +449,9 @@ export default class EasyRefresh extends Vue {
                 this.scroller.doTouchEnd(e.timeStamp, true)
                 this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
                     this.footer.onLoading()
+                    if (this.footerStatusChanged) {
+                        this.footerStatusChanged(FooterCallBackStatus.LOADING)
+                    }
                     this.footerStatus = FooterStatus.LOADING
                     this.loadMore(this.callLoadMoreFinish)
                 }, true)
