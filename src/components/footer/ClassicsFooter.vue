@@ -60,6 +60,12 @@ export default class ClassicsFooter extends Vue implements Footer {
     // 更多信息颜色
     @Prop({default: '#aaaaaa'})
     private moreInfoColor!: string
+    // 高度
+    @Prop({default: 70})
+    private height!: number
+    // 完成延时
+    @Prop({default: 1000})
+    private finishDuration!: number
     // 是否浮动
     @Prop({default: false})
     private isFloat!: boolean
@@ -86,11 +92,11 @@ export default class ClassicsFooter extends Vue implements Footer {
 
     // 加载高度
     public loadHeight(): number {
-        return this.defaultFooterHeight
+        return this.height
     }
     // 加载完成延时
     public footerFinishDuration(): number {
-        return 1000
+        return this.finishDuration
     }
     // 是否浮动
     public isFooterFloat(): boolean {
