@@ -13,9 +13,9 @@ interface RefreshHeader {
     // 刷新高度
     refreshHeight(): number
     // 完成延时(ms)
-    finishDuration(): number
+    headerFinishDuration(): number
     // 是否浮动
-    isFloat(): boolean
+    isHeaderFloat(): boolean
     // 高度更新
     updateHeaderHeight(height: number): void
     // 开始刷新

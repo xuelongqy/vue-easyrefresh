@@ -71,12 +71,12 @@ export default class ClassicsFooter extends Vue implements Footer {
         return this.defaultFooterHeight
     }
     // 加载完成延时
-    public finishDuration(): number {
+    public footerFinishDuration(): number {
         return 1000
     }
     // 是否浮动
-    public isFloat(): boolean {
-        return false
+    public isFooterFloat(): boolean {
+        return true
     }
 
     public onLoadClose(): void {

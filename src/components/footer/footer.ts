@@ -13,9 +13,9 @@ export default interface FooterHeader {
     // 加载高度
     loadHeight(): number
     // 完成延时(ms)
-    finishDuration(): number
+    footerFinishDuration(): number
     // 是否浮动
-    isFloat(): boolean
+    isFooterFloat(): boolean
     // 高度更新
     updateFooterHeight(height: number): void
     // 开始加载

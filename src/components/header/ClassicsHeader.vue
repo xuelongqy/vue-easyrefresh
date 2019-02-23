@@ -45,6 +45,9 @@ export default class ClassicsHeader extends Vue implements Header {
     // 字体颜色
     @Prop({default: '#616161'})
     private textColor!: string
+    // 更多信息
+    @Prop({default: 'Updated at %T'})
+    private moreInfo!: string
 
     // 显示文字
     private showText = this.refreshText
@@ -67,11 +70,11 @@ export default class ClassicsHeader extends Vue implements Header {
         return 70
     }
     // 完成延时
-    public finishDuration(): number {
+    public headerFinishDuration(): number {
         return 1000
     }
     // 是否浮动
-    public isFloat(): boolean {
+    public isHeaderFloat(): boolean {
         return false
     }
 

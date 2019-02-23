@@ -167,7 +167,7 @@ export default class EasyRefresh extends Vue {
             // 更新Header高度
             this.header.updateHeaderHeight(-top)
             // 判断是否为浮动布局
-            if (this.header.isFloat()) {
+            if (this.header.isHeaderFloat()) {
                 this.floatTop = top;
             }
             if (this.headerStatus === HeaderStatus.NO_REFRESH
@@ -203,7 +203,7 @@ export default class EasyRefresh extends Vue {
                 footerHeight = top - scrollableDistance
             }
             // 判断是否为浮动布局
-            if (this.header.isFloat() && !this.autoLoad) {
+            if (this.footer.isFooterFloat() && !this.autoLoad) {
                 this.floatTop = footerHeight
             }
             // 判断是否自动加载
@@ -279,7 +279,7 @@ export default class EasyRefresh extends Vue {
                     this.header.updateHeaderHeight(0)
                 }
                 this.scroller.finishPullToRefresh()
-            }, this.header.finishDuration())
+            }, this.header.headerFinishDuration())
         })
     }
     // 加载完成回调
@@ -312,7 +312,7 @@ export default class EasyRefresh extends Vue {
                     this.footerTop = this.container!!.clientHeight
                     this.footer.updateFooterHeight(0)
                 }
-            }, this.footer.finishDuration())
+            }, this.footer.footerFinishDuration())
         }, noMore)
     }
     // 滚动动作结束(例如手指离开屏幕)
