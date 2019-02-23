@@ -60,6 +60,9 @@ export default class ClassicsFooter extends Vue implements Footer {
     // 更多信息颜色
     @Prop({default: '#aaaaaa'})
     private moreInfoColor!: string
+    // 是否浮动
+    @Prop({default: false})
+    private isFloat!: boolean
 
     // 显示文字
     private showText = this.loadText
@@ -91,7 +94,7 @@ export default class ClassicsFooter extends Vue implements Footer {
     }
     // 是否浮动
     public isFooterFloat(): boolean {
-        return false
+        return this.isFloat
     }
 
     public onLoadClose(): void {

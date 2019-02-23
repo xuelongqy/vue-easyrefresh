@@ -57,6 +57,9 @@ export default class ClassicsHeader extends Vue implements Header {
     // 更多信息颜色
     @Prop({default: '#aaaaaa'})
     private moreInfoColor!: string
+    // 是否浮动
+    @Prop({default: false})
+    private isFloat!: boolean
 
     // 显示文字
     private showText: string = this.refreshText
@@ -88,7 +91,7 @@ export default class ClassicsHeader extends Vue implements Header {
     }
     // 是否浮动
     public isHeaderFloat(): boolean {
-        return false
+        return this.isFloat
     }
 
     public onRefreshClose(): void {
