@@ -7,7 +7,10 @@
             <Arrow v-else direction="up" :color="textColor" :rotate="rotateArrow" class="er-classics-footer-arrow-icon"></Arrow>
         </span>
         <!--文字-->
-        <span :style="'color: ' + textColor + ';'" class="er-classics-footer-flex er-classics-footer-content">{{showText}}</span>
+        <span :style="'color: ' + textColor + ';'" class="er-classics-footer-flex er-classics-footer-content">
+            <div :style="'color: ' + textColor + ';'" class="er-classics-footer-content-text">{{showText}}</div>
+            <div v-if="showMore" :style="'color: ' + moreInfoColor + ';'" class="er-classics-footer-content-more">{{showMoreInfo}}</div>
+        </span>
         <span class="er-classics-footer-flex"></span>
     </div>
 </template>
@@ -48,10 +51,20 @@ export default class ClassicsFooter extends Vue implements Footer {
     // 字体颜色
     @Prop({default: '#616161'})
     private textColor!: string
+    // 显示更多信息
+    @Prop({default: false})
+    private showMore!: boolean
+    // 更多信息
+    @Prop({default: 'Updated at %T'})
+    private moreInfo!: string
+    // 更多信息颜色
+    @Prop({default: '#aaaaaa'})
+    private moreInfoColor!: string
 
     // 显示文字
     private showText = this.loadText
-
+    // 显示更多信息
+    private showMoreInfo: string = ""
     // Footer的高度
     private defaultFooterHeight: number = 70
     private footerHeight: number = this.defaultFooterHeight
@@ -64,6 +77,8 @@ export default class ClassicsFooter extends Vue implements Footer {
     public mounted() {
         // 初始化显示文字
         this.showText = this.loadText
+        // 初始化更多信息
+        this.showMoreInfo = this.getMoreInfo()
     }
 
     // 加载高度
@@ -106,6 +121,8 @@ export default class ClassicsFooter extends Vue implements Footer {
         this.rotateArrow = false
         this.showText = this.loadedText
         this.footerStatus = FooterStatus.LOADED
+        // 更新更多信息
+        this.showMoreInfo = this.getMoreInfo()
     }
     public onLoading(): void {
         this.showText = this.loadingText
@@ -121,6 +138,13 @@ export default class ClassicsFooter extends Vue implements Footer {
         } else {
             this.footerHeight = this.defaultFooterHeight
         }
+    }
+    // 获取更新信息
+    private getMoreInfo(): string {
+        let date = new Date()
+        let fillChar = date.getMinutes() < 10 ? "0" : ""
+        let moreInfo = this.moreInfo
+        return moreInfo.replace("%T", "" + date.getHours() + ":" + fillChar + date.getMinutes())
     }
 }
 </script>
@@ -148,8 +172,15 @@ export default class ClassicsFooter extends Vue implements Footer {
         }
         .er-classics-footer-content {
             display: flex;
+            flex-direction: column;
             justify-content:center;
             align-items:Center;
+            .er-classics-footer-content-text {
+                font-size: 14px;
+            }
+            .er-classics-footer-content-more {
+                font-size: 12px;
+            }
         }
     }
 </style>

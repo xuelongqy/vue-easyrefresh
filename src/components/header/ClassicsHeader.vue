@@ -7,7 +7,10 @@
             <Arrow v-else :color="textColor" :rotate="rotateArrow" class="er-classics-header-arrow-icon"></Arrow>
         </span>
         <!--文字-->
-        <span :style="'color: ' + textColor + ';'" class="er-classics-header-flex er-classics-header-content">{{showText}}</span>
+        <span class="er-classics-header-flex er-classics-header-content">
+            <div :style="'color: ' + textColor + ';'" class="er-classics-header-content-text">{{showText}}</div>
+            <div v-if="showMore" :style="'color: ' + moreInfoColor + ';'" class="er-classics-header-content-more">{{showMoreInfo}}</div>
+        </span>
         <span class="er-classics-header-flex"></span>
     </div>
 </template>
@@ -45,12 +48,20 @@ export default class ClassicsHeader extends Vue implements Header {
     // 字体颜色
     @Prop({default: '#616161'})
     private textColor!: string
+    // 显示更多信息
+    @Prop({default: false})
+    private showMore!: boolean
     // 更多信息
     @Prop({default: 'Updated at %T'})
     private moreInfo!: string
+    // 更多信息颜色
+    @Prop({default: '#aaaaaa'})
+    private moreInfoColor!: string
 
     // 显示文字
-    private showText = this.refreshText
+    private showText: string = this.refreshText
+    // 显示更多信息
+    private showMoreInfo: string = ""
     // Header的高度
     private defaultHeaderHeight: number = 70
     private headerHeight: number = this.defaultHeaderHeight
@@ -63,6 +74,8 @@ export default class ClassicsHeader extends Vue implements Header {
     public mounted() {
         // 初始化显示文字
         this.showText = this.refreshText
+        // 初始化更多信息
+        this.showMoreInfo = this.getMoreInfo()
     }
 
     // 刷新高度
@@ -105,6 +118,8 @@ export default class ClassicsHeader extends Vue implements Header {
         this.rotateArrow = false
         this.showText = this.refreshedText
         this.headerStatus = HeaderStatus.REFRESHED
+        // 更新更多信息
+        this.showMoreInfo = this.getMoreInfo()
     }
     public onRefreshing(): void {
         this.showText = this.refreshingText
@@ -116,6 +131,13 @@ export default class ClassicsHeader extends Vue implements Header {
         } else {
             this.headerHeight = this.defaultHeaderHeight
         }
+    }
+    // 获取更新信息
+    private getMoreInfo(): string {
+        let date = new Date()
+        let fillChar = date.getMinutes() < 10 ? "0" : ""
+        let moreInfo = this.moreInfo
+        return moreInfo.replace("%T", "" + date.getHours() + ":" + fillChar + date.getMinutes())
     }
 }
 </script>
@@ -143,9 +165,15 @@ export default class ClassicsHeader extends Vue implements Header {
         }
         .er-classics-header-content {
             display: flex;
+            flex-direction: column;
             justify-content:center;
             align-items:Center;
-            font-size: 14px;
+            .er-classics-header-content-text {
+                font-size: 14px;
+            }
+            .er-classics-header-content-more {
+                font-size: 12px;
+            }
         }
     }
 </style>
