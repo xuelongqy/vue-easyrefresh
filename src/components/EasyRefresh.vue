@@ -10,6 +10,7 @@
              @mouseup="mouseUp($event)"
              @wheel="wheel($event)">
             <div :id="contentId">
+                <div class="v-easy-refresh-float-offset" :style="'margin-top: ' + floatTop + 'px;'"></div>
                 <slot></slot>
             </div>
         </div>
@@ -96,6 +97,8 @@ export default class EasyRefresh extends Vue {
     // Header和Footer的位置
     private headerBottom: number = 0
     private footerTop: number = 0
+    // 浮动布局的偏移
+    private floatTop: number = 0
     // 是否正在刷新/加载
     private isRefresh: boolean = false
     // 没有更多数据
@@ -163,6 +166,10 @@ export default class EasyRefresh extends Vue {
                 this.headerStatus === HeaderStatus.REFRESHED) { return }
             // 更新Header高度
             this.header.updateHeaderHeight(-top)
+            // 判断是否为浮动布局
+            if (this.header.isFloat()) {
+                this.floatTop = top;
+            }
             if (this.headerStatus === HeaderStatus.NO_REFRESH
                 && this.userScrolling) {
                 // 刷新开发
@@ -194,6 +201,10 @@ export default class EasyRefresh extends Vue {
                 footerHeight = top
             } else {
                 footerHeight = top - scrollableDistance
+            }
+            // 判断是否为浮动布局
+            if (this.header.isFloat() && !this.autoLoad) {
+                this.floatTop = footerHeight
             }
             // 判断是否自动加载
             if (this.autoLoad && footerHeight > 0 && !this.noMore &&
@@ -462,6 +473,9 @@ export default class EasyRefresh extends Vue {
             top: 0;
             left: 0;
             overflow: hidden;
+            .v-easy-refresh-float-header-offset, .v-easy-refresh-float-footer-offset {
+                width: 100%;
+            }
         }
         .v-easy-refresh-header {
             width: 100%;

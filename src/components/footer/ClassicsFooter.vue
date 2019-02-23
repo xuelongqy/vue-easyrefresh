@@ -74,6 +74,10 @@ export default class ClassicsFooter extends Vue implements Footer {
     public finishDuration(): number {
         return 1000
     }
+    // 是否浮动
+    public isFloat(): boolean {
+        return false
+    }
 
     public onLoadClose(): void {
         this.showText = this.loadText

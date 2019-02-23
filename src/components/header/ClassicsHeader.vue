@@ -70,6 +70,10 @@ export default class ClassicsHeader extends Vue implements Header {
     public finishDuration(): number {
         return 1000
     }
+    // 是否浮动
+    public isFloat(): boolean {
+        return false
+    }
 
     public onRefreshClose(): void {
         this.showText = this.refreshText
