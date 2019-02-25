@@ -2,7 +2,7 @@
     <div ref="footer" class="er-classics-footer" :style="'height: ' + footerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
         <!--图标-->
         <span class="er-classics-footer-flex er-classics-footer-icon">
-            <CircularProgress v-if="footerStatus === 4" :color="textColor"></CircularProgress>
+            <CircularProgress v-if="footerStatus === 4" :color="textColor" class="er-classics-footer-progress"></CircularProgress>
             <Done v-else-if="footerStatus === 5 || footerStatus === 6" :color="textColor" class="er-classics-footer-done-icon"></Done>
             <Arrow v-else direction="up" :color="textColor" :rotate="rotateArrow" class="er-classics-footer-arrow-icon"></Arrow>
         </span>
@@ -75,8 +75,7 @@ export default class ClassicsFooter extends Vue implements Footer {
     // 显示更多信息
     private showMoreInfo: string = ''
     // Footer的高度
-    private defaultFooterHeight: number = 70
-    private footerHeight: number = this.defaultFooterHeight
+    private footerHeight: number = 70
     // 旋转箭头
     private rotateArrow: boolean = false
     // Header状态
@@ -88,6 +87,8 @@ export default class ClassicsFooter extends Vue implements Footer {
         this.showText = this.loadText
         // 初始化更多信息
         this.showMoreInfo = this.getMoreInfo()
+        // 初始化高度
+        this.footerHeight = this.height
     }
 
     // 加载高度
@@ -142,10 +143,10 @@ export default class ClassicsFooter extends Vue implements Footer {
         this.footerStatus = FooterStatus.LOADED
     }
     public updateFooterHeight(height: number): void {
-        if (height > this.defaultFooterHeight) {
+        if (height > this.height) {
             this.footerHeight = height
         } else {
-            this.footerHeight = this.defaultFooterHeight
+            this.footerHeight = this.height
         }
     }
     // 获取更新信息
@@ -177,6 +178,9 @@ export default class ClassicsFooter extends Vue implements Footer {
                 margin-right: 10px;
                 font-size: 24px;
                 align-self:flex-end;
+            }
+            .er-classics-footer-progress {
+                margin-right: 10px;
             }
         }
         .er-classics-footer-content {

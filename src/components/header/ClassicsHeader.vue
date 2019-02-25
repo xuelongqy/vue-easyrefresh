@@ -2,7 +2,7 @@
     <div ref="header" class="er-classics-header" :style="'height: ' + headerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
         <!--图标-->
         <span class="er-classics-header-flex er-classics-header-icon">
-            <CircularProgress v-if="headerStatus === 4" :color="textColor"></CircularProgress>
+            <CircularProgress v-if="headerStatus === 4" :color="textColor" class="er-classics-header-progress"></CircularProgress>
             <Done v-else-if="headerStatus === 5 || headerStatus === 6" :color="textColor" class="er-classics-header-done-icon"></Done>
             <Arrow v-else :color="textColor" :rotate="rotateArrow" class="er-classics-header-arrow-icon"></Arrow>
         </span>
@@ -72,8 +72,7 @@ export default class ClassicsHeader extends Vue implements Header {
     // 显示更多信息
     private showMoreInfo: string = ''
     // Header的高度
-    private defaultHeaderHeight: number = 70
-    private headerHeight: number = this.defaultHeaderHeight
+    private headerHeight: number = 70.0
     // 旋转箭头
     private rotateArrow: boolean = false
     // Header状态
@@ -85,6 +84,8 @@ export default class ClassicsHeader extends Vue implements Header {
         this.showText = this.refreshText
         // 初始化更多信息
         this.showMoreInfo = this.getMoreInfo()
+        // 初始化高度
+        this.headerHeight = this.height
     }
 
     // 刷新高度
@@ -135,10 +136,10 @@ export default class ClassicsHeader extends Vue implements Header {
         this.headerStatus = HeaderStatus.REFRESHING
     }
     public updateHeaderHeight(height: number): void {
-        if (height > this.defaultHeaderHeight) {
+        if (height > this.height) {
             this.headerHeight = height
         } else {
-            this.headerHeight = this.defaultHeaderHeight
+            this.headerHeight = this.height
         }
     }
     // 获取更新信息
@@ -170,6 +171,9 @@ export default class ClassicsHeader extends Vue implements Header {
                 margin-right: 10px;
                 font-size: 24px;
                 align-self:flex-end;
+            }
+            .er-classics-header-progress {
+                margin-right: 10px;
             }
         }
         .er-classics-header-content {

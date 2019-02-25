@@ -315,6 +315,7 @@ export default class EasyRefresh extends Vue {
                 || this.footerStatus === FooterStatus.LOADEND)
                 && this.loadMore) {
                 if (!this.noMore) {
+                    this.floatTop = 0;
                     this.footer.onLoadClose()
                     if (this.footerStatusChanged) {
                         this.footerStatusChanged(FooterCallBackStatus.CLOSE)
@@ -392,6 +393,7 @@ export default class EasyRefresh extends Vue {
                     this.scroller.finishPushToLoad()
                 } else {
                     if (!this.noMore) {
+                        this.floatTop = 0;
                         this.footer.onLoadClose()
                         if (this.footerStatusChanged) {
                             this.footerStatusChanged(FooterCallBackStatus.CLOSE)
