@@ -7,7 +7,7 @@
         :loadMore="loadMore"
         :autoLoad="true">
       <template v-slot:header>
-        <ClassicsHeader/>
+        <MaterialHeader/>
       </template>
       <div v-for="(item, index) in items"
            class="row" :class="{'grey-bg': index % 2 == 0}">
@@ -21,11 +21,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 import EasyRefresh from './components/EasyRefresh.vue'
 import ClassicsHeader from './components/header/ClassicsHeader.vue'
+import MaterialHeader from './components/header/MaterialHeader.vue'
 
 @Component({
   components: {
     EasyRefresh,
     ClassicsHeader,
+    MaterialHeader,
   },
 })
 export default class App extends Vue {

@@ -120,7 +120,7 @@ export default class ClassicsFooter extends Vue implements Footer {
     public onLoadRestore(): void {
         this.rotateArrow = false
         this.showText = this.loadText
-        this.footerStatus = FooterStatus.NO_LOAD
+        this.footerStatus = FooterStatus.LOAD_START
     }
     public onLoadStart(): void {
         this.rotateArrow = false

@@ -1,14 +1,26 @@
 <template>
-    <div class="preloader-wrapper small active">
-        <div :style="'border-color: ' + color + ';'" class="spinner-layer">
-            <div class="circle-clipper left">
-                <div class="circle"></div>
+    <div class="circular-progress">
+        <div v-if="value !== null">
+            <div class="circleProgress_wrapper">
+                <div class="wrapper right">
+                    <div class="circleProgress rightcircle" :style="'transform: rotate(' + rightRotate + 'deg);' + 'border-top-color: ' + color + ';' + 'border-right-color: ' + color + ';'"></div>
+                </div>
+                <div class="wrapper left">
+                    <div class="circleProgress leftcircle" :style="'transform: rotate(' + leftRotate + 'deg);' + 'border-bottom-color: ' + color + ';' + 'border-left-color: ' + color + ';'"></div>
+                </div>
             </div>
-            <div class="gap-patch">
-                <div class="circle"></div>
-            </div>
-            <div class="circle-clipper right">
-                <div class="circle"></div>
+        </div>
+        <div v-else class="preloader-wrapper small active">
+            <div :style="'border-color: ' + color + ';'" class="spinner-layer">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -22,10 +34,86 @@ export default class CircularProgress extends Vue {
     // 颜色
     @Prop({default: '#0000000'})
     private color!: string
+    // 进度值
+    @Prop({default: null})
+    private value!: number
+
+    // 获取旋转度
+    get rightRotate(): number {
+        if (this.value <= 0) {
+            return -135
+        } else if (this.value <= 0.5) {
+            return -135 + 360 * this.value
+        } else {
+            return 45
+        }
+    }
+    get leftRotate(): number {
+        if (this.value <= 0.5) {
+            return -135
+        } else if (this.value < 1) {
+            return -135 + 360 * (this.value - 0.5)
+        } else {
+            return 45
+        }
+    }
 }
 </script>
 
 <style scoped lang="scss">
+    .circular-progress {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content:center;
+        align-items:Center;
+    }
+
+    .circleProgress_wrapper {
+        width: 24px;
+        height: 24px;
+        position: relative;
+    }
+    .wrapper{
+        width: 12px;
+        height: 24px;
+        position: absolute;
+        top:0;
+        overflow: hidden;
+    }
+    .right{
+        right:0;
+    }
+    .left{
+        left:0;
+    }
+    .circleProgress{
+        width: 20px;
+        height: 20px;
+        border:2px solid transparent;
+        border-radius: 50%;
+        position: absolute;
+        top:0;
+    }
+    .rightcircle{
+        border-top-width:2px;
+        border-right-width:2px;
+        border-top-style: solid;
+        border-right-style: solid;
+        right:0;
+        animation: circleProgressLoad_right 5s linear infinite;
+        transform: rotate(45deg);
+    }
+    .leftcircle{
+        border-bottom-width:2px;
+        border-left-width:2px;
+        border-bottom-style: solid;
+        border-left-style: solid;
+        left:0;
+        animation: circleProgressLoad_left 5s linear infinite;
+        transform: rotate(-135deg);
+    }
+
     .preloader-wrapper {
         display: inline-block;
         position: relative;
@@ -69,68 +157,7 @@ export default class CircularProgress extends Vue {
         border-color: #000000;
     }
 
-    .spinner-blue,
-    .spinner-blue-only {
-        border-color: #4285f4;
-    }
-
-    .spinner-red,
-    .spinner-red-only {
-        border-color: #db4437;
-    }
-
-    .spinner-yellow,
-    .spinner-yellow-only {
-        border-color: #f4b400;
-    }
-
-    .spinner-green,
-    .spinner-green-only {
-        border-color: #0f9d58;
-    }
-
-    /**
-     * IMPORTANT NOTE ABOUT CSS ANIMATION PROPERTIES (keanulee):
-     *
-     * iOS Safari (tested on iOS 8.1) does not handle animation-delay very well - it doesn't
-     * guarantee that the animation will start _exactly_ after that value. So we avoid using
-     * animation-delay and instead set custom keyframes for each color (as redundant as it
-     * seems).
-     *
-     * We write out each animation in full (instead of separating animation-name,
-     * animation-duration, etc.) because under the polyfill, Safari does not recognize those
-     * specific properties properly, treats them as -webkit-animation, and overrides the
-     * other animation rules. See https://github.com/Polymer/platform/issues/53.
-     */
-    .active .spinner-layer.spinner-blue {
-        /* durations: 4 * ARCTIME */
-        -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, blue-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-        animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, blue-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-    }
-
-    .active .spinner-layer.spinner-red {
-        /* durations: 4 * ARCTIME */
-        -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, red-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-        animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, red-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-    }
-
-    .active .spinner-layer.spinner-yellow {
-        /* durations: 4 * ARCTIME */
-        -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, yellow-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-        animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, yellow-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-    }
-
-    .active .spinner-layer.spinner-green {
-        /* durations: 4 * ARCTIME */
-        -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, green-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-        animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, green-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-    }
-
-    .active .spinner-layer,
-    .active .spinner-layer.spinner-blue-only,
-    .active .spinner-layer.spinner-red-only,
-    .active .spinner-layer.spinner-yellow-only,
-    .active .spinner-layer.spinner-green-only {
+    .active .spinner-layer {
         /* durations: 4 * ARCTIME */
         opacity: 1;
         -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
@@ -205,156 +232,6 @@ export default class CircularProgress extends Vue {
             transform: rotate(1080deg);
         }
         /* 4   * ARCSIZE */
-    }
-
-    @-webkit-keyframes blue-fade-in-out {
-        from {
-            opacity: 1;
-        }
-        25% {
-            opacity: 1;
-        }
-        26% {
-            opacity: 0;
-        }
-        89% {
-            opacity: 0;
-        }
-        90% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @keyframes blue-fade-in-out {
-        from {
-            opacity: 1;
-        }
-        25% {
-            opacity: 1;
-        }
-        26% {
-            opacity: 0;
-        }
-        89% {
-            opacity: 0;
-        }
-        90% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @-webkit-keyframes red-fade-in-out {
-        from {
-            opacity: 0;
-        }
-        15% {
-            opacity: 0;
-        }
-        25% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 1;
-        }
-        51% {
-            opacity: 0;
-        }
-    }
-
-    @keyframes red-fade-in-out {
-        from {
-            opacity: 0;
-        }
-        15% {
-            opacity: 0;
-        }
-        25% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 1;
-        }
-        51% {
-            opacity: 0;
-        }
-    }
-
-    @-webkit-keyframes yellow-fade-in-out {
-        from {
-            opacity: 0;
-        }
-        40% {
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-        }
-        75% {
-            opacity: 1;
-        }
-        76% {
-            opacity: 0;
-        }
-    }
-
-    @keyframes yellow-fade-in-out {
-        from {
-            opacity: 0;
-        }
-        40% {
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-        }
-        75% {
-            opacity: 1;
-        }
-        76% {
-            opacity: 0;
-        }
-    }
-
-    @-webkit-keyframes green-fade-in-out {
-        from {
-            opacity: 0;
-        }
-        65% {
-            opacity: 0;
-        }
-        75% {
-            opacity: 1;
-        }
-        90% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    @keyframes green-fade-in-out {
-        from {
-            opacity: 0;
-        }
-        65% {
-            opacity: 0;
-        }
-        75% {
-            opacity: 1;
-        }
-        90% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
     }
 
     /**
