@@ -27,51 +27,51 @@ export default class EmptyFooter extends Vue implements Footer {
         this.footerHeight = this.height
     }
 
-    footerFinishDuration(): number {
+    public footerFinishDuration(): number {
         return this.finishDuration;
     }
 
-    isFooterFloat(): boolean {
+    public isFooterFloat(): boolean {
         return this.isFloat;
     }
 
-    loadHeight(): number {
+    public loadHeight(): number {
         return this.height;
     }
 
-    onLoadClose(): void {
+    public onLoadClose(): void {
         // todo nothing
     }
 
-    onLoadEnd(): void {
+    public onLoadEnd(): void {
         // todo nothing
     }
 
-    onLoadReady(): void {
+    public onLoadReady(): void {
         // todo nothing
     }
 
-    onLoadRestore(): void {
+    public onLoadRestore(): void {
         // todo nothing
     }
 
-    onLoadStart(): void {
+    public onLoadStart(): void {
         // todo nothing
     }
 
-    onLoaded(): void {
+    public onLoaded(): void {
         // todo nothing
     }
 
-    onLoading(): void {
+    public onLoading(): void {
         // todo nothing
     }
 
-    onNoMore(): void {
+    public onNoMore(): void {
         // todo nothing
     }
 
-    updateFooterHeight(height: number): void {
+    public updateFooterHeight(height: number): void {
         if (height > this.height) {
             this.footerHeight = height
         } else {

@@ -27,47 +27,47 @@ export default class EmptyHeader extends Vue implements Header {
         this.headerHeight = this.height
     }
 
-    headerFinishDuration(): number {
+    public headerFinishDuration(): number {
         return this.finishDuration;
     }
 
-    isHeaderFloat(): boolean {
+    public isHeaderFloat(): boolean {
         return this.isFloat;
     }
 
-    onRefreshClose(): void {
+    public onRefreshClose(): void {
         // todo nothing
     }
 
-    onRefreshEnd(): void {
+    public onRefreshEnd(): void {
         // todo nothing
     }
 
-    onRefreshReady(): void {
+    public onRefreshReady(): void {
         // todo nothing
     }
 
-    onRefreshRestore(): void {
+    public onRefreshRestore(): void {
         // todo nothing
     }
 
-    onRefreshStart(): void {
+    public onRefreshStart(): void {
         // todo nothing
     }
 
-    onRefreshed(): void {
+    public onRefreshed(): void {
         // todo nothing
     }
 
-    onRefreshing(): void {
+    public onRefreshing(): void {
         // todo nothing
     }
 
-    refreshHeight(): number {
+    public refreshHeight(): number {
         return this.height;
     }
 
-    updateHeaderHeight(height: number): void {
+    public updateHeaderHeight(height: number): void {
         if (height > this.height) {
             this.headerHeight = height
         } else {
