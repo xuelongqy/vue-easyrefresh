@@ -1,6 +1,6 @@
 <template>
     <div class="er-material-header" :style="'height: ' + headerHeight + 'px;'">
-        <div class="er-material-header-circle-card">
+        <div class="er-material-header-circle-card" :style="'transform: rotate(' + rotateValue + 'deg);' + 'background: ' + bgColor + ';'">
             <CircularProgress :color="color" :value="progressValue"></CircularProgress>
         </div>
     </div>
@@ -23,12 +23,17 @@ export default class MaterialHeader extends Vue implements Header {
     // 颜色
     @Prop({default: '#2196f3'})
     private color!: string
+    // 背景颜色
+    @Prop({default: '#ffffff'})
+    private bgColor!: string
 
     // Header的高度
     private defaultHeight: number = 100
     private headerHeight: number = this.defaultHeight
-    // 获取进度值
-    private progressValue: number = 0
+    // 进度值
+    private progressValue: number | null = 0
+    // 旋转度
+    private rotateValue: number = 0
     // Header状态
     private headerStatus: HeaderStatus = HeaderStatus.NO_REFRESH
 
@@ -69,6 +74,7 @@ export default class MaterialHeader extends Vue implements Header {
     public onRefreshing(): void {
         this.headerStatus = HeaderStatus.REFRESHING
         this.progressValue = null
+        this.rotateValue = 0
     }
 
     public refreshHeight(): number {
@@ -82,6 +88,7 @@ export default class MaterialHeader extends Vue implements Header {
                 this.headerStatus === HeaderStatus.NO_REFRESH ||
                 this.headerStatus === HeaderStatus.REFRESH_READY) {
                 this.progressValue = 0.75
+                this.rotateValue = 90
             }
         } else {
             this.headerHeight = this.defaultHeight
@@ -89,6 +96,7 @@ export default class MaterialHeader extends Vue implements Header {
                 this.headerStatus === HeaderStatus.NO_REFRESH ||
                 this.headerStatus === HeaderStatus.REFRESH_READY) {
                 this.progressValue = height / this.defaultHeight * 0.75
+                this.rotateValue = 90 * height / this.defaultHeight
             }
         }
     }
@@ -113,8 +121,8 @@ export default class MaterialHeader extends Vue implements Header {
             height: 40px;
             width: 40px;
             border-radius: 50%;
-            background: white;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+            transform: rotate(-135deg);
         }
     }
 </style>
