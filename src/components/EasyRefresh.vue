@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import Scroller from '../module/core'
 import getContentRender from '../module/render'
 import ClassicsHeader from './header/ClassicsHeader.vue'
@@ -429,7 +429,10 @@ export default class EasyRefresh extends Vue {
                     if (this.headerStatusChanged) {
                         this.headerStatusChanged(HeaderCallBackStatus.REFRESHING)
                     }
-                    this.noMore = false
+                    if (this.noMore) {
+                        this.noMore = false
+                        this.header.onRefreshClose()
+                    }
                     this.headerStatus = HeaderStatus.REFRESHING
                     this.onRefresh(this.callRefreshFinish)
                 })

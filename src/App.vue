@@ -4,8 +4,7 @@
         ref="easyRefresh"
         :userSelect="false"
         :onRefresh="onRefresh"
-        :loadMore="loadMore"
-        :autoLoad="true">
+        :loadMore="loadMore">
       <template v-slot:header>
         <MaterialHeader/>
       </template>
@@ -13,6 +12,9 @@
            class="row" :class="{'grey-bg': index % 2 == 0}">
         {{ item }}
       </div>
+        <template v-slot:footer>
+            <MaterialFooter/>
+        </template>
     </EasyRefresh>
   </div>
 </template>
@@ -22,12 +24,14 @@ import { Component, Vue } from 'vue-property-decorator'
 import EasyRefresh from './components/EasyRefresh.vue'
 import ClassicsHeader from './components/header/ClassicsHeader.vue'
 import MaterialHeader from './components/header/MaterialHeader.vue'
+import MaterialFooter from './components/footer/MaterialFooter.vue'
 
 @Component({
   components: {
     EasyRefresh,
     ClassicsHeader,
     MaterialHeader,
+    MaterialFooter,
   },
 })
 export default class App extends Vue {
