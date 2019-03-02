@@ -1,12 +1,12 @@
 <template>
-    <div class="er-ball-pulse-header" :style="'height: ' + headerHeight + 'px;'">
+    <div class="er-ball-pulse-footer" :style="'height: ' + footerHeight + 'px;'">
         <BallPulse :color="color"></BallPulse>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Header } from './header'
+import { Footer } from './footer'
 import BallPulse from '../icon/BallPulse.vue'
 
 @Component({
@@ -14,7 +14,7 @@ import BallPulse from '../icon/BallPulse.vue'
         BallPulse,
     },
 })
-export default class BallPulseHeader extends Vue implements Header {
+export default class BallPulseFooter extends Vue implements Footer {
     // 高度
     @Prop({default: 70})
     private height!: number
@@ -25,67 +25,71 @@ export default class BallPulseHeader extends Vue implements Header {
     @Prop({default: '#2196f3'})
     private color!: string
 
-    // Header的高度
-    private headerHeight: number = 70.0
+    // Footer的高度
+    private footerHeight: number = 70
 
     // 初始化
     public mounted() {
         // 初始化高度
-        this.headerHeight = this.height
+        this.footerHeight = this.height
     }
 
-    public headerFinishDuration(): number {
+    public footerFinishDuration(): number {
         return this.finishDuration;
     }
 
-    public isHeaderFloat(): boolean {
+    public isFooterFloat(): boolean {
         return false;
     }
 
-    public onRefreshClose(): void {
-        // todo nothing
-    }
-
-    public onRefreshEnd(): void {
-        // todo nothing
-    }
-
-    public onRefreshReady(): void {
-        // todo nothing
-    }
-
-    public onRefreshRestore(): void {
-        // todo nothing
-    }
-
-    public onRefreshStart(): void {
-        // todo nothing
-    }
-
-    public onRefreshed(): void {
-        // todo nothing
-    }
-
-    public onRefreshing(): void {
-        // todo nothing
-    }
-
-    public refreshHeight(): number {
+    public loadHeight(): number {
         return this.height;
     }
 
-    public updateHeaderHeight(height: number): void {
+    public onLoadClose(): void {
+        // todo nothing
+    }
+
+    public onLoadEnd(): void {
+        // todo nothing
+    }
+
+    public onLoadReady(): void {
+        // todo nothing
+    }
+
+    public onLoadRestore(): void {
+        // todo nothing
+    }
+
+    public onLoadStart(): void {
+        // todo nothing
+    }
+
+    public onLoaded(): void {
+        // todo nothing
+    }
+
+    public onLoading(): void {
+        // todo nothing
+    }
+
+    public onNoMore(): void {
+        // todo nothing
+    }
+
+    public updateFooterHeight(height: number): void {
         if (height > this.height) {
-            this.headerHeight = height
+            this.footerHeight = height
         } else {
-            this.headerHeight = this.height
+            this.footerHeight = this.height
         }
     }
 }
 </script>
 
 <style scoped>
-    .er-ball-pulse-header {
+    .er-ball-pulse-footer {
         width: 100%;
         height: 0;
         background: transparent;
