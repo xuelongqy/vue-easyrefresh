@@ -14,7 +14,7 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 @Component
 export default class Done extends Vue {
     // 颜色
-    @Prop({default: '#0000000'})
+    @Prop({default: '#000000'})
     private color!: string
 }
 </script>

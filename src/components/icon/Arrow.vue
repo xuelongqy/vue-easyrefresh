@@ -9,43 +9,43 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Watch, Vue} from 'vue-property-decorator'
+import {Component, Prop, Watch, Vue} from 'vue-property-decorator'
 
-    @Component
-    export default class Arrow extends Vue {
-        // 指向
-        @Prop({default: 'down'})
-        private direction!: string
-        // 旋转
-        @Prop({default: false})
-        private rotate!: boolean
-        // 颜色
-        @Prop({default: '#0000000'})
-        private color!: string
+@Component
+export default class Arrow extends Vue {
+    // 指向
+    @Prop({default: 'down'})
+    private direction!: string
+    // 旋转
+    @Prop({default: false})
+    private rotate!: boolean
+    // 颜色
+    @Prop({default: '#000000'})
+    private color!: string
 
-        // Arrow的class
-        private arrowClass: string = 'down'
+    // Arrow的class
+    private arrowClass: string = 'down'
 
-        // 初始化
-        public mounted() {
-            // 初始化显示文字
+    // 初始化
+    public mounted() {
+        // 初始化显示文字
+        this.arrowClass = this.direction
+    }
+
+    // 监听旋转
+    @Watch('rotate')
+    private onRotate(val: boolean, oldVal: boolean) {
+        if (val) {
+            if (this.direction === 'down') {
+                this.arrowClass = 'up'
+            } else {
+                this.arrowClass = 'down'
+            }
+        } else {
             this.arrowClass = this.direction
         }
-
-        // 监听旋转
-        @Watch('rotate')
-        private onRotate(val: boolean, oldVal: boolean) {
-            if (val) {
-                if (this.direction === 'down') {
-                    this.arrowClass = 'up'
-                } else {
-                    this.arrowClass = 'down'
-                }
-            } else {
-                this.arrowClass = this.direction
-            }
-        }
     }
+}
 </script>
 
 <style scoped lang="scss">
