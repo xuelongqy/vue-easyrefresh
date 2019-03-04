@@ -12,6 +12,7 @@
             <div :id="contentId">
                 <div class="v-easy-refresh-float-offset" :style="'margin-top: ' + floatTop + 'px;'"></div>
                 <slot></slot>
+                <div v-if="autoLoad" class="v-easy-auto-load-offset" :style="'height: ' + footerOffset + 'px;'"></div>
             </div>
         </div>
         <div class="v-easy-refresh-header" :style="'bottom: ' + headerBottom + 'px;'">
@@ -66,9 +67,9 @@ enum FooterCallBackStatus {
 })
 export default class EasyRefresh extends Vue {
     // Header
-    public header!: Header
+    private header!: Header
     // Footer
-    public footer!: Footer
+    private footer!: Footer
 
     @Prop() // 刷新回调
     private onRefresh!: (done: () => void) => void
@@ -128,19 +129,30 @@ export default class EasyRefresh extends Vue {
     private footerTop: number = 0
     // 浮动布局的偏移
     private floatTop: number = 0
+    // 底部偏移量
+    private footerOffset: number = 0
     // 是否正在刷新/加载
     private isRefresh: boolean = false
     // 没有更多数据
     private noMore: boolean = false
+
+    // Header和Footer
+    public setHeader(header: Header) {
+        this.header = header
+    }
+    public setFooter(footer: Footer) {
+        this.footer = footer
+        this.footerOffset = footer.loadHeight()
+    }
 
     // 初始化
     public mounted() {
         // 获取Footer和Header
         for (const node of this.$children) {
             if (node.hasOwnProperty('refreshHeight') && !this.header) {
-                this.header = (node as unknown) as Header
+                this.setHeader((node as unknown) as Header)
             } else if (node.hasOwnProperty('loadHeight') && !this.footer) {
-                this.footer = (node as unknown) as Footer
+                this.setFooter((node as unknown) as Footer)
             }
         }
         // 初始化EasyRefresh以及滚动组件
@@ -186,8 +198,20 @@ export default class EasyRefresh extends Vue {
             if (this.content!!.clientHeight < this.container!!.clientHeight) {
                 this.footerTop = this.container!!.clientHeight - top
             } else {
-                this.footerTop = -top + this.content!!.offsetHeight
+                // 判断是否自动加载
+                if (this.autoLoad && this.footer) {
+                    this.footerTop = -top + this.content!!.offsetHeight - this.footer.loadHeight()
+                } else {
+                    this.footerTop = -top + this.content!!.offsetHeight
+                }
             }
+        }
+        // 列表可滚动的距离
+        let scrollableDistance
+        if (this.autoLoad && this.footer) {
+            scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight - this.footer.loadHeight()
+        } else {
+            scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
         }
         if (top < 0) {
             if (!this.onRefresh) { return }
@@ -204,7 +228,7 @@ export default class EasyRefresh extends Vue {
             }
             if (this.headerStatus === HeaderStatus.NO_REFRESH
                 && this.userScrolling) {
-                // 刷新开发
+                // 刷新开始
                 this.header.onRefreshStart()
                 if (this.headerStatusChanged) {
                     this.headerStatusChanged(HeaderCallBackStatus.START)
@@ -229,13 +253,11 @@ export default class EasyRefresh extends Vue {
                 }
                 this.headerStatus = HeaderStatus.REFRESH_START
             }
-        } else if (top > this.content!!.offsetHeight - this.container!!.clientHeight) {
+        } else if (top > scrollableDistance) {
             if (!this.loadMore) { return }
             if (this.footerStatus === FooterStatus.LOADING ||
                 this.footerStatus === FooterStatus.LOADED) { return }
             if (top === 0) { return }
-            // 列表可滚动的距离
-            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             let footerHeight = 0
             // 更新Footer高度，判断是否超过屏幕底部
             if (this.content!!.clientHeight < this.container!!.clientHeight) {
