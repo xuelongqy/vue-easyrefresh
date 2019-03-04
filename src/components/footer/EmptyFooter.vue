@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Footer } from './footer'
+import { Footer, FooterStatus } from './footer'
 
 @Component
 export default class EmptyFooter extends Vue implements Footer {
@@ -20,6 +20,8 @@ export default class EmptyFooter extends Vue implements Footer {
 
     // Footer的高度
     private footerHeight: number = 70
+    // Footer状态
+    private footerStatus: FooterStatus = FooterStatus.NO_LOAD
 
     // 初始化
     public mounted() {
@@ -40,35 +42,35 @@ export default class EmptyFooter extends Vue implements Footer {
     }
 
     public onLoadClose(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.NO_LOAD
     }
 
     public onLoadEnd(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOADEND
     }
 
     public onLoadReady(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOAD_READY
     }
 
     public onLoadRestore(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOAD_START
     }
 
     public onLoadStart(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOAD_START
     }
 
     public onLoaded(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOADED
     }
 
     public onLoading(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOADING
     }
 
     public onNoMore(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOADED
     }
 
     public updateFooterHeight(height: number): void {

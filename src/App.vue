@@ -6,7 +6,7 @@
                 :onRefresh="onRefresh"
                 :loadMore="loadMore">
             <template v-slot:header>
-                <BallPulseHeader/>
+                <BezierCircleHeader/>
             </template>
             <div v-for="(item, index) in items"
                  class="row" :class="{'grey-bg': index % 2 == 0}">
@@ -27,6 +27,7 @@ import MaterialHeader from './components/header/MaterialHeader.vue'
 import MaterialFooter from './components/footer/MaterialFooter.vue'
 import BallPulseFooter from './components/footer/BallPulseFooter.vue'
 import BallPulseHeader from './components/header/BallPulseHeader.vue'
+import BezierCircleHeader from './components/header/BezierCircleHeader.vue'
 
 @Component({
     components: {
@@ -36,6 +37,7 @@ import BallPulseHeader from './components/header/BallPulseHeader.vue'
         MaterialFooter,
         BallPulseHeader,
         BallPulseFooter,
+        BezierCircleHeader,
     },
 })
 export default class App extends Vue {

@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Header } from './header'
+import { Header, HeaderStatus } from './header'
 
 @Component
 export default class EmptyHeader extends Vue implements Header {
@@ -20,6 +20,8 @@ export default class EmptyHeader extends Vue implements Header {
 
     // Header的高度
     private headerHeight: number = 70.0
+    // Header状态
+    private headerStatus: HeaderStatus = HeaderStatus.NO_REFRESH
 
     // 初始化
     public mounted() {
@@ -36,31 +38,31 @@ export default class EmptyHeader extends Vue implements Header {
     }
 
     public onRefreshClose(): void {
-        // todo nothing
+        this.headerStatus = HeaderStatus.NO_REFRESH
     }
 
     public onRefreshEnd(): void {
-        // todo nothing
+        this.headerStatus = HeaderStatus.REFRESHEND
     }
 
     public onRefreshReady(): void {
-        // todo nothing
+        this.headerStatus = HeaderStatus.REFRESH_READY
     }
 
     public onRefreshRestore(): void {
-        // todo nothing
+        this.headerStatus = HeaderStatus.REFRESH_START
     }
 
     public onRefreshStart(): void {
-        // todo nothing
+        this.headerStatus = HeaderStatus.REFRESH_START
     }
 
     public onRefreshed(): void {
-        // todo nothing
+        this.headerStatus = HeaderStatus.REFRESHED
     }
 
     public onRefreshing(): void {
-        // todo nothing
+        this.headerStatus = HeaderStatus.REFRESHING
     }
 
     public refreshHeight(): number {
@@ -74,7 +76,6 @@ export default class EmptyHeader extends Vue implements Header {
             this.headerHeight = this.height
         }
     }
-
 }
 </script>
 
