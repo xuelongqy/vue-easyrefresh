@@ -1,9 +1,9 @@
 <template>
     <div class="er-bezier-circle-header" :style="'height: ' + headerHeight + 'px;'">
         <div class="er-bch-bg" :style="'background: ' + bgColor + ';'">
-            <canvas :id="canvasDropId" :style="'height: ' + canvasDropHeight + 'px;width: ' + canvasDropWidth + 'px;'"></canvas>
+            <div :style="'height: ' + dropHeight + 'px;width: ' + dropWidth + 'px;'"></div>
         </div>
-        <canvas :id="canvasPullId" class="er-bch-canvas-pull"></canvas>
+        <div class="er-bch-pull" :style="'background: ' + bgColor + ';height: ' + pullHeight + 'px;'"></div>
     </div>
 </template>
 
@@ -24,15 +24,9 @@ export default class BezierCircleHeader extends Vue implements Header {
     private bgColor!: string
 
     // Canvas
-    private canvasPullId: string = 'er-bch-canvas-pull-' + Math.random().toString(36).substring(3, 8)
-    private canvasPullDom!: HTMLCanvasElement
-    private canvasPull!: CanvasRenderingContext2D
-    private canvasPullHeight: number = 0
-    private canvasDropId: string = 'er-bch-canvas-drop-' + Math.random().toString(36).substring(3, 8)
-    private canvasDropDom!: HTMLCanvasElement
-    private canvasDrop!: CanvasRenderingContext2D
-    private canvasDropWidth: number = 0
-    private canvasDropHeight: number = 0
+    private pullHeight: number = 0
+    private dropWidth: number = 0
+    private dropHeight: number = 0
     // Header的高度
     private defaultHeight: number = 80
     private headerHeight: number = this.defaultHeight
@@ -41,11 +35,6 @@ export default class BezierCircleHeader extends Vue implements Header {
 
     // 初始化
     public mounted() {
-        // 获取Canvas
-        this.canvasPullDom = document.getElementById(this.canvasPullId) as HTMLCanvasElement
-        this.canvasPull = this.canvasPullDom.getContext('2d') as CanvasRenderingContext2D
-        this.canvasDropDom = document.getElementById(this.canvasDropId) as HTMLCanvasElement
-        this.canvasDrop = this.canvasDropDom.getContext('2d') as CanvasRenderingContext2D
     }
 
     public headerFinishDuration(): number {
@@ -91,17 +80,15 @@ export default class BezierCircleHeader extends Vue implements Header {
     public updateHeaderHeight(height: number): void {
         if (height > this.defaultHeight) {
             this.headerHeight = height
-            this.canvasPullHeight = height - this.defaultHeight
+            this.pullHeight = height - this.defaultHeight
         } else {
             this.headerHeight = this.defaultHeight
         }
     }
 
     // 下拉Canvas绘制
-    @Watch('canvasPullHeight')
+    @Watch('pullHeight')
     private drawCanvasPull() {
-        //this.canvasPull.fillStyle = this.bgColor;
-        //this.canvasPull.fillRect(0, 0, this.canvasPullDom.width, this.canvasPullDom.height)
     }
 }
 </script>
@@ -115,9 +102,9 @@ export default class BezierCircleHeader extends Vue implements Header {
             width: 100%;
             height: 80px;
         }
-        .er-bch-canvas-pull {
+        .er-bch-pull-pull {
             width: 100%;
-            height: 100px;
+            height: 0;
         }
     }
 </style>
