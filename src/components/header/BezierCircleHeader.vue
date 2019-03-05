@@ -34,6 +34,11 @@ export default class BezierCircleHeader extends Vue implements Header {
     private canvasBox!: HTMLElement
     private canvasDom!: HTMLCanvasElement
     private canvas!: CanvasRenderingContext2D
+    // 回弹值
+    private reboundValue: number = 0
+    private reboundInterval!: number
+    // 弹出圆圈值
+    private reboundCircleValue: number = 0
 
     // 初始化
     public mounted() {
@@ -51,6 +56,8 @@ export default class BezierCircleHeader extends Vue implements Header {
 
     public onRefreshClose(): void {
         this.headerStatus = HeaderStatus.NO_REFRESH
+        this.reboundCircleValue = 0
+        this.drawCanvas()
     }
 
     public onRefreshEnd(): void {
@@ -75,6 +82,8 @@ export default class BezierCircleHeader extends Vue implements Header {
 
     public onRefreshing(): void {
         this.headerStatus = HeaderStatus.REFRESHING
+        // 开始回弹
+        this.startRebound()
     }
 
     public refreshHeight(): number {
@@ -94,13 +103,18 @@ export default class BezierCircleHeader extends Vue implements Header {
     @Watch('headerHeight')
     private drawCanvas() {
         this.createCanvas()
-        if (this.headerStatus === HeaderStatus.NO_REFRESH
-            || this.headerStatus === HeaderStatus.REFRESH_START
-            && this.headerHeight <= this.defaultHeight) {
-            this.drawBackground()
-        } else if (this.headerStatus === HeaderStatus.REFRESH_READY
+        this.drawBackground()
+        if ((this.headerStatus === HeaderStatus.NO_REFRESH ||
+            this.headerStatus === HeaderStatus.REFRESH_READY)
             && this.headerHeight >= this.defaultHeight) {
             this.drawBackground()
+            this.drawPullRadian()
+        }
+        if (this.reboundValue !== 0) {
+            this.drawRebound()
+        }
+        if (this.reboundCircleValue !== 0) {
+            this.drawCircle()
         }
         this.canvasBox.appendChild(this.canvasDom)
     }
@@ -123,7 +137,72 @@ export default class BezierCircleHeader extends Vue implements Header {
     }
     // 绘制下拉弧度
     private drawPullRadian() {
-        // drawPullRadian
+        this.canvas.fillStyle = this.bgColor
+        this.canvas.beginPath()
+        this.canvas.moveTo(0, this.defaultHeight)
+        this.canvas.quadraticCurveTo(this.canvasDom.width / 2,
+            (this.canvasDom.height * 2 - 80) * 0.95,
+            this.canvasDom.width, this.defaultHeight)
+        this.canvas.fill()
+    }
+    // 绘制回弹弧度
+    private drawRebound() {
+        // 曲线高度值
+        let curveHeight
+        if (this.reboundValue <= this.defaultHeight) {
+            curveHeight = this.reboundValue
+        } else if (this.reboundValue <= this.defaultHeight * 2) {
+            curveHeight = this.defaultHeight * 2 - this.reboundValue
+        } else if (this.reboundValue <= this.defaultHeight * 2.5) {
+            curveHeight = this.reboundValue - this.defaultHeight * 2
+        } else if (this.reboundValue <= this.defaultHeight * 3) {
+            curveHeight = this.defaultHeight * 3 - this.reboundValue
+        }
+        this.canvas.fillStyle = this.color
+        this.canvas.beginPath()
+        this.canvas.moveTo(0, this.defaultHeight)
+        this.canvas.quadraticCurveTo(this.canvasDom.width / 2,
+            this.canvasDom.height - curveHeight,
+            this.canvasDom.width, this.defaultHeight)
+        this.canvas.fill()
+        // 判断是否弹出圆圈
+        if (this.reboundValue >= this.defaultHeight) {
+            this.drawCircleRebound()
+        }
+    }
+    // 绘制圆圈弹出
+    private drawCircleRebound() {
+        // 计算圆圈的值
+        this.reboundCircleValue = this.reboundValue <= this.defaultHeight * 2 ?
+            this.defaultHeight - (this.reboundValue - this.defaultHeight) / 2
+            : this.defaultHeight / 2
+    }
+    // 绘制圆圈
+    private drawCircle() {
+        this.canvas.fillStyle = this.color
+        const circleX = this.canvasDom.width / 2
+        const circleY = this.reboundCircleValue
+        this.canvas.beginPath();
+        this.canvas.arc(circleX, circleY, 15, 0 , 2*Math.PI)
+        this.canvas.fill()
+    }
+
+    // 开始回弹
+    private startRebound() {
+        this.reboundInterval = setInterval(() => {
+            if (this.reboundValue >= this.defaultHeight * 3) {
+                this.stopRebound()
+                this.reboundValue = 0
+            } else {
+                this.reboundValue += 10
+            }
+            this.drawCanvas()
+        }, 20)
+    }
+    // 结束回弹
+    private stopRebound() {
+        clearInterval(this.reboundInterval)
+        this.reboundInterval = null
     }
 }
 </script>

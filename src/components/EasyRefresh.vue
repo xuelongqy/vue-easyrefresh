@@ -215,8 +215,8 @@ export default class EasyRefresh extends Vue {
         }
         if (top < 0) {
             if (!this.onRefresh) { return }
-            if (this.headerStatus === HeaderStatus.REFRESHING ||
-                this.headerStatus === HeaderStatus.REFRESHED) { return }
+            // if (this.headerStatus === HeaderStatus.REFRESHING ||
+            //     this.headerStatus === HeaderStatus.REFRESHED) { return }
             // 更新Header高度
             this.header.updateHeaderHeight(-top)
             if (this.updateHeaderHeight) {
@@ -255,8 +255,8 @@ export default class EasyRefresh extends Vue {
             }
         } else if (top > scrollableDistance) {
             if (!this.loadMore) { return }
-            if (this.footerStatus === FooterStatus.LOADING ||
-                this.footerStatus === FooterStatus.LOADED) { return }
+            // if (this.footerStatus === FooterStatus.LOADING ||
+            //     this.footerStatus === FooterStatus.LOADED) { return }
             if (top === 0) { return }
             let footerHeight = 0
             // 更新Footer高度，判断是否超过屏幕底部
