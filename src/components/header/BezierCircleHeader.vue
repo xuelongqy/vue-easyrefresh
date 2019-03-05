@@ -1,9 +1,6 @@
 <template>
     <div class="er-bezier-circle-header" :style="'height: ' + headerHeight + 'px;'">
-        <div class="er-bch-bg" :style="'background: ' + bgColor + ';'">
-            <div :style="'height: ' + dropHeight + 'px;width: ' + dropWidth + 'px;'"></div>
-        </div>
-        <div class="er-bch-pull" :style="'background: ' + bgColor + ';height: ' + pullHeight + 'px;'"></div>
+        <div ref="er-bch-canvas" class="er-bch-canvas"></div>
     </div>
 </template>
 
@@ -33,8 +30,15 @@ export default class BezierCircleHeader extends Vue implements Header {
     // Header状态
     private headerStatus: HeaderStatus = HeaderStatus.NO_REFRESH
 
+    // Canvas
+    private canvasBox!: HTMLElement
+    private canvasDom!: HTMLCanvasElement
+    private canvas!: CanvasRenderingContext2D
+
     // 初始化
     public mounted() {
+        this.canvasBox = this.$refs['er-bch-canvas'] as HTMLElement
+        this.drawCanvas()
     }
 
     public headerFinishDuration(): number {
@@ -87,8 +91,39 @@ export default class BezierCircleHeader extends Vue implements Header {
     }
 
     // 下拉Canvas绘制
-    @Watch('pullHeight')
-    private drawCanvasPull() {
+    @Watch('headerHeight')
+    private drawCanvas() {
+        this.createCanvas()
+        if (this.headerStatus === HeaderStatus.NO_REFRESH
+            || this.headerStatus === HeaderStatus.REFRESH_START
+            && this.headerHeight <= this.defaultHeight) {
+            this.drawBackground()
+        } else if (this.headerStatus === HeaderStatus.REFRESH_READY
+            && this.headerHeight >= this.defaultHeight) {
+            this.drawBackground()
+        }
+        this.canvasBox.appendChild(this.canvasDom)
+    }
+
+    // 创建Canvas
+    private createCanvas() {
+        // 删除之前的Canvas
+        if (this.canvasDom) {
+            this.canvasBox.removeChild(this.canvasDom)
+        }
+        this.canvasDom = document.createElement('canvas')
+        this.canvasDom.width = this.canvasBox.clientWidth
+        this.canvasDom.height = this.canvasBox.clientHeight
+        this.canvas = this.canvasDom.getContext('2d') as CanvasRenderingContext2D
+    }
+    // 绘制背景
+    private drawBackground() {
+        this.canvas.fillStyle = this.bgColor
+        this.canvas.fillRect(0, 0, this.canvasDom.width, this.defaultHeight)
+    }
+    // 绘制下拉弧度
+    private drawPullRadian() {
+        // drawPullRadian
     }
 }
 </script>
@@ -98,13 +133,9 @@ export default class BezierCircleHeader extends Vue implements Header {
         width: 100%;
         height: 0;
         background: transparent;
-        .er-bch-bg {
+        .er-bch-canvas {
             width: 100%;
-            height: 80px;
-        }
-        .er-bch-pull-pull {
-            width: 100%;
-            height: 0;
+            height: 100%;
         }
     }
 </style>
