@@ -1,16 +1,16 @@
 <template>
     <div class="circular-progress">
         <div v-if="value !== null">
-            <div class="circleProgress_wrapper">
-                <div class="wrapper right">
-                    <div class="circleProgress rightcircle" :style="'transform: rotate(' + rightRotate + 'deg);' + 'border-top-color: ' + color + ';' + 'border-right-color: ' + color + ';'"></div>
+            <div class="circleProgress_wrapper" :class="size">
+                <div class="wrapper right" :class="size">
+                    <div class="circleProgress rightcircle" :class="size" :style="'transform: rotate(' + rightRotate + 'deg);' + 'border-top-color: ' + color + ';' + 'border-right-color: ' + color + ';'"></div>
                 </div>
-                <div class="wrapper left">
-                    <div class="circleProgress leftcircle" :style="'transform: rotate(' + leftRotate + 'deg);' + 'border-bottom-color: ' + color + ';' + 'border-left-color: ' + color + ';'"></div>
+                <div class="wrapper left" :class="size">
+                    <div class="circleProgress leftcircle" :class="size" :style="'transform: rotate(' + leftRotate + 'deg);' + 'border-bottom-color: ' + color + ';' + 'border-left-color: ' + color + ';'"></div>
                 </div>
             </div>
         </div>
-        <div v-else class="preloader-wrapper small active">
+        <div v-else class="preloader-wrapper active" :class="size">
             <div :style="'border-color: ' + color + ';'" class="spinner-layer">
                 <div class="circle-clipper left">
                     <div class="circle"></div>
@@ -37,6 +37,9 @@ export default class CircularProgress extends Vue {
     // 进度值
     @Prop({default: null})
     private value!: number
+    // 大小
+    @Prop({default: 'small'})
+    private size!: string
 
     // 获取旋转度
     get rightRotate(): number {
@@ -73,6 +76,21 @@ export default class CircularProgress extends Vue {
         width: 24px;
         height: 24px;
         position: relative;
+
+        &.small {
+            width: 24px;
+            height: 24px;
+        }
+
+        &.middle {
+            width: 32px;
+            height: 32px;
+        }
+
+        &.big {
+            width: 40px;
+            height: 40px;
+        }
     }
     .wrapper{
         width: 12px;
@@ -80,6 +98,21 @@ export default class CircularProgress extends Vue {
         position: absolute;
         top:0;
         overflow: hidden;
+
+        &.small {
+            width: 12px;
+            height: 24px;
+        }
+
+        &.middle {
+            width: 16px;
+            height: 32px;
+        }
+
+        &.big {
+            width: 20px;
+            height: 40px;
+        }
     }
     .right{
         right:0;
@@ -94,6 +127,21 @@ export default class CircularProgress extends Vue {
         border-radius: 50%;
         position: absolute;
         top:0;
+
+        &.small {
+            width: 20px;
+            height: 20px;
+        }
+
+        &.middle {
+            width: 28px;
+            height: 28px;
+        }
+
+        &.big {
+            width: 36px;
+            height: 36px;
+        }
     }
     .rightcircle{
         border-top-width:2px;
@@ -125,9 +173,14 @@ export default class CircularProgress extends Vue {
             height: 24px;
         }
 
+        &.middle {
+            width: 32px;
+            height: 32px;
+        }
+
         &.big {
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
         }
 
         &.active {

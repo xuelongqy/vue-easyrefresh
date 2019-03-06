@@ -1,14 +1,22 @@
 <template>
     <div class="er-bezier-circle-header" :style="'height: ' + headerHeight + 'px;'">
         <div ref="er-bch-canvas" class="er-bch-canvas"></div>
+        <div class="er-bch-progress">
+            <CircularProgress v-if="showProgress" :color="color" :value="progressValue" size="middle"></CircularProgress>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
 import { Header, HeaderStatus } from './header'
+import CircularProgress from '../icon/CircularProgress.vue'
 
-@Component
+@Component({
+    components: {
+        CircularProgress,
+    },
+})
 export default class BezierCircleHeader extends Vue implements Header {
     // 完成延时
     @Prop({default: 1000})
@@ -20,10 +28,6 @@ export default class BezierCircleHeader extends Vue implements Header {
     @Prop({default: '#2196f3'})
     private bgColor!: string
 
-    // Canvas
-    private pullHeight: number = 0
-    private dropWidth: number = 0
-    private dropHeight: number = 0
     // Header的高度
     private defaultHeight: number = 80
     private headerHeight: number = this.defaultHeight
@@ -34,16 +38,31 @@ export default class BezierCircleHeader extends Vue implements Header {
     private canvasBox!: HTMLElement
     private canvasDom!: HTMLCanvasElement
     private canvas!: CanvasRenderingContext2D
+    // 进度值
+    private progressValue: number | null = 0
+    private showProgress: boolean = false
     // 回弹值
     private reboundValue: number = 0
-    private reboundInterval!: number
+    private reboundInterval!: number | undefined
     // 弹出圆圈值
     private reboundCircleValue: number = 0
+    // 弹出水滴值
+    private reboundWaterValue: number = 0
+    // 圆圈的半径
+    private circleR: number = 13
+    // 下落值
+    private dropValue: number = 0
+    private dropInterval!: number | undefined
 
     // 初始化
     public mounted() {
         this.canvasBox = this.$refs['er-bch-canvas'] as HTMLElement
         this.drawCanvas()
+    }
+    // 销毁之前
+    public beforeDestory() {
+        this.startRebound()
+        this.stopDrop()
     }
 
     public headerFinishDuration(): number {
@@ -57,6 +76,8 @@ export default class BezierCircleHeader extends Vue implements Header {
     public onRefreshClose(): void {
         this.headerStatus = HeaderStatus.NO_REFRESH
         this.reboundCircleValue = 0
+        this.progressValue = 0
+        this.showProgress = false
         this.drawCanvas()
     }
 
@@ -78,6 +99,16 @@ export default class BezierCircleHeader extends Vue implements Header {
 
     public onRefreshed(): void {
         this.headerStatus = HeaderStatus.REFRESHED
+        this.progressValue = 1
+        this.showProgress = true
+        // 开始下落
+        setTimeout(() => {
+            this.startDrop()
+            this.reboundCircleValue = 0
+            this.reboundWaterValue = 0
+            this.progressValue = 0
+            this.showProgress = false
+        }, 200)
     }
 
     public onRefreshing(): void {
@@ -93,7 +124,6 @@ export default class BezierCircleHeader extends Vue implements Header {
     public updateHeaderHeight(height: number): void {
         if (height > this.defaultHeight) {
             this.headerHeight = height
-            this.pullHeight = height - this.defaultHeight
         } else {
             this.headerHeight = this.defaultHeight
         }
@@ -115,6 +145,12 @@ export default class BezierCircleHeader extends Vue implements Header {
         }
         if (this.reboundCircleValue !== 0) {
             this.drawCircle()
+        }
+        if (this.reboundWaterValue !== 0) {
+            this.drawWater()
+        }
+        if (this.dropValue !== 0) {
+            this.drawDrop()
         }
         this.canvasBox.appendChild(this.canvasDom)
     }
@@ -148,7 +184,7 @@ export default class BezierCircleHeader extends Vue implements Header {
     // 绘制回弹弧度
     private drawRebound() {
         // 曲线高度值
-        let curveHeight
+        let curveHeight = 0
         if (this.reboundValue <= this.defaultHeight) {
             curveHeight = this.reboundValue
         } else if (this.reboundValue <= this.defaultHeight * 2) {
@@ -162,7 +198,7 @@ export default class BezierCircleHeader extends Vue implements Header {
         this.canvas.beginPath()
         this.canvas.moveTo(0, this.defaultHeight)
         this.canvas.quadraticCurveTo(this.canvasDom.width / 2,
-            this.canvasDom.height - curveHeight,
+            this.canvasDom.height - curveHeight / 1.5,
             this.canvasDom.width, this.defaultHeight)
         this.canvas.fill()
         // 判断是否弹出圆圈
@@ -176,14 +212,73 @@ export default class BezierCircleHeader extends Vue implements Header {
         this.reboundCircleValue = this.reboundValue <= this.defaultHeight * 2 ?
             this.defaultHeight - (this.reboundValue - this.defaultHeight) / 2
             : this.defaultHeight / 2
+        // 计算弹出水滴值
+        this.reboundWaterValue = this.defaultHeight - this.reboundCircleValue
     }
-    // 绘制圆圈
+    // 绘制弹出的圆圈
     private drawCircle() {
         this.canvas.fillStyle = this.color
         const circleX = this.canvasDom.width / 2
         const circleY = this.reboundCircleValue
         this.canvas.beginPath();
-        this.canvas.arc(circleX, circleY, 15, 0 , 2*Math.PI)
+        this.canvas.arc(circleX, circleY, this.circleR, 0 , 2 * Math.PI)
+        this.canvas.fill()
+    }
+    // 绘制弹出de水滴
+    private drawWater() {
+        this.canvas.fillStyle = this.color
+        if (this.reboundWaterValue < this.circleR) {
+            // 计算宽度和高度
+            const width = this.circleR * 4 - (this.defaultHeight - this.reboundWaterValue) * 3
+            const height = this.reboundWaterValue + this.circleR
+            // 计算x和y
+            const curveX = (this.canvasDom.width - width) / 2
+            const curveY = this.canvasDom.height - height * 2
+            this.canvas.beginPath()
+            this.canvas.moveTo(curveX, this.defaultHeight)
+            this.canvas.quadraticCurveTo(this.canvasDom.width / 2,
+                curveY,
+                curveX + width, this.defaultHeight)
+            this.canvas.fill()
+        } else if (this.reboundWaterValue < this.circleR * 2) {
+            // 计算高度和宽度
+            const width = this.circleR * 2 - this.reboundWaterValue
+            const height = this.reboundWaterValue
+            // 计算x和y
+            const curveX = (this.canvasDom.width - width) / 2
+            const curveY = this.canvasDom.height - height / 2
+            this.canvas.beginPath()
+            this.canvas.moveTo(this.canvasDom.width / 2 - this.circleR, this.defaultHeight - this.reboundWaterValue)
+            this.canvas.quadraticCurveTo(curveX + this.circleR - width / 2,
+                curveY,
+                this.canvasDom.width / 2 - this.circleR, this.defaultHeight)
+            this.canvas.lineTo(this.canvasDom.width / 2 + this.circleR, this.defaultHeight)
+            this.canvas.quadraticCurveTo(curveX + width - (this.circleR - width / 2),
+                curveY,
+                this.canvasDom.width / 2 + this.circleR, this.defaultHeight - this.reboundWaterValue)
+            this.canvas.fill()
+        } else if (this.reboundWaterValue < this.circleR * 3) {
+            // 计算高度和宽度
+            const width = this.circleR + this.reboundWaterValue - this.circleR * 2
+            const height = this.reboundWaterValue - this.circleR * 2
+            // 计算x和y
+            const curveX = (this.canvasDom.width - width) / 2
+            const curveY = this.canvasDom.height - height
+            this.canvas.beginPath()
+            this.canvas.moveTo(curveX, this.defaultHeight)
+            this.canvas.quadraticCurveTo(this.canvasDom.width / 2,
+                curveY,
+                curveX + width, this.defaultHeight)
+            this.canvas.fill()
+        }
+    }
+    // 绘制下落
+    private drawDrop() {
+        this.canvas.fillStyle = this.color
+        const circleX = this.canvasDom.width / 2
+        const circleY = this.canvasDom.height / 2 + this.dropValue
+        this.canvas.beginPath();
+        this.canvas.arc(circleX, circleY, this.circleR, 0 , 2 * Math.PI)
         this.canvas.fill()
     }
 
@@ -193,6 +288,8 @@ export default class BezierCircleHeader extends Vue implements Header {
             if (this.reboundValue >= this.defaultHeight * 3) {
                 this.stopRebound()
                 this.reboundValue = 0
+                this.progressValue = null
+                this.showProgress = true
             } else {
                 this.reboundValue += 10
             }
@@ -202,19 +299,52 @@ export default class BezierCircleHeader extends Vue implements Header {
     // 结束回弹
     private stopRebound() {
         clearInterval(this.reboundInterval)
-        this.reboundInterval = null
+        this.reboundInterval = undefined
+    }
+    // 开始下落
+    private startDrop() {
+        this.dropInterval = setInterval(() => {
+            if (this.dropValue >= this.defaultHeight / 2 + this.circleR) {
+                this.stopDrop()
+                this.dropValue = 0
+                this.reboundWaterValue = 0
+            } else {
+                this.dropValue += 5
+                // this.reboundWaterValue = this.defaultHeight / 2 + this.circleR - this.dropValue
+                // if (this.reboundWaterValue < 0) {
+                //     this.reboundWaterValue = 0
+                // }
+            }
+            this.drawCanvas()
+        }, 20)
+    }
+    // 结束下落
+    private stopDrop() {
+        clearInterval(this.dropInterval)
+        this.dropInterval = undefined
     }
 }
 </script>
 
 <style scoped lang="scss">
     .er-bezier-circle-header {
+        position: relative;
         width: 100%;
         height: 0;
         background: transparent;
         .er-bch-canvas {
+            position: absolute;
             width: 100%;
             height: 100%;
+            z-index: -1;
+        }
+        .er-bch-progress {
+            position: absolute;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content:center;
+            align-items:Center;
         }
     }
 </style>

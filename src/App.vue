@@ -62,7 +62,7 @@ export default class App extends Vue {
                 this.items.push(i)
             }
             done()
-        }, 1000)
+        }, 2000)
     }
 
     // 加载回调
