@@ -80,7 +80,6 @@ export default class EmptyFooter extends Vue implements Footer {
             this.footerHeight = this.height
         }
     }
-
 }
 </script>
 

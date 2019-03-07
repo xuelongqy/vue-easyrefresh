@@ -1,6 +1,6 @@
 <template>
     <div class="er-ball-pulse-footer" :style="'height: ' + footerHeight + 'px;'">
-        <BallPulse :color="color"></BallPulse>
+        <BallPulse v-if="showBallPulse" :color="color"></BallPulse>
     </div>
 </template>
 
@@ -27,6 +27,10 @@ export default class BallPulseFooter extends Vue implements Footer {
 
     // Footer的高度
     private footerHeight: number = 70
+    // 没有更多
+    private noMore: boolean = false
+    // 显示球脉冲
+    private showBallPulse: boolean = true
 
     // 初始化
     public mounted() {
@@ -63,7 +67,8 @@ export default class BallPulseFooter extends Vue implements Footer {
     }
 
     public onLoadStart(): void {
-        // todo nothing
+        this.noMore = false
+        this.showBallPulse = true
     }
 
     public onLoaded(): void {
@@ -75,10 +80,13 @@ export default class BallPulseFooter extends Vue implements Footer {
     }
 
     public onNoMore(): void {
-        // todo nothing
+        this.noMore = true
     }
 
     public updateFooterHeight(height: number): void {
+        if (height < 1 && this.noMore) {
+            this.showBallPulse = false
+        }
         if (height > this.height) {
             this.footerHeight = height
         } else {

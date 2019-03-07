@@ -6,14 +6,14 @@
                 :onRefresh="onRefresh"
                 :loadMore="loadMore">
             <template v-slot:header>
-                <BezierCircleHeader/>
+                <BezierBounceHeader/>
             </template>
             <div v-for="(item, index) in items"
                  class="row" :class="{'grey-bg': index % 2 == 0}">
                 {{ item }}
             </div>
             <template v-slot:footer>
-                <BallPulseFooter/>
+                <BezierBounceFooter/>
             </template>
         </EasyRefresh>
     </div>
@@ -25,9 +25,11 @@ import EasyRefresh from './components/EasyRefresh.vue'
 import ClassicsHeader from './components/header/ClassicsHeader.vue'
 import MaterialHeader from './components/header/MaterialHeader.vue'
 import MaterialFooter from './components/footer/MaterialFooter.vue'
+import BezierBounceFooter from './components/footer/BezierBounceFooter.vue'
 import BallPulseFooter from './components/footer/BallPulseFooter.vue'
 import BallPulseHeader from './components/header/BallPulseHeader.vue'
 import BezierCircleHeader from './components/header/BezierCircleHeader.vue'
+import BezierBounceHeader from './components/header/BezierBounceHeader.vue'
 
 @Component({
     components: {
@@ -38,6 +40,8 @@ import BezierCircleHeader from './components/header/BezierCircleHeader.vue'
         BallPulseHeader,
         BallPulseFooter,
         BezierCircleHeader,
+        BezierBounceFooter,
+        BezierBounceHeader,
     },
 })
 export default class App extends Vue {

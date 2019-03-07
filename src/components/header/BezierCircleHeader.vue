@@ -158,7 +158,7 @@ export default class BezierCircleHeader extends Vue implements Header {
     // 创建Canvas
     private createCanvas() {
         // 删除之前的Canvas
-        if (this.canvasDom) {
+        if (this.canvasDom && this.canvasBox.children.length > 0) {
             this.canvasBox.removeChild(this.canvasDom)
         }
         this.canvasDom = document.createElement('canvas')
@@ -177,7 +177,7 @@ export default class BezierCircleHeader extends Vue implements Header {
         this.canvas.beginPath()
         this.canvas.moveTo(0, this.defaultHeight)
         this.canvas.quadraticCurveTo(this.canvasDom.width / 2,
-            (this.canvasDom.height * 2 - 80) * 0.95,
+            (this.canvasDom.height * 2 - this.defaultHeight) * 0.95,
             this.canvasDom.width, this.defaultHeight)
         this.canvas.fill()
     }
