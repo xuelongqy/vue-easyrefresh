@@ -453,7 +453,7 @@ export default class EasyRefresh extends Vue {
                     }
                     if (this.noMore) {
                         this.noMore = false
-                        this.header.onRefreshClose()
+                        this.footer.onLoadClose()
                     }
                     this.headerStatus = HeaderStatus.REFRESHING
                     this.onRefresh(this.callRefreshFinish)

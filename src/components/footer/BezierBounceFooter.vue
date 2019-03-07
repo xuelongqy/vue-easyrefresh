@@ -123,6 +123,7 @@ export default class BezierBounceFooter extends Vue implements Footer {
     public updateFooterHeight(height: number): void {
         if (height < 1 && this.noMore) {
             this.createCanvas()
+            this.showBallPulse = false
         }
         if (height > this.defaultHeight) {
             this.footerHeight = height
