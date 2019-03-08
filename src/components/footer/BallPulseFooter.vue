@@ -51,7 +51,7 @@ export default class BallPulseFooter extends Vue implements Footer {
     }
 
     public onLoadClose(): void {
-        // todo nothing
+        this.noMore = false
     }
 
     public onLoadEnd(): void {

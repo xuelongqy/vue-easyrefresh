@@ -84,6 +84,7 @@ export default class BezierBounceFooter extends Vue implements Footer {
         this.footerStatus = FooterStatus.NO_LOAD
         this.drawCanvas()
         this.showBallPulse = false
+        this.noMore = false
     }
 
     public onLoadEnd(): void {
