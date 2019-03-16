@@ -6,8 +6,8 @@
         <v-bottom-nav
             :active.sync="pageIndex"
             :value="true"
-            absolute
-            color="transparent">
+            color="white"
+            absolute>
             <v-btn color="teal" text>
                 <span>{{this.$t('home.sample')}}</span>
                 <v-icon>dashboard</v-icon>

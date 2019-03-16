@@ -1,19 +1,27 @@
 <template>
     <div class="sample-page">
-        Sample
+        <EasyRefresh :userSelect="false">
+            <div>Sample</div>
+        </EasyRefresh>
     </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator'
+    import EasyRefresh from '../../../src/components/EasyRefresh.vue'
 
-    @Component
+    @Component({
+        components: {
+            EasyRefresh,
+        },
+    })
     export default class SamplePage extends Vue {
     }
 </script>
 
 <style lang="scss">
     .sample-page {
-
+        width: 100%;
+        height: 100%;
     }
 </style>
