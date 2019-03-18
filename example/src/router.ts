@@ -17,7 +17,6 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'home',
       component: Home,
       children: [
         {
@@ -39,7 +38,7 @@ export default new Router({
           name: 'more',
           component: More,
         },
-      ]
+      ],
     },
   ],
 });

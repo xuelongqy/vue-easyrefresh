@@ -4,5 +4,9 @@ module.exports = {
         sample: "Sample",
         style: "Style",
         more: "More"
+    },
+    sample: {
+        basicUse: "BasicUse",
+        basicUseDescribe: "Basic use of EasyRefresh"
     }
 }
