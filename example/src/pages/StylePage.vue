@@ -1,6 +1,6 @@
 <template>
     <div class="style-page">
-        <AppBar :title="$t('home.style')" :showBack="false"></AppBar>
+        <AppBar :title="$t('home.style')" :showBack="false"/>
     </div>
 </template>
 

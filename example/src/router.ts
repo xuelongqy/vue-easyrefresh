@@ -4,6 +4,7 @@ import Home from './pages/HomePage.vue';
 import Sample from './pages/SamplePage.vue';
 import Style from './pages/StylePage.vue';
 import More from './pages/MorePage.vue';
+import BasicPage from './pages/sample/BasicPage.vue';
 
 Vue.use(Router);
 
@@ -40,5 +41,10 @@ export default new Router({
         },
       ],
     },
+    {
+      path: '/basicUse',
+      name: 'basicUse',
+      component: BasicPage,
+    }
   ],
 });

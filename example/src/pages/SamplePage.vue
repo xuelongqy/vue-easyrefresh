@@ -1,15 +1,18 @@
 <template>
     <div class="sample-page">
-        <AppBar :title="$t('home.sample')" :showBack="false"></AppBar>
-        <EasyRefresh :userSelect="false">
-            <ListItem
-                :title="$t('sample.basicUse')"
-                :describe="$t('sample.basicUseDescribe')">
-                <template v-slot:icon>
-                    <v-icon size="25" color="orange">format_list_bulleted</v-icon>
-                </template>
-            </ListItem>
-        </EasyRefresh>
+        <AppBar :title="$t('home.sample')" :showBack="false"/>
+        <div class="sample-page-list">
+            <EasyRefresh :userSelect="false">
+                <ListItem
+                    :title="$t('sample.basicUse')"
+                    :describe="$t('sample.basicUseDescribe')"
+                    @click.native="$router.push('/basicUse')">
+                    <template v-slot:icon>
+                        <v-icon size="25" color="orange">format_list_bulleted</v-icon>
+                    </template>
+                </ListItem>
+            </EasyRefresh>
+        </div>
     </div>
 </template>
 
@@ -34,5 +37,9 @@
     .sample-page {
         width: 100%;
         height: 100%;
+        .sample-page-list {
+            width: 100%;
+            height: calc(100% - 60px);
+        }
     }
 </style>

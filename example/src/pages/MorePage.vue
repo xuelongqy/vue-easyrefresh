@@ -1,6 +1,6 @@
 <template>
     <div class="more-page">
-        <AppBar :title="$t('home.more')" :showBack="false"></AppBar>
+        <AppBar :title="$t('home.more')" :showBack="false"/>
     </div>
 </template>
 

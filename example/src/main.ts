@@ -4,7 +4,6 @@ import router from './router';
 import Vuetify from 'vuetify'
 import VueI18n from 'vue-i18n'
 import lang from './comm/lang/lang'
-import colors from 'vuetify/es5/util/colors'
 
 Vue.config.productionTip = false;
 
