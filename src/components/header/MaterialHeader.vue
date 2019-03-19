@@ -50,7 +50,7 @@ export default class MaterialHeader extends Vue implements Header {
     }
 
     public onRefreshEnd(): void {
-        this.headerStatus = HeaderStatus.REFRESHEND
+        this.headerStatus = HeaderStatus.REFRESH_END
         this.progressValue = 1
     }
 

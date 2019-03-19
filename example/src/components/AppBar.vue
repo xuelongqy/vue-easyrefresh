@@ -23,18 +23,18 @@
     @Component
     export default class AppBar extends Vue {
         // 标题
-        @Prop({default: ""})
+        @Prop({default: ''})
         private title!: string
         // 显示返回
         @Prop({default: true})
         private showBack!: boolean
         // 颜色
-        @Prop({default: "orange"})
+        @Prop({default: 'orange'})
         private color!: string
 
         // 返回
         private goBack() {
-            history.back()
+            this.$router.back()
         }
     }
 </script>
@@ -44,6 +44,7 @@
         width: 100%;
         height: 60px;
         border-radius: 0;
+        z-index: 1000;
         .app-bar-back {
             display: inline-block;
             vertical-align: text-top;

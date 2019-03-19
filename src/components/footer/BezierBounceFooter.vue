@@ -88,7 +88,7 @@ export default class BezierBounceFooter extends Vue implements Footer {
     }
 
     public onLoadEnd(): void {
-        this.footerStatus = FooterStatus.LOADEND
+        this.footerStatus = FooterStatus.LOAD_END
     }
 
     public onLoadReady(): void {

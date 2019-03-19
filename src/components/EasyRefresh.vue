@@ -189,6 +189,7 @@ export default class EasyRefresh extends Vue {
     }
     // 滚动回调
     private scrollerCallBack(left: number, top: number, zoom: number) {
+        if (!this.header || !this.footer) { return }
         // 设置Header和Footer的位置
         if (this.onRefresh) {
             this.headerBottom = this.container!!.clientHeight + top
@@ -322,7 +323,7 @@ export default class EasyRefresh extends Vue {
             if ((this.headerStatus === HeaderStatus.REFRESH_START
                 || this.headerStatus === HeaderStatus.REFRESH_READY
                 || this.headerStatus === HeaderStatus.REFRESHED
-                || this.headerStatus === HeaderStatus.REFRESHEND)
+                || this.headerStatus === HeaderStatus.REFRESH_END)
                 && this.onRefresh) {
                 this.header.onRefreshClose()
                 if (this.headerStatusChanged) {
@@ -334,7 +335,7 @@ export default class EasyRefresh extends Vue {
             if ((this.footerStatus === FooterStatus.LOAD_START
                 || this.footerStatus === FooterStatus.LOAD_READY
                 || this.footerStatus === FooterStatus.LOADED
-                || this.footerStatus === FooterStatus.LOADEND)
+                || this.footerStatus === FooterStatus.LOAD_END)
                 && this.loadMore) {
                 if (!this.noMore) {
                     this.floatTop = 0;
@@ -364,7 +365,7 @@ export default class EasyRefresh extends Vue {
                     this.headerStatusChanged(HeaderCallBackStatus.END)
                 }
                 this.isRefresh = false
-                this.headerStatus = HeaderStatus.REFRESHEND
+                this.headerStatus = HeaderStatus.REFRESH_END
                 // 判断刷新过程中是否滑动到其他位置
                 const {left, top, zoom} = this.scroller.getValues()
                 if (-top !== this.header.refreshHeight()) {
@@ -410,7 +411,7 @@ export default class EasyRefresh extends Vue {
                     }
                 }
                 this.isRefresh = false
-                this.footerStatus = FooterStatus.LOADEND
+                this.footerStatus = FooterStatus.LOAD_END
                 if (scroll) {
                     this.scroller.finishPushToLoad()
                 } else {

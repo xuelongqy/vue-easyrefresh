@@ -315,8 +315,8 @@ export default class CircularProgress extends Vue {
         border-color: inherit;
 
         .circle {
-            width: calc(200% - 4px);
-            height: calc(100% - 4px);
+            width: calc(200%);
+            height: calc(100%);
             border-width: 2px; /* STROKEWIDTH */
             border-style: solid;
             border-color: inherit;

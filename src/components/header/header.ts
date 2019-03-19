@@ -5,7 +5,7 @@ enum RefreshHeaderStatus {
     REFRESH_READY = 3,
     REFRESHING = 4,
     REFRESHED = 5,
-    REFRESHEND = 6,
+    REFRESH_END = 6,
 }
 
 // Header接口

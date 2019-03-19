@@ -45,6 +45,6 @@ export default new Router({
       path: '/basicUse',
       name: 'basicUse',
       component: BasicPage,
-    }
+    },
   ],
 });

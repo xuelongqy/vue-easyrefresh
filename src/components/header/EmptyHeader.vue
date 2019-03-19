@@ -42,7 +42,7 @@ export default class EmptyHeader extends Vue implements Header {
     }
 
     public onRefreshEnd(): void {
-        this.headerStatus = HeaderStatus.REFRESHEND
+        this.headerStatus = HeaderStatus.REFRESH_END
     }
 
     public onRefreshReady(): void {

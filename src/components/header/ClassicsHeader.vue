@@ -107,7 +107,7 @@ export default class ClassicsHeader extends Vue implements Header {
     }
     public onRefreshEnd(): void {
         this.showText = this.refreshedText
-        this.headerStatus = HeaderStatus.REFRESHEND
+        this.headerStatus = HeaderStatus.REFRESH_END
     }
     public onRefreshReady(): void {
         this.rotateArrow = true

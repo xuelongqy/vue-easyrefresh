@@ -5,7 +5,7 @@ enum RefreshFooterStatus {
     LOAD_READY = 3,
     LOADING = 4,
     LOADED = 5,
-    LOADEND = 6,
+    LOAD_END = 6,
 }
 
 // Footer接口

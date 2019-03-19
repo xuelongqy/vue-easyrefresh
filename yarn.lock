@@ -7573,6 +7573,11 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.8.2:
   resolved "http://r.cnpmjs.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.8.2.tgz#dd73e80ba58bb65dd7a8aa2aeef6089cf6116f2a"
   integrity sha1-3XPoC6WLtl3XqKoq7vYInPYRbyo=
 
+vue2-animate@^2.1.0:
+  version "2.1.0"
+  resolved "http://r.cnpmjs.org/vue2-animate/download/vue2-animate-2.1.0.tgz#93eee5f381d8d6493bae0507bcad6b615fdacb7f"
+  integrity sha1-k+7l84HY1kk7rgUHvK1rYV/ay38=
+
 vue@^2.6.6:
   version "2.6.6"
   resolved "http://r.cnpmjs.org/vue/download/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
