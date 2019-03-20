@@ -29,5 +29,18 @@ module.exports = {
         ballPulseDescribe: "Ball pulse style",
         bezierCircleDescribe: "Popup circle style",
         bezierBounceDescribe: "Popup ball pulse style"
+    },
+    more: {
+        joinDiscussion: "Join the discussion",
+        joinDiscussionDescribe: "Join the QQ group 554981921",
+        projectAddress: "Project address",
+        supportAuthor: "Support the author",
+        supportAuthorDescribe: "Your support is my biggest motivation",
+        about: "About",
+        star: "Star project",
+        aliPay: "AliPay",
+        weiXinPay: "WeiXin Pay",
+        qqPay: "QQ Pay",
+        payPal: "PayPal"
     }
 }

@@ -29,5 +29,18 @@ module.exports = {
         ballPulseDescribe: "球脉冲样式",
         bezierCircleDescribe: "弹出圆圈",
         bezierBounceDescribe: "弹出球脉冲"
+    },
+    more: {
+        joinDiscussion: "加入讨论",
+        joinDiscussionDescribe: "加入QQ群554981921,进行讨论",
+        projectAddress: "项目地址",
+        supportAuthor: "支持作者",
+        supportAuthorDescribe: "你的支持是我最大的动力",
+        about: "关于",
+        star: "Star 项目",
+        aliPay: "支付宝",
+        weiXinPay: "微信钱包",
+        qqPay: "QQ钱包",
+        payPal: "PayPal"
     }
 }
