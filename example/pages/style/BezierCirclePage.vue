@@ -1,30 +1,17 @@
 <template>
-    <div class="basic-page">
-        <AppBar :title="$route.name === 'basic' ? $t('sample.basicUse') : 'Classic'"/>
-        <div class="basic-page-list">
+    <div class="style-page">
+        <AppBar title="BezierCircle"/>
+        <div class="style-page-list">
             <EasyRefresh
-                :userSelect="false"
-                :onRefresh="onRefresh"
-                :loadMore="loadMore">
+                    :userSelect="false"
+                    :onRefresh="onRefresh"
+                    :loadMore="loadMore">
                 <template v-slot:header>
-                    <ClassicsHeader
-                        :refreshText="$t('comm.pullToRefresh')"
-                        :refreshReadyText="$t('comm.releaseToRefresh')"
-                        :refreshingText="$t('comm.refreshing')"
-                        :refreshedText="$t('comm.refreshFinish')"
-                        :moreInfo="$t('comm.updateAt')"
-                        :showMore="true"/>
+                    <BezierCircleHeader/>
                 </template>
                 <StripeList :count="itemCount"/>
                 <template v-slot:footer>
-                    <ClassicsFooter
-                        :loadText="$t('comm.pushToLoad')"
-                        :loadReadyText="$t('comm.releaseToLoad')"
-                        :loadingText="$t('comm.loading')"
-                        :noMoreText="$t('comm.noMore')"
-                        :loadedText="$t('comm.loadFinish')"
-                        :moreInfo="$t('comm.updateAt')"
-                        :showMore="true"/>
+                    <BallPulseFooter/>
                 </template>
             </EasyRefresh>
         </div>
@@ -37,7 +24,7 @@
     import StripeList from '../../components/StripeList.vue'
 
     /**
-     * 基础使用
+     * BezierCircle样式
      */
     @Component({
         components: {
@@ -45,7 +32,7 @@
             StripeList,
         },
     })
-    export default class BasicPage extends Vue {
+    export default class BezierCirclePage extends Vue {
         // 条目数量
         private itemCount: number = 20
         // 刷新
@@ -70,12 +57,13 @@
 </script>
 
 <style lang="scss">
-    .basic-page {
+    .style-page {
         width: 100%;
         height: 100%;
-        .basic-page-list {
+        .style-page-list {
             width: 100%;
             height: calc(100% - 60px);
         }
     }
 </style>
+

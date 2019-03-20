@@ -5,10 +5,6 @@ module.exports = {
         style: "样式",
         more: "更多"
     },
-    sample: {
-        basicUse: "基本使用",
-        basicUseDescribe: "EasyRefresh的基本使用"
-    },
     comm: {
         pullToRefresh: "下拉刷新",
         releaseToRefresh: "释放刷新",
@@ -22,5 +18,16 @@ module.exports = {
         loaded: "加载结束",
         noMore: "没有更多数据",
         updateAt: "更新于 %T",
+    },
+    sample: {
+        basicUse: "基本使用",
+        basicUseDescribe: "EasyRefresh的基本使用"
+    },
+    style: {
+        classicDescribe: "经典(默认)风格",
+        materialDescribe: "质感设计,Android样式",
+        ballPulseDescribe: "球脉冲样式",
+        bezierCircleDescribe: "弹出圆圈",
+        bezierBounceDescribe: "弹出球脉冲"
     }
 }

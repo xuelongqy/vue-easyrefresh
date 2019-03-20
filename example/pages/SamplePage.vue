@@ -6,7 +6,7 @@
                 <ListItem
                     :title="$t('sample.basicUse')"
                     :describe="$t('sample.basicUseDescribe')"
-                    @click.native="$router.push('/basicUse')">
+                    @click.native="$router.push('/basic')">
                     <template v-slot:icon>
                         <v-icon size="25" color="orange">format_list_bulleted</v-icon>
                     </template>
@@ -18,13 +18,11 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator'
-    import EasyRefresh from '../../src/components/EasyRefresh.vue'
     import ListItem from '../components/ListItem.vue'
     import AppBar from '../components/AppBar.vue'
 
     @Component({
         components: {
-            EasyRefresh,
             ListItem,
             AppBar,
         },
@@ -39,7 +37,7 @@
         height: 100%;
         .sample-page-list {
             width: 100%;
-            height: calc(100% - 60px);
+            height: calc(100% - 116px);
         }
     }
 </style>

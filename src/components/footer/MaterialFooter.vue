@@ -16,7 +16,7 @@ import CircularProgress from '../icon/CircularProgress.vue'
         CircularProgress,
     },
 })
-export default class EmptyFooter extends Vue implements Footer {
+export default class MaterialFooter extends Vue implements Footer {
     // 完成延时
     @Prop({default: 1000})
     private finishDuration!: number

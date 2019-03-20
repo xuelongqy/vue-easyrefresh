@@ -73,13 +73,13 @@ export default class CircularProgress extends Vue {
     }
 
     .circleProgress_wrapper {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
         position: relative;
 
         &.small {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
         }
 
         &.middle {
@@ -93,15 +93,15 @@ export default class CircularProgress extends Vue {
         }
     }
     .wrapper{
-        width: 12px;
-        height: 24px;
+        width: 11px;
+        height: 22px;
         position: absolute;
         top:0;
         overflow: hidden;
 
         &.small {
             width: 12px;
-            height: 24px;
+            height: 22px;
         }
 
         &.middle {
@@ -129,18 +129,18 @@ export default class CircularProgress extends Vue {
         top:0;
 
         &.small {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
         }
 
         &.middle {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
         }
 
         &.big {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
         }
     }
     .rightcircle{
@@ -169,8 +169,8 @@ export default class CircularProgress extends Vue {
         height: 40px;
 
         &.small {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
         }
 
         &.middle {

@@ -175,7 +175,7 @@ export default class ClassicsFooter extends Vue implements Footer {
             .er-classics-footer-arrow-icon, .er-classics-footer-done-icon {
                 height: 24px;
                 width: 24px;
-                margin-right: 10px;
+                margin-right: 15px;
                 font-size: 24px;
                 align-self:flex-end;
             }

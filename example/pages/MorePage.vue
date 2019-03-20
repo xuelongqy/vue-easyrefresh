@@ -8,11 +8,9 @@
     import {Component, Vue} from 'vue-property-decorator'
     import ListItem from '../components/ListItem.vue'
     import AppBar from '../components/AppBar.vue'
-    import EasyRefresh from '../../src/components/EasyRefresh.vue'
 
     @Component({
         components: {
-            EasyRefresh,
             ListItem,
             AppBar,
         },

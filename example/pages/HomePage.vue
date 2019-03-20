@@ -3,26 +3,26 @@
         <div class="home-content">
             <router-view></router-view>
         </div>
-        <v-bottom-nav
-            :active.sync="pageIndex"
-            :value="true"
+        <v-bottom-navigation
+            v-model="page"
             color="transparent"
-            absolute>
-            <v-btn color="black" text>
+            absolute
+            grow>
+            <v-btn color="black" text value="sample" @click.navite="page='sample'">
                 <span>{{this.$t('home.sample')}}</span>
                 <v-icon>dashboard</v-icon>
             </v-btn>
 
-            <v-btn color="black" text>
+            <v-btn color="black" text value="style" @click.navite="page='style'">
                 <span>{{this.$t('home.style')}}</span>
                 <v-icon>style</v-icon>
             </v-btn>
 
-            <v-btn color="black" text>
+            <v-btn color="black" text value="more" @click.navite="page='more'">
                 <span>{{this.$t('home.more')}}</span>
                 <v-icon>more_vert</v-icon>
             </v-btn>
-        </v-bottom-nav>
+        </v-bottom-navigation>
     </div>
 </template>
 
@@ -32,16 +32,22 @@ import {Component, Watch, Vue} from 'vue-property-decorator'
 @Component
 export default class HomePage extends Vue {
     // 页面下标
-    private pageIndex: number = 0
+    private page: string = 'sample'
+
+    // 初始化
+    public mounted() {
+        // 获取当前路由跳转到指定页面
+        this.page = this.$route.name
+    }
 
     // 页面切换
-    @Watch('pageIndex')
+    @Watch('page')
     private pageChange() {
-        if (this.pageIndex === 0) {
+        if (this.page === 'sample') {
             this.$router.push('/home/sample')
-        } else if (this.pageIndex === 1) {
+        } else if (this.page === 'style') {
             this.$router.push('/home/style')
-        } else if (this.pageIndex === 2) {
+        } else if (this.page === 'more') {
             this.$router.push('/home/more')
         } else {
             this.$router.push('/home')

@@ -1,7 +1,7 @@
 <template>
     <div class="strip-list">
         <div v-for="num in count"
-             class="row" :class="{'grey-bg': num % 2 == 0}">
+             class="row" :class="{'grey-bg': num % 2 === 1}">
             {{ num }}
         </div>
     </div>

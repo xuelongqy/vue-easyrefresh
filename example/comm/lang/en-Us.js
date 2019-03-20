@@ -5,10 +5,6 @@ module.exports = {
         style: "Style",
         more: "More"
     },
-    sample: {
-        basicUse: "BasicUse",
-        basicUseDescribe: "Basic use of EasyRefresh"
-    },
     comm: {
         pullToRefresh: "Pull to refresh",
         releaseToRefresh: "Release to refresh",
@@ -22,5 +18,16 @@ module.exports = {
         loaded: "Load finished",
         noMore: "No more",
         updateAt: "Update at %T"
+    },
+    sample: {
+        basicUse: "BasicUse",
+        basicUseDescribe: "Basic use of EasyRefresh"
+    },
+    style: {
+        classicDescribe: "Classic and default",
+        materialDescribe: "Material design, Android style",
+        ballPulseDescribe: "Ball pulse style",
+        bezierCircleDescribe: "Popup circle style",
+        bezierBounceDescribe: "Popup ball pulse style"
     }
 }

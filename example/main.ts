@@ -1,15 +1,18 @@
 import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
+import App from './App.vue'
+import router from './router'
 import Vuetify from 'vuetify'
+import EasyRefresh from '../src'
 import VueI18n from 'vue-i18n'
 import lang from './comm/lang/lang'
-import Router from 'vue-router';
+import Router from 'vue-router'
 
 Vue.config.productionTip = false
 
 // 添加UI库
 Vue.use(Vuetify)
+// 添加EasyRefresh
+Vue.use(EasyRefresh)
 // 添加国际化
 Vue.use(VueI18n)
 const i18n = lang.createI18n()

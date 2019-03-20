@@ -2,9 +2,9 @@ module.exports = {
     pages: {
         index: {
             // page 的入口
-            entry: 'demo/main.ts',
+            entry: 'example/main.ts',
             // 模板来源
-            template: 'demo/index.html',
+            template: 'example/index.html',
             // 在 dist/index.html 的输出
             filename: 'index.html',
             // 当使用 title 选项时，
