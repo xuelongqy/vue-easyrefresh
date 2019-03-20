@@ -24,11 +24,11 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator'
-    import EasyRefresh from '../../../../src/components/EasyRefresh.vue'
     import AppBar from '../../components/AppBar.vue'
+    import ClassicsHeader from '../../../src/components/header/ClassicsHeader.vue'
+    import ClassicsFooter from '../../../src/components/footer/ClassicsFooter.vue'
+    import EasyRefresh from '../../../src/components/EasyRefresh.vue'
     import StripeList from '../../components/StripeList.vue'
-    import ClassicsHeader from '../../../../src/components/header/ClassicsHeader.vue'
-    import ClassicsFooter from '../../../../src/components/footer/ClassicsFooter.vue'
 
     /**
      * 基础使用
