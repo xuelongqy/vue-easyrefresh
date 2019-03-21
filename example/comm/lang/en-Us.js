@@ -29,7 +29,18 @@ module.exports = {
         freeTrigger: "Free trigger",
         freeTriggerDescribe: "Trigger refresh or load",
         floatView: "Floating view",
-        floatViewDescribe: "At the top or bottom view floating on the list"
+        floatViewDescribe: "At the top or bottom view floating on the list",
+        userProfile: "User Profile",
+        userProfileDescribe: "User Profile with the springback effect",
+        qqGroup: "QQ group",
+        github: "Github",
+        name: "Name",
+        old: "Old",
+        noBald: "Has not the bald",
+        city: "City",
+        hangzhou: "China - HangZhou",
+        phone: "Phone",
+        email: "E-Mail",
     },
     style: {
         classicDescribe: "Classic and default",
@@ -40,7 +51,7 @@ module.exports = {
     },
     more: {
         joinDiscussion: "Join the discussion",
-        joinDiscussionDescribe: "Join the QQ group 554981921",
+        joinDiscussionDescribe: "Join the QQ group 623262733",
         projectAddress: "Project address",
         supportAuthor: "Support the author",
         supportAuthorDescribe: "Your support is my biggest motivation",

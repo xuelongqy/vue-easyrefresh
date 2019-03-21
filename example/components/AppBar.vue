@@ -1,16 +1,16 @@
 <template>
     <v-card class="app-bar"
-        elevation="3"
+        :elevation="elevation"
         :color="color">
         <div v-if="showBack" class="app-bar-back" @click="goBack">
             <div class="app-bar-back-icon">
                 <v-btn text icon color="black">
-                    <v-icon>arrow_back</v-icon>
+                    <v-icon :color="titleColor">arrow_back</v-icon>
                 </v-btn>
             </div>
         </div>
         <div class="app-bar-title">
-            <div class="app-bar-title-box">
+            <div class="app-bar-title-box" :style="`color:${titleColor};`">
                 {{title}}
             </div>
         </div>
@@ -28,9 +28,15 @@
         // 显示返回
         @Prop({default: true})
         private showBack!: boolean
+        // 标题颜色
+        @Prop({default: 'black'})
+        private titleColor!: string
         // 颜色
         @Prop({default: 'orange'})
         private color!: string
+        // 阴影
+        @Prop({default: 3})
+        private elevation!: number
 
         // 返回
         private goBack() {

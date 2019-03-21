@@ -13,6 +13,7 @@ import BezierBouncePage from './pages/style/BezierBouncePage.vue'
 import SupportPage from './pages/more/SupportPage.vue'
 import FreeTriggerPage from './pages/sample/FreeTriggerPage.vue'
 import FloatPage from './pages/sample/FloatPage.vue'
+import UserProfilePage from './pages/sample/UserProfilePage.vue'
 
 Vue.use(Router);
 
@@ -98,6 +99,11 @@ export default new Router({
       path: '/float',
       name: 'float',
       component: FloatPage,
+    },
+    {
+      path: '/user-profile',
+      name: 'user-profile',
+      component: UserProfilePage,
     },
   ],
 });

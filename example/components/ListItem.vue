@@ -70,11 +70,11 @@
                 .list-item-title {
                     font-size: 11pt;
                     font-weight: bold;
-                    line-height: 12pt;
+                    line-height: 14pt;
                 }
                 .list-item-describe {
                     font-size: 9pt;
-                    line-height: 12pt;
+                    line-height: 14pt;
                 }
             }
         }

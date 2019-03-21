@@ -42,6 +42,16 @@
                         <v-icon size="25" color="orange">layers</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
+                <!--个人中心-->
+                <ListItem
+                        :title="$t('sample.userProfile')"
+                        :describe="$t('sample.userProfileDescribe')"
+                        @click.native="$router.push('/user-profile')">
+                    <template v-slot:icon>
+                        <v-icon size="25" color="orange">person</v-icon>
+                    </template>
+                </ListItem>
             </EasyRefresh>
         </div>
     </div>
