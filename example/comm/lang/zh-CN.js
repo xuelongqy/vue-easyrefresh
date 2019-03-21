@@ -41,6 +41,8 @@ module.exports = {
         hangzhou: "中国 - 杭州",
         phone: "电话",
         email: "邮箱",
+        collapsibleAppBar: "折叠AppBar",
+        collapsibleAppBarDescribe: "可折叠的AppBar",
     },
     style: {
         classicDescribe: "经典(默认)风格",

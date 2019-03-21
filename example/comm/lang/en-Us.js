@@ -41,6 +41,8 @@ module.exports = {
         hangzhou: "China - HangZhou",
         phone: "Phone",
         email: "E-Mail",
+        collapsibleAppBar: "Collapsible AppBar",
+        collapsibleAppBarDescribe: "Example of a collapsible AppBar",
     },
     style: {
         classicDescribe: "Classic and default",

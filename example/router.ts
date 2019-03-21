@@ -14,6 +14,7 @@ import SupportPage from './pages/more/SupportPage.vue'
 import FreeTriggerPage from './pages/sample/FreeTriggerPage.vue'
 import FloatPage from './pages/sample/FloatPage.vue'
 import UserProfilePage from './pages/sample/UserProfilePage.vue'
+import CollapsibleAppBarPage from './pages/sample/CollapsibleAppBarPage.vue'
 
 Vue.use(Router);
 
@@ -104,6 +105,11 @@ export default new Router({
       path: '/user-profile',
       name: 'user-profile',
       component: UserProfilePage,
+    },
+    {
+      path: '/collapsible-app-bar',
+      name: 'collapsible-app-bar',
+      component: CollapsibleAppBarPage,
     },
   ],
 });

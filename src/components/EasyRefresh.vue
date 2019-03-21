@@ -75,6 +75,8 @@
         private onRefresh!: (done: () => void) => void
         @Prop() // 加载回调
         private loadMore!: (done: (noMore: boolean) => void) => void
+        @Prop() // 滚动回调
+        private onScroll!: (top: number) => void
         @Prop({default: true}) // 是否复制选择
         private userSelect!: boolean
         @Prop({default: false}) // 是否自动触发加载
@@ -181,6 +183,15 @@
             this.isRefresh = true
         }
 
+        // 获取container
+        public getContainer(): HTMLElement {
+            return this.container as HTMLElement
+        }
+        // 获取content
+        public getContent(): HTMLElement {
+            return this.content as HTMLElement
+        }
+
         // 初始化
         public mounted() {
             // 获取Footer和Header
@@ -239,6 +250,10 @@
 
         // 滚动回调
         private scrollerCallBack(left: number, top: number, zoom: number) {
+            // 调用滚动回调
+            if (this.onScroll) {
+                this.onScroll(top)
+            }
             if (!this.header || !this.footer) { return }
             // 设置Header和Footer的位置
             if (this.onRefresh) {
@@ -391,8 +406,8 @@
                     && this.loadMore) {
                     if (!this.noMore) {
                         this.floatTop = 0;
-                        const {left, top, zoom} = this.scroller.getValues()
-                        this.scroller.scrollBy(0, top, false)
+                        //const {left, top, zoom} = this.scroller.getValues()
+                        //this.scroller.scrollBy(0, top, false)
                         this.footer.onLoadClose()
                         if (this.footerStatusChanged) {
                             this.footerStatusChanged(FooterCallBackStatus.CLOSE)

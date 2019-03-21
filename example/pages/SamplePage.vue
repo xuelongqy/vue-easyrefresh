@@ -52,6 +52,16 @@
                         <v-icon size="25" color="orange">person</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
+                <!--折叠AppBar-->
+                <ListItem
+                        :title="$t('sample.collapsibleAppBar')"
+                        :describe="$t('sample.collapsibleAppBarDescribe')"
+                        @click.native="$router.push('/collapsible-app-bar')">
+                    <template v-slot:icon>
+                        <v-icon size="25" color="orange">format_line_spacing</v-icon>
+                    </template>
+                </ListItem>
             </EasyRefresh>
         </div>
     </div>
