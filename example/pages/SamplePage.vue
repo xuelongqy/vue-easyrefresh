@@ -33,6 +33,15 @@
                     </template>
                 </ListItem>
                 <v-divider/>
+                <!--浮动视图-->
+                <ListItem
+                        :title="$t('sample.floatView')"
+                        :describe="$t('sample.floatViewDescribe')"
+                        @click.native="$router.push('/float')">
+                    <template v-slot:icon>
+                        <v-icon size="25" color="orange">layers</v-icon>
+                    </template>
+                </ListItem>
             </EasyRefresh>
         </div>
     </div>

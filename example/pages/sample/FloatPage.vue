@@ -1,44 +1,41 @@
 <template>
-    <div class="free-trigger-page">
-        <AppBar :title="$t('sample.freeTrigger')"/>
-        <div class="free-trigger-list">
+    <div class="sample-page">
+        <AppBar :title="$t('sample.autoLoad')"/>
+        <div class="sample-page-list">
             <EasyRefresh
-                    ref="easyRefresh"
                     :userSelect="false"
                     :onRefresh="onRefresh"
                     :loadMore="loadMore">
                 <template v-slot:header>
                     <ClassicsHeader
+                            bgColor="orange"
+                            textColor="white"
+                            moreInfoColor="white"
                             :refreshText="$t('comm.pullToRefresh')"
                             :refreshReadyText="$t('comm.releaseToRefresh')"
                             :refreshingText="$t('comm.refreshing')"
                             :refreshedText="$t('comm.refreshFinish')"
                             :moreInfo="$t('comm.updateAt')"
-                            :showMore="true"/>
+                            :showMore="true"
+                            :isFloat="true"/>
                 </template>
                 <StripeList :count="itemCount"/>
                 <template v-slot:footer>
                     <ClassicsFooter
+                            bgColor="orange"
+                            textColor="white"
+                            moreInfoColor="white"
                             :loadText="$t('comm.pushToLoad')"
                             :loadReadyText="$t('comm.releaseToLoad')"
                             :loadingText="$t('comm.loading')"
                             :noMoreText="$t('comm.noMore')"
                             :loadedText="$t('comm.loadFinish')"
                             :moreInfo="$t('comm.updateAt')"
-                            :showMore="true"/>
+                            :showMore="true"
+                            :isFloat="true"/>
                 </template>
             </EasyRefresh>
         </div>
-        <v-card class="free-trigger-btn-car">
-            <v-layout row wrap>
-                <v-flex xs6>
-                    <v-btn text class="free-trigger-btn" @click.native="callRefresh">{{$t('comm.refresh')}}</v-btn>
-                </v-flex>
-                <v-flex xs6>
-                    <v-btn text class="free-trigger-btn" @click="callLoadMore">{{$t('comm.loadMore')}}</v-btn>
-                </v-flex>
-            </v-layout>
-        </v-card>
     </div>
 </template>
 
@@ -46,10 +43,9 @@
     import {Component, Vue} from 'vue-property-decorator'
     import AppBar from '../../components/AppBar.vue'
     import StripeList from '../../components/StripeList.vue'
-    import EasyRefresh from '@/components/EasyRefresh.vue'
 
     /**
-     * 自由触发
+     * 浮动视图
      */
     @Component({
         components: {
@@ -57,17 +53,9 @@
             StripeList,
         },
     })
-    export default class FreeTriggerPage extends Vue {
-        // EasyRefresh
-        private easyRefresh!: EasyRefresh
+    export default class FloatPage extends Vue {
         // 条目数量
         private itemCount: number = 20
-
-        // 初始化
-        private mounted() {
-            this.easyRefresh = this.$refs.easyRefresh as EasyRefresh
-        }
-
         // 刷新
         private onRefresh(done: () => void) {
             setTimeout(() => {
@@ -86,35 +74,16 @@
                 }
             }, 1000)
         }
-
-        // 刷新
-        private callRefresh() {
-            this.easyRefresh.callRefresh()
-        }
-
-        // 加载
-        private callLoadMore() {
-            this.easyRefresh.callLoadMore()
-        }
     }
 </script>
 
 <style lang="scss">
-    .free-trigger-page {
+    .sample-page {
         width: 100%;
         height: 100%;
-        .free-trigger-list {
+        .sample-page-list {
             width: 100%;
-            height: calc(100% - 108px);
-        }
-        .free-trigger-btn-car {
-            height: 48px;
-            width: 100%;
-            .free-trigger-btn {
-                height: 48px;
-                width: 100%;
-                border-radius: 0;
-            }
+            height: calc(100% - 60px);
         }
     }
 </style>

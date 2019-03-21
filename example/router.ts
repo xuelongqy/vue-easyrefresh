@@ -12,6 +12,7 @@ import BezierCirclePage from './pages/style/BezierCirclePage.vue'
 import BezierBouncePage from './pages/style/BezierBouncePage.vue'
 import SupportPage from './pages/more/SupportPage.vue'
 import FreeTriggerPage from './pages/sample/FreeTriggerPage.vue'
+import FloatPage from './pages/sample/FloatPage.vue'
 
 Vue.use(Router);
 
@@ -92,6 +93,11 @@ export default new Router({
       path: '/free-trigger',
       name: 'free-trigger',
       component: FreeTriggerPage,
+    },
+    {
+      path: '/float',
+      name: 'float',
+      component: FloatPage,
     },
   ],
 });

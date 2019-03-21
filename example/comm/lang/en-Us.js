@@ -17,7 +17,9 @@ module.exports = {
         loadFinish: "Load finish",
         loaded: "Load finished",
         noMore: "No more",
-        updateAt: "Update at %T"
+        updateAt: "Update at %T",
+        refresh: "Refresh",
+        loadMore: "LoadMore",
     },
     sample: {
         basicUse: "BasicUse",
@@ -25,7 +27,9 @@ module.exports = {
         autoLoad: "Auto load",
         autoLoadDescribe: "Automatically refresh the slide to the bottom",
         freeTrigger: "Free trigger",
-        freeTriggerDescribe: "Trigger refresh or load"
+        freeTriggerDescribe: "Trigger refresh or load",
+        floatView: "Floating view",
+        floatViewDescribe: "At the top or bottom view floating on the list"
     },
     style: {
         classicDescribe: "Classic and default",

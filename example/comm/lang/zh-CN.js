@@ -3,7 +3,7 @@ module.exports = {
     home: {
         sample: "示例",
         style: "样式",
-        more: "更多"
+        more: "更多",
     },
     comm: {
         pullToRefresh: "下拉刷新",
@@ -18,6 +18,8 @@ module.exports = {
         loaded: "加载结束",
         noMore: "没有更多数据",
         updateAt: "更新于 %T",
+        refresh: "刷新",
+        loadMore: "加载",
     },
     sample: {
         basicUse: "基本使用",
@@ -25,14 +27,16 @@ module.exports = {
         autoLoad: "自动加载",
         autoLoadDescribe: "滑到底部自动刷新",
         freeTrigger: "自由触发",
-        freeTriggerDescribe: "触发刷新或加载"
+        freeTriggerDescribe: "触发刷新或加载",
+        floatView: "浮动视图",
+        floatViewDescribe: "顶部或底部视图浮动在列表上",
     },
     style: {
         classicDescribe: "经典(默认)风格",
         materialDescribe: "质感设计,Android样式",
         ballPulseDescribe: "球脉冲样式",
         bezierCircleDescribe: "弹出圆圈",
-        bezierBounceDescribe: "弹出球脉冲"
+        bezierBounceDescribe: "弹出球脉冲",
     },
     more: {
         joinDiscussion: "加入讨论",
@@ -45,6 +49,6 @@ module.exports = {
         aliPay: "支付宝",
         weiXinPay: "微信钱包",
         qqPay: "QQ钱包",
-        payPal: "PayPal"
+        payPal: "PayPal",
     }
 }
