@@ -19,9 +19,20 @@
                         :describe="$t('sample.autoLoadDescribe')"
                         @click.native="$router.push('/auto-load')">
                     <template v-slot:icon>
+                        <v-icon size="25" color="orange">autorenew</v-icon>
+                    </template>
+                </ListItem>
+                <v-divider/>
+                <!--自由触发-->
+                <ListItem
+                        :title="$t('sample.freeTrigger')"
+                        :describe="$t('sample.freeTriggerDescribe')"
+                        @click.native="$router.push('/free-trigger')">
+                    <template v-slot:icon>
                         <v-icon size="25" color="orange">gamepad</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
             </EasyRefresh>
         </div>
     </div>

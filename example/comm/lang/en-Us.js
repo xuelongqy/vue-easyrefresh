@@ -23,7 +23,9 @@ module.exports = {
         basicUse: "BasicUse",
         basicUseDescribe: "Basic use of EasyRefresh",
         autoLoad: "Auto load",
-        autoLoadDescribe: "Automatically refresh the slide to the bottom"
+        autoLoadDescribe: "Automatically refresh the slide to the bottom",
+        freeTrigger: "Free trigger",
+        freeTriggerDescribe: "Trigger refresh or load"
     },
     style: {
         classicDescribe: "Classic and default",

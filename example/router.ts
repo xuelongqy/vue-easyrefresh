@@ -11,6 +11,7 @@ import BallPulsePage from './pages/style/BallPulsePage.vue'
 import BezierCirclePage from './pages/style/BezierCirclePage.vue'
 import BezierBouncePage from './pages/style/BezierBouncePage.vue'
 import SupportPage from './pages/more/SupportPage.vue'
+import FreeTriggerPage from './pages/sample/FreeTriggerPage.vue'
 
 Vue.use(Router);
 
@@ -86,6 +87,11 @@ export default new Router({
       path: '/auto-load',
       name: 'auto-load',
       component: AutoLoadPage,
+    },
+    {
+      path: '/free-trigger',
+      name: 'free-trigger',
+      component: FreeTriggerPage,
     },
   ],
 });

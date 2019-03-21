@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+    import {Component, Prop, Vue, Watch} from "vue-property-decorator"
 import Scroller from '../module/core'
 import getContentRender from '../module/render'
 import ClassicsHeader from './header/ClassicsHeader.vue'
@@ -144,6 +144,42 @@ export default class EasyRefresh extends Vue {
         this.footer = footer
         this.footerOffset = footer.loadHeight()
     }
+    // 触发刷新
+    public callRefresh() {
+        if (this.isRefresh) { return }
+        this.header.onRefreshStart()
+        this.header.onRefreshReady()
+        this.scroller.triggerPullToRefresh(this.header.refreshHeight() + 30, () => {
+            this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
+                this.header.onRefreshing()
+                if (this.headerStatusChanged) {
+                    this.headerStatusChanged(HeaderCallBackStatus.REFRESHING)
+                }
+                if (this.noMore) {
+                    this.noMore = false
+                    this.footer.onLoadClose()
+                }
+                this.headerStatus = HeaderStatus.REFRESHING
+                this.onRefresh(this.callRefreshFinish)
+            })
+        })
+        this.isRefresh = true
+    }
+    // 触发加载
+    public callLoadMore() {
+        if (this.isRefresh || this.noMore) { return }
+        this.footer.onLoadStart()
+        this.footer.onLoadReady()
+        this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
+            this.footer.onLoading()
+            if (this.footerStatusChanged) {
+                this.footerStatusChanged(FooterCallBackStatus.LOADING)
+            }
+            this.footerStatus = FooterStatus.LOADING
+            this.loadMore(this.callLoadMoreFinish)
+        }, true)
+        this.isRefresh = true
+    }
 
     // 初始化
     public mounted() {
@@ -187,6 +223,20 @@ export default class EasyRefresh extends Vue {
         this.scroller.setDimensions(container!!.clientWidth, container!!.clientHeight,
             content!!.offsetWidth, content!!.offsetHeight)
     }
+
+    // 监听是否正在刷新
+    @Watch('isRefresh')
+    private onRefreshChange() {
+        // 如果刷新结束,则重新计算列表大小
+        if (!this.isRefresh) {
+            const container = this.container
+            const content = this.content
+            this.scroller.setDimensions(container!!.clientWidth, container!!.clientHeight,
+                content!!.offsetWidth, content!!.offsetHeight)
+            this.scroller.computeScrollMax()
+        }
+    }
+
     // 滚动回调
     private scrollerCallBack(left: number, top: number, zoom: number) {
         if (!this.header || !this.footer) { return }

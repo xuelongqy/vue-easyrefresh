@@ -624,6 +624,13 @@
         },
 
         /**
+         * 计算列表大小
+         */
+        computeScrollMax: function () {
+            this.__computeScrollMax()
+        },
+
+        /**
          * Returns the scroll position and zooming values
          *
          * @return {Map} `left` and `top` scroll position and `zoom` level
@@ -1370,7 +1377,6 @@
          * Recomputes scroll minimum values based on client dimensions and content dimensions.
          */
         __computeScrollMax: function (zoomLevel) {
-
             var self = this
 
             if (zoomLevel == null) {
