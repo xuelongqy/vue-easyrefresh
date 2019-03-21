@@ -10,12 +10,12 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from "vue-property-decorator"
+    import {Component, Prop, Vue} from 'vue-property-decorator'
 
     @Component
     export default class PayPal extends Vue {
         // 颜色
-        @Prop({default: "#ff9800"})
+        @Prop({default: '#ff9800'})
         private color!: string
     }
 </script>

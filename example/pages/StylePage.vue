@@ -12,6 +12,7 @@
                         <v-icon size="25" color="orange">format_list_bulleted</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
                 <!--Material-->
                 <ListItem
                     title="Material"
@@ -21,6 +22,7 @@
                         <v-icon size="25" color="orange">android</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
                 <!--BallPulse-->
                 <ListItem
                         title="BallPulse"
@@ -30,6 +32,7 @@
                         <v-icon size="25" color="orange">lens</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
                 <!--BezierCircle-->
                 <ListItem
                         title="BezierCircle"
@@ -39,6 +42,7 @@
                         <v-icon size="25" color="orange">radio_button_checked</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
                 <!--BezierBounce-->
                 <ListItem
                         title="BezierBounce"

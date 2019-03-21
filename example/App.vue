@@ -55,4 +55,8 @@
         -webkit-transform: translate(-50px, 0);
         transform: translate(-50px, 0);
     }
+    .v-divider {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
 </style>
