@@ -21,7 +21,9 @@ module.exports = {
     },
     sample: {
         basicUse: "基本使用",
-        basicUseDescribe: "EasyRefresh的基本使用"
+        basicUseDescribe: "EasyRefresh的基本使用",
+        autoLoad: "自动加载",
+        autoLoadDescribe: "滑到底部自动刷新"
     },
     style: {
         classicDescribe: "经典(默认)风格",

@@ -3,12 +3,23 @@
         <AppBar :title="$t('home.sample')" :showBack="false"/>
         <div class="sample-page-list">
             <EasyRefresh :userSelect="false">
+                <!--基本使用-->
                 <ListItem
                     :title="$t('sample.basicUse')"
                     :describe="$t('sample.basicUseDescribe')"
                     @click.native="$router.push('/basic')">
                     <template v-slot:icon>
                         <v-icon size="25" color="orange">format_list_bulleted</v-icon>
+                    </template>
+                </ListItem>
+                <v-divider/>
+                <!--自动加载-->
+                <ListItem
+                        :title="$t('sample.autoLoad')"
+                        :describe="$t('sample.autoLoadDescribe')"
+                        @click.native="$router.push('/auto-load')">
+                    <template v-slot:icon>
+                        <v-icon size="25" color="orange">gamepad</v-icon>
                     </template>
                 </ListItem>
             </EasyRefresh>

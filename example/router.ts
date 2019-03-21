@@ -5,6 +5,7 @@ import Sample from './pages/SamplePage.vue'
 import Style from './pages/StylePage.vue'
 import More from './pages/MorePage.vue'
 import BasicPage from './pages/sample/BasicPage.vue'
+import AutoLoadPage from './pages/sample/AutoLoadPage.vue'
 import MaterialPage from './pages/style/MaterialPage.vue'
 import BallPulsePage from './pages/style/BallPulsePage.vue'
 import BezierCirclePage from './pages/style/BezierCirclePage.vue'
@@ -80,6 +81,11 @@ export default new Router({
       path: '/support-page',
       name: 'support-page',
       component: SupportPage,
+    },
+    {
+      path: '/auto-load',
+      name: 'auto-load',
+      component: AutoLoadPage,
     },
   ],
 });

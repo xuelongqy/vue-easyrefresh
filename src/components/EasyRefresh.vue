@@ -282,8 +282,10 @@ export default class EasyRefresh extends Vue {
                     this.footerStatusChanged(FooterCallBackStatus.LOADING)
                 }
                 this.footerStatus = FooterStatus.LOADING
-                this.loadMore(this.callLoadMoreFinish)
-                this.isRefresh = true
+                if (!this.isRefresh) {
+                    this.loadMore(this.callLoadMoreFinish)
+                    this.isRefresh = true
+                }
                 return
             }
             this.footer.updateFooterHeight(footerHeight)

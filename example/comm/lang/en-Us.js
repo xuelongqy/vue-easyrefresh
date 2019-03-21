@@ -21,7 +21,9 @@ module.exports = {
     },
     sample: {
         basicUse: "BasicUse",
-        basicUseDescribe: "Basic use of EasyRefresh"
+        basicUseDescribe: "Basic use of EasyRefresh",
+        autoLoad: "Auto load",
+        autoLoadDescribe: "Automatically refresh the slide to the bottom"
     },
     style: {
         classicDescribe: "Classic and default",
