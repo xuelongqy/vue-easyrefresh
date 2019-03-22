@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { Component, Watch, Prop, Vue } from 'vue-property-decorator'
-import { Footer, FooterStatus } from './footer'
-import BallPulse from '../icon/BallPulse.vue'
+import { Footer, FooterStatus } from '../footer'
+import BallPulse from '../../icon/BallPulse.vue'
 
 @Component({
     components: {

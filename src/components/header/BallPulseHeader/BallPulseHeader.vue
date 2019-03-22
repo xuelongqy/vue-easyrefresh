@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Header } from './header'
-import BallPulse from '../icon/BallPulse.vue'
+import { Header } from '../header'
+import BallPulse from '../../icon/BallPulse.vue'
 
 @Component({
     components: {

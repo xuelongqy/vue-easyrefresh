@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Header, HeaderStatus } from './header'
+import { Header, HeaderStatus } from '../header'
 
 @Component
 export default class EmptyHeader extends Vue implements Header {

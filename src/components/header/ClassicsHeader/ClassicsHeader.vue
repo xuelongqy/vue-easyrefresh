@@ -17,10 +17,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Header, HeaderStatus } from './header'
-import Arrow from '../icon/Arrow.vue'
-import Done from '../icon/Done.vue'
-import CircularProgress from '../icon/CircularProgress.vue'
+import { Header, HeaderStatus } from '../header'
+import Arrow from '../../icon/Arrow.vue'
+import Done from '../../icon/Done.vue'
+import CircularProgress from '../../icon/CircularProgress.vue'
 
 @Component({
     components: {

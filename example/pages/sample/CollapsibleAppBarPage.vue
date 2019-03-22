@@ -51,7 +51,7 @@
     import AppBar from '../../components/AppBar.vue'
     import StripeList from '../../components/StripeList.vue'
     import {Header, HeaderStatus} from '@/components/header/header'
-    import EasyRefresh from '@/components/EasyRefresh.vue'
+    import EasyRefresh from '@/components/EasyRefresh'
     import CircularProgress from '@/components/icon/CircularProgress.vue'
 
     /**

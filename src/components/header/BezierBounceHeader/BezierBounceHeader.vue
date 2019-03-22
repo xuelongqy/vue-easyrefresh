@@ -16,9 +16,9 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
-import { Header, HeaderStatus } from './header'
-import CircularProgress from '../icon/CircularProgress.vue'
-import BallPulse from '../icon/BallPulse.vue'
+import { Header, HeaderStatus } from '../header'
+import CircularProgress from '../../icon/CircularProgress.vue'
+import BallPulse from '../../icon/BallPulse.vue'
 
 @Component({
     components: {

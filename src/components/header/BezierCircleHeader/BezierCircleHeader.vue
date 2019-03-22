@@ -9,8 +9,8 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
-import { Header, HeaderStatus } from './header'
-import CircularProgress from '../icon/CircularProgress.vue'
+import { Header, HeaderStatus } from '../header'
+import CircularProgress from '../../icon/CircularProgress.vue'
 
 @Component({
     components: {

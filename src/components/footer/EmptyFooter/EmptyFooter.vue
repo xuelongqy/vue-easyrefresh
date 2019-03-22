@@ -1,36 +1,27 @@
 <template>
-    <div class="er-ball-pulse-footer" :style="'height: ' + footerHeight + 'px;'">
-        <BallPulse v-if="showBallPulse" :color="color"></BallPulse>
-    </div>
+    <div class="er-empty-footer" :style="'height: ' + footerHeight + 'px;'"></div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Footer } from './footer'
-import BallPulse from '../icon/BallPulse.vue'
+import { Footer, FooterStatus } from '../footer'
 
-@Component({
-    components: {
-        BallPulse,
-    },
-})
-export default class BallPulseFooter extends Vue implements Footer {
+@Component
+export default class EmptyFooter extends Vue implements Footer {
     // 高度
     @Prop({default: 70})
     private height!: number
     // 完成延时
     @Prop({default: 1000})
     private finishDuration!: number
-    // 颜色
-    @Prop({default: '#2196f3'})
-    private color!: string
+    // 是否浮动
+    @Prop({default: false})
+    private isFloat!: boolean
 
     // Footer的高度
     private footerHeight: number = 70
-    // 没有更多
-    private noMore: boolean = false
-    // 显示球脉冲
-    private showBallPulse: boolean = true
+    // Footer状态
+    private footerStatus: FooterStatus = FooterStatus.NO_LOAD
 
     // 初始化
     public mounted() {
@@ -43,7 +34,7 @@ export default class BallPulseFooter extends Vue implements Footer {
     }
 
     public isFooterFloat(): boolean {
-        return false;
+        return this.isFloat;
     }
 
     public loadHeight(): number {
@@ -51,42 +42,38 @@ export default class BallPulseFooter extends Vue implements Footer {
     }
 
     public onLoadClose(): void {
-        this.noMore = false
+        this.footerStatus = FooterStatus.NO_LOAD
     }
 
     public onLoadEnd(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOAD_END
     }
 
     public onLoadReady(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOAD_READY
     }
 
     public onLoadRestore(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOAD_START
     }
 
     public onLoadStart(): void {
-        this.noMore = false
-        this.showBallPulse = true
+        this.footerStatus = FooterStatus.LOAD_START
     }
 
     public onLoaded(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOADED
     }
 
     public onLoading(): void {
-        // todo nothing
+        this.footerStatus = FooterStatus.LOADING
     }
 
     public onNoMore(): void {
-        this.noMore = true
+        this.footerStatus = FooterStatus.LOADED
     }
 
     public updateFooterHeight(height: number): void {
-        if (height < 1 && this.noMore) {
-            this.showBallPulse = false
-        }
         if (height > this.height) {
             this.footerHeight = height
         } else {
@@ -97,12 +84,9 @@ export default class BallPulseFooter extends Vue implements Footer {
 </script>
 
 <style scoped>
-    .er-ball-pulse-footer {
+    .er-empty-footer {
         width: 100%;
         height: 0;
         background: transparent;
-        display: flex;
-        justify-content:center;
-        align-items:Center;
     }
 </style>

@@ -46,7 +46,7 @@
     import {Component, Vue} from 'vue-property-decorator'
     import AppBar from '../../components/AppBar.vue'
     import StripeList from '../../components/StripeList.vue'
-    import EasyRefresh from '@/components/EasyRefresh.vue'
+    import EasyRefresh from '@/components/EasyRefresh'
 
     /**
      * 自由触发

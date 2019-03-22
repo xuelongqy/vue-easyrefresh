@@ -30,12 +30,12 @@
 
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-    import Scroller from '../module/core'
-    import getContentRender from '../module/render'
-    import ClassicsHeader from './header/ClassicsHeader.vue'
-    import ClassicsFooter from './footer/ClassicsFooter.vue'
-    import { Header, HeaderStatus } from './header/header'
-    import { Footer, FooterStatus } from './footer/footer'
+    import Scroller from '../../module/core'
+    import getContentRender from '../../module/render'
+    import ClassicsHeader from '../header/ClassicsHeader'
+    import ClassicsFooter from '../footer/ClassicsFooter'
+    import { Header, HeaderStatus } from '../header/header'
+    import { Footer, FooterStatus } from '../footer/footer'
 
     // Header回调状态
     enum HeaderCallBackStatus {

@@ -1,15 +1,15 @@
-import EasyRefresh from './components/EasyRefresh.vue'
-import BallPulseHeader from './components/header/BallPulseHeader.vue'
-import BezierBounceHeader from './components/header/BezierBounceHeader.vue'
-import BezierCircleHeader from './components/header/BezierCircleHeader.vue'
-import ClassicsHeader from './components/header/ClassicsHeader.vue'
-import MaterialHeader from './components/header/MaterialHeader.vue'
-import EmptyHeader from './components/header/EmptyHeader.vue'
-import BallPulseFooter from './components/footer/BallPulseFooter.vue'
-import BezierBounceFooter from './components/footer/BezierBounceFooter.vue'
-import ClassicsFooter from './components/footer/ClassicsFooter.vue'
-import EmptyFooter from './components/footer/EmptyFooter.vue'
-import MaterialFooter from './components/footer/MaterialFooter.vue'
+import EasyRefresh from './components/EasyRefresh'
+import BallPulseHeader from './components/header/BallPulseHeader'
+import BezierBounceHeader from './components/header/BezierBounceHeader'
+import BezierCircleHeader from './components/header/BezierCircleHeader'
+import ClassicsHeader from './components/header/ClassicsHeader'
+import MaterialHeader from './components/header/MaterialHeader'
+import EmptyHeader from './components/header/EmptyHeader'
+import BallPulseFooter from './components/footer/BallPulseFooter'
+import BezierBounceFooter from './components/footer/BezierBounceFooter'
+import ClassicsFooter from './components/footer/ClassicsFooter'
+import EmptyFooter from './components/footer/EmptyFooter'
+import MaterialFooter from './components/footer/MaterialFooter'
 
 const components = {
     EasyRefresh, BallPulseHeader, BezierBounceHeader,
@@ -25,7 +25,7 @@ function install(Vue) {
         // @ts-ignore
         Vue.component(components[key].name, components[key])
         // @ts-ignore
-        // Vue.use(components[key])
+        Vue.use(components[key])
     })
 }
 

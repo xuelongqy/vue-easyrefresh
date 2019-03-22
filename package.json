@@ -1,7 +1,13 @@
 {
   "name": "vue-easyrefresh",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Vue component for pull-refresh and push-load.",
+  "author": "KnoYo <xuelongqy@foxmail.com>",
+  "homepage": "https://github.com/xuelongqy/vue-easyrefresh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xuelongqy/vue-easyrefresh.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
