@@ -3,7 +3,7 @@
         <!--背景-->
         <div class="collapsible-app-bar-background"></div>
         <!--AppBar-->
-        <div class="collapsible-app-bar">
+        <div class="collapsible-app-bar" :class="{ 'elevation-3': showAppBarElevation }">
             <div class="collapsible-app-bar-back" @click="goBack">
                 <div class="collapsible-app-bar-back-icon">
                     <v-btn text icon color="black">
@@ -11,13 +11,20 @@
                     </v-btn>
                 </div>
             </div>
+            <div class="collapsible-app-bar-title" :style="`padding-top: ${titleTop}px;font-size: ${titleSize}pt;`">
+                {{$t('sample.collapsibleAppBar')}}
+            </div>
+            <div v-if="progressValue !== 0" class="collapsible-app-bar-progress">
+                <CircularProgress color="black" :value="progressValue"></CircularProgress>
+            </div>
         </div>
         <div class="collapsible-app-bar-list">
             <EasyRefresh
                     ref="easyRefresh"
                     :userSelect="false"
                     :onRefresh="onRefresh"
-                    :loadMore="loadMore">
+                    :loadMore="loadMore"
+                    :onScroll="onScroll">
                 <template v-slot:header>
                     <EmptyHeader/>
                 </template>
@@ -43,8 +50,9 @@
     import {Component, Vue} from 'vue-property-decorator'
     import AppBar from '../../components/AppBar.vue'
     import StripeList from '../../components/StripeList.vue'
-    import {Header} from '@/components/header/header'
+    import {Header, HeaderStatus} from '@/components/header/header'
     import EasyRefresh from '@/components/EasyRefresh.vue'
+    import CircularProgress from '@/components/icon/CircularProgress.vue'
 
     /**
      * 折叠AppBar
@@ -53,12 +61,28 @@
         components: {
             AppBar,
             StripeList,
-            Header
+            Header,
+            CircularProgress
         },
     })
     export default class CollapsibleAppBarPage extends Vue implements Header {
         // EasyRefresh
         private easyRefresh!: EasyRefresh
+
+        // 显示AppBar阴影
+        private showAppBarElevation: boolean = false
+        // 标题偏移量
+        private titleTop: number = 128
+        // 标题字体大小
+        private titleSize: number = 20
+
+        // Header的高度
+        private defaultHeight: number = 100
+        private headerHeight: number = this.defaultHeight
+        // Header状态
+        private headerStatus: HeaderStatus = HeaderStatus.NO_REFRESH
+        // 进度值
+        private progressValue: number | null = 0
 
         // 条目数量
         private itemCount: number = 20
@@ -87,6 +111,20 @@
                 }
             }, 1000)
         }
+        // 监听列表滚动
+        private onScroll(top: number) {
+            if (top > 120) {
+                this.showAppBarElevation = true
+                this.titleTop = 18
+                this.titleSize = 14
+            } else {
+                this.showAppBarElevation = false
+                const topTmp = 128 - 110 / 120 * top
+                this.titleTop = topTmp < 128 ? topTmp : 128
+                const sizeTmp = 20 - 6 / 120 * top
+                this.titleSize = sizeTmp < 20 ? sizeTmp : 20
+            }
+        }
         // 返回
         private goBack() {
             this.$router.back()
@@ -100,32 +138,61 @@
             return true;
         }
 
-        onRefreshClose(): void {
+        public onRefreshClose(): void {
+            this.headerStatus = HeaderStatus.NO_REFRESH
+            this.progressValue = 0
         }
 
-        onRefreshEnd(): void {
+        public onRefreshEnd(): void {
+            this.headerStatus = HeaderStatus.REFRESH_END
+            this.progressValue = 1
         }
 
-        onRefreshReady(): void {
+        public onRefreshReady(): void {
+            this.headerStatus = HeaderStatus.REFRESH_READY
         }
 
-        onRefreshRestore(): void {
+        public onRefreshRestore(): void {
+            this.headerStatus = HeaderStatus.REFRESH_START
         }
 
-        onRefreshStart(): void {
+        public onRefreshStart(): void {
+            this.headerStatus = HeaderStatus.REFRESH_START
         }
 
-        onRefreshed(): void {
+        public onRefreshed(): void {
+            this.headerStatus = HeaderStatus.REFRESHED
+            this.progressValue = 1
         }
 
-        onRefreshing(): void {
+        public onRefreshing(): void {
+            this.headerStatus = HeaderStatus.REFRESHING
+            this.progressValue = null
         }
 
-        refreshHeight(): number {
-            return 0;
+        public refreshHeight(): number {
+            return this.defaultHeight;
         }
 
-        updateHeaderHeight(height: number): void {
+        public updateHeaderHeight(height: number): void {
+            if (height > this.defaultHeight) {
+                this.headerHeight = height
+                if (this.headerStatus === HeaderStatus.REFRESH_START ||
+                    this.headerStatus === HeaderStatus.NO_REFRESH ||
+                    this.headerStatus === HeaderStatus.REFRESH_READY) {
+                    this.progressValue = 0.75
+                }
+            } else {
+                this.headerHeight = this.defaultHeight
+                if (this.headerStatus === HeaderStatus.REFRESH_START ||
+                    this.headerStatus === HeaderStatus.NO_REFRESH ||
+                    this.headerStatus === HeaderStatus.REFRESH_READY) {
+                    this.progressValue = height / this.defaultHeight * 0.75
+                    if (this.progressValue < 0.01) {
+                        this.progressValue = 0
+                    }
+                }
+            }
         }
     }
 </script>
@@ -137,17 +204,18 @@
         .collapsible-app-bar-background {
             position: fixed;
             width: 100%;
-            height: 160px;
+            height: 65px;
             background: #ff9800;
         }
         .collapsible-app-bar {
+            position: fixed;
             width: 100%;
             height: 60px;
             z-index: 1000;
             background: #ff9800;
             .collapsible-app-bar-back {
                 display: inline-block;
-                vertical-align: text-top;
+                vertical-align: top;
                 width: 60px;
                 height: 60px;
                 .collapsible-app-bar-back-icon {
@@ -158,10 +226,26 @@
                     align-items: Center;
                 }
             }
+            .collapsible-app-bar-title {
+                display: inline-block;
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+            .collapsible-app-bar-progress {
+                float: right;
+                vertical-align: top;
+                display: flex;
+                justify-content: center;
+                align-items: Center;
+                width: 60px;
+                height: 60px;
+            }
         }
         .collapsible-app-bar-list {
             width: 100%;
             height: calc(100% - 60px);
+            margin-top: 60px;
+            z-index: 1000;
             .collapsible-app-bar-content {
                 width: 100%;
                 height: 120px;

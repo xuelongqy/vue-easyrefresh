@@ -50,7 +50,7 @@
             </EasyRefresh>
             <!--弹窗-->
             <v-dialog v-model="showDialog">
-                <v-card class="text-xs-center">
+                <v-card class="text-xs-center support-page-dialog-content">
                     <img :src="imgBase64">
                 </v-card>
             </v-dialog>
@@ -120,6 +120,9 @@
                 width: 25px;
                 height: 25px;
             }
+        }
+        .support-page-dialog-content {
+            padding: 20px;
         }
     }
 </style>
