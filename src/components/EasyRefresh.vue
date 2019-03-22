@@ -172,13 +172,15 @@
             if (this.isRefresh || this.noMore) { return }
             this.footer.onLoadStart()
             this.footer.onLoadReady()
-            this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
-                this.footer.onLoading()
-                if (this.footerStatusChanged) {
-                    this.footerStatusChanged(FooterCallBackStatus.LOADING)
-                }
-                this.footerStatus = FooterStatus.LOADING
-                this.loadMore(this.callLoadMoreFinish)
+            this.scroller.triggerPushToLoad(this.footer.loadHeight() + 30, () => {
+                this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
+                    this.footer.onLoading()
+                    if (this.footerStatusChanged) {
+                        this.footerStatusChanged(FooterCallBackStatus.LOADING)
+                    }
+                    this.footerStatus = FooterStatus.LOADING
+                    this.loadMore(this.callLoadMoreFinish)
+                }, true)
             }, true)
             this.isRefresh = true
         }
@@ -404,10 +406,14 @@
                     || this.footerStatus === FooterStatus.LOADED
                     || this.footerStatus === FooterStatus.LOAD_END)
                     && this.loadMore) {
-                    if (!this.noMore) {
-                        this.floatTop = 0;
-                        //const {left, top, zoom} = this.scroller.getValues()
-                        //this.scroller.scrollBy(0, top, false)
+                    if (!this.noMore && this.isRefresh) {
+                        this.isRefresh = false
+                        // 判断Footer是否浮动
+                        if (this.footer.isFooterFloat()) {
+                            this.floatTop = 0;
+                            const {left, top, zoom} = this.scroller.getValues()
+                            this.scroller.scrollBy(0, top, false)
+                        }
                         this.footer.onLoadClose()
                         if (this.footerStatusChanged) {
                             this.footerStatusChanged(FooterCallBackStatus.CLOSE)
