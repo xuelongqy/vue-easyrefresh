@@ -411,7 +411,6 @@
                         // 判断Footer是否浮动
                         if (this.footer.isFooterFloat()) {
                             this.floatTop = 0;
-                            const {left, top, zoom} = this.scroller.getValues()
                             this.scroller.scrollBy(0, top, false)
                         }
                         this.footer.onLoadClose()

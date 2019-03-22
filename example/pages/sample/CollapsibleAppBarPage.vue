@@ -61,8 +61,7 @@
         components: {
             AppBar,
             StripeList,
-            Header,
-            CircularProgress
+            CircularProgress,
         },
     })
     export default class CollapsibleAppBarPage extends Vue implements Header {
@@ -87,54 +86,11 @@
         // 条目数量
         private itemCount: number = 20
 
-        // 初始化
-        private mounted() {
-            this.easyRefresh = this.$refs.easyRefresh as EasyRefresh
-            this.easyRefresh.setHeader(this)
-        }
-
-        // 刷新
-        private onRefresh(done: () => void) {
-            setTimeout(() => {
-                this.itemCount = 20
-                done()
-            }, 1000)
-        }
-        // 加载更多
-        private loadMore(done: (noMore: boolean) => void) {
-            setTimeout(() => {
-                if (this.itemCount >= 40) {
-                    done(true)
-                } else {
-                    this.itemCount += 10
-                    done(false)
-                }
-            }, 1000)
-        }
-        // 监听列表滚动
-        private onScroll(top: number) {
-            if (top > 120) {
-                this.showAppBarElevation = true
-                this.titleTop = 18
-                this.titleSize = 14
-            } else {
-                this.showAppBarElevation = false
-                const topTmp = 128 - 110 / 120 * top
-                this.titleTop = topTmp < 128 ? topTmp : 128
-                const sizeTmp = 20 - 6 / 120 * top
-                this.titleSize = sizeTmp < 20 ? sizeTmp : 20
-            }
-        }
-        // 返回
-        private goBack() {
-            this.$router.back()
-        }
-
-        headerFinishDuration(): number {
+        public headerFinishDuration(): number {
             return 1000;
         }
 
-        isHeaderFloat(): boolean {
+        public isHeaderFloat(): boolean {
             return true;
         }
 
@@ -193,6 +149,49 @@
                     }
                 }
             }
+        }
+
+        // 初始化
+        private mounted() {
+            this.easyRefresh = this.$refs.easyRefresh as EasyRefresh
+            this.easyRefresh.setHeader(this)
+        }
+
+        // 刷新
+        private onRefresh(done: () => void) {
+            setTimeout(() => {
+                this.itemCount = 20
+                done()
+            }, 1000)
+        }
+        // 加载更多
+        private loadMore(done: (noMore: boolean) => void) {
+            setTimeout(() => {
+                if (this.itemCount >= 40) {
+                    done(true)
+                } else {
+                    this.itemCount += 10
+                    done(false)
+                }
+            }, 1000)
+        }
+        // 监听列表滚动
+        private onScroll(top: number) {
+            if (top > 120) {
+                this.showAppBarElevation = true
+                this.titleTop = 18
+                this.titleSize = 14
+            } else {
+                this.showAppBarElevation = false
+                const topTmp = 128 - 110 / 120 * top
+                this.titleTop = topTmp < 128 ? topTmp : 128
+                const sizeTmp = 20 - 6 / 120 * top
+                this.titleSize = sizeTmp < 20 ? sizeTmp : 20
+            }
+        }
+        // 返回
+        private goBack() {
+            this.$router.back()
         }
     }
 </script>
