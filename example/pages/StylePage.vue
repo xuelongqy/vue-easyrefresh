@@ -52,6 +52,16 @@
                         <v-icon size="25" color="orange">timelapse</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
+                <!--更多样式-->
+                <ListItem
+                        :title="$t('style.moreStyle')"
+                        :describe="$t('style.moreStyleDescribe')"
+                        @click.native="openQQGroup">
+                    <template v-slot:icon>
+                        <v-icon size="25" color="orange">style</v-icon>
+                    </template>
+                </ListItem>
             </EasyRefresh>
         </div>
     </div>
@@ -69,6 +79,21 @@
         },
     })
     export default class StylePage extends Vue {
+        // 打开QQqun
+        private openQQGroup() {
+            if (navigator.platform.indexOf('Win') === 0 ||
+                navigator.platform.indexOf('Mac') === 0 ||
+                navigator.platform.indexOf('X11') === 0) {
+                window.open('//shang.qq.com/wpa/qunwpa?' +
+                    'idkey=4bdc6eb8aa3e91b32b990bf49fad178ca2579a9c12bb2bb431054c78f6a0b71f')
+            } else if (!/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                window.open('//shang.qq.com/wpa/qunwpa?' +
+                    'idkey=4bdc6eb8aa3e91b32b990bf49fad178ca2579a9c12bb2bb431054c78f6a0b71f')
+            } else {
+                window.open('mqqopensdkapi://bizAgent/qm/qr?' +
+                    'url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D')
+            }
+        }
     }
 </script>
 

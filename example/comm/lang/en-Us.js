@@ -49,7 +49,9 @@ module.exports = {
         materialDescribe: "Material design, Android style",
         ballPulseDescribe: "Ball pulse style",
         bezierCircleDescribe: "Popup circle style",
-        bezierBounceDescribe: "Popup ball pulse style"
+        bezierBounceDescribe: "Popup ball pulse style",
+        moreStyle: "More style",
+        moreStyleDescribe: "Come soon! You can also refer to the source code customization",
     },
     more: {
         joinDiscussion: "Join the discussion",

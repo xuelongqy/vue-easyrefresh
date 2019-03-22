@@ -50,6 +50,8 @@ module.exports = {
         ballPulseDescribe: "球脉冲样式",
         bezierCircleDescribe: "弹出圆圈",
         bezierBounceDescribe: "弹出球脉冲",
+        moreStyle: "更多样式",
+        moreStyleDescribe: "会越来越多哦!你也可以参考源码自定义",
     },
     more: {
         joinDiscussion: "加入讨论",
