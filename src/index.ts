@@ -23,7 +23,7 @@ const components = {
 const install = function(Vue) {
     Object.keys(components).forEach((key) => {
         // @ts-ignore
-        Vue.component(components[key].name, components[key])
+        // Vue.component(components[key].name, components[key])
         // @ts-ignore
         Vue.use(components[key])
     })

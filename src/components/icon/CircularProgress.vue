@@ -100,7 +100,7 @@ export default class CircularProgress extends Vue {
         overflow: hidden;
 
         &.small {
-            width: 12px;
+            width: 11px;
             height: 22px;
         }
 
