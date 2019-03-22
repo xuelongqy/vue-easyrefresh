@@ -20,7 +20,7 @@ const components = {
 
 // 安装插件
 // @ts-ignore
-function install(Vue) {
+const install = function(Vue) {
     Object.keys(components).forEach((key) => {
         // @ts-ignore
         Vue.component(components[key].name, components[key])
@@ -36,7 +36,7 @@ export {
     EasyRefresh, BallPulseHeader, BezierBounceHeader,
     BezierCircleHeader, ClassicsHeader, MaterialHeader,
     EmptyHeader, BallPulseFooter, BezierBounceFooter,
-    ClassicsFooter, EmptyFooter, MaterialFooter,
+    ClassicsFooter, EmptyFooter, MaterialFooter, install,
 }
 
 export default {

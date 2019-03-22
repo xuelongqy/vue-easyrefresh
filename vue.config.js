@@ -1,4 +1,6 @@
 module.exports = {
+    publicPath: process.env.NODE_ENV === 'production'
+        ? './' : '/',
     pages: {
         index: {
             // page 的入口
@@ -11,5 +13,8 @@ module.exports = {
             // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
             title: 'EasyRefresh'
         }
+    },
+    css: {
+        extract: true
     }
 }

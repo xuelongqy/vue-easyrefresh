@@ -8,10 +8,12 @@
     "type": "git",
     "url": "https://github.com/xuelongqy/vue-easyrefresh.git"
   },
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name easyrefresh --dest lib src/index.ts"
   },
   "dependencies": {
     "vue-class-component": "^6.3.2",
