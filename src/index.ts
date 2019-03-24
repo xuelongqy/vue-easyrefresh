@@ -16,7 +16,7 @@ const components = {
     BezierCircleHeader, ClassicsHeader, MaterialHeader,
     EmptyHeader, BallPulseFooter, BezierBounceFooter,
     ClassicsFooter, EmptyFooter, MaterialFooter,
-};
+}
 
 // 安装插件
 // @ts-ignore

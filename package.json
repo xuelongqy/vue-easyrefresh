@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Vue component for pull-refresh and push-load.",
   "author": "KnoYo <xuelongqy@foxmail.com>",
+  "main": "easyrefresh.js",
   "homepage": "https://github.com/xuelongqy/vue-easyrefresh",
+  "keyword": "easyrefresh refresh pull push",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/xuelongqy/vue-easyrefresh.git"
