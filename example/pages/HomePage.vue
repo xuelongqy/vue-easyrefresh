@@ -37,7 +37,7 @@ export default class HomePage extends Vue {
     // 初始化
     public mounted() {
         // 获取当前路由跳转到指定页面
-        if (this.page === this.$route.name) {
+        if (this.page !== this.$route.name) {
             this.page = this.$route.name as string
         }
     }
