@@ -28,3 +28,4 @@ lib/*.html
 tsconfig.json
 tslint.json
 yarn.lock
+art
