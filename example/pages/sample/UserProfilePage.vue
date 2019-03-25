@@ -166,7 +166,7 @@
             width: 100%;
             height: calc(100% - 60px);
             .user-profile-background {
-                position: fixed;
+                position: absolute;
                 width: 100%;
                 height: 100%;
                 background: #ff9800;
