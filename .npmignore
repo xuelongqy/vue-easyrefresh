@@ -18,3 +18,13 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+dist
+vue.config.js
+babel.config.js
+.browserslistrc
+postcss.config.js
+*.map
+lib/*.html
+tsconfig.json
+tslint.json
+yarn.lock
