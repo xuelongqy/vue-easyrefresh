@@ -1,3 +1,3 @@
-const EasyRefresh = require('./lib/easyrefresh.common')
+import EasyRefresh from './lib/easyrefresh.common'
 
 export default EasyRefresh
