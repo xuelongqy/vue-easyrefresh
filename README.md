@@ -29,7 +29,7 @@ App版本移步：[flutter_easyrefresh](https://github.com/xuelongqy/flutter_eas
 ## Demo
 [https://xuelongqy.github.io/vue-easyrefresh](https://xuelongqy.github.io/vue-easyrefresh)
 
-![](https://raw.githubusercontent.com/xuelongqy/flutter_easyrefresh/master/art/image/apk_QRCode.png)
+![](https://raw.githubusercontent.com/xuelongqy/vue-easyrefresh/master/art/image/demo_QRCode.png)
  
 ## 简单用例
 #### 1.安装vue-easyrefresh
