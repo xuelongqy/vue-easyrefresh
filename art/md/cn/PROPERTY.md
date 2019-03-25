@@ -68,7 +68,7 @@
 | footerStatusChanged | Footer状态改变     | (status: number) => void | null | 可选 |
 
 ## 方法表格 - EasyRefresh
-| 属性名称     |     属性描述     | 参数类型 | 要求 |
+| 方法名称     |     方法描述     | 方法类型 | 要求 |
 |---------|--------------------------|:-----:|:-----:|
 | setHeader      | 设置Header     | (header: Header) => void   |  不使用组件时自定义使用 |
 | setFooter      | 设置Footer     | (footer: Footer) => void   |  不使用组件时自定义使用 |
@@ -119,13 +119,13 @@
 | loadText | 加载提示文字     | string  | 'Push to load' | 可选 |
 | loadReadyText      | 准备加载文字     | string   |   'Release to load' |  可选 |
 | loadingText | 正在加载文字     | string  | 'Loading...' | 可选 |
-| noMoreText | 没有更新文字     | string  | 'No more' | 可选 |
+| noMoreText | 没有更多文字     | string  | 'No more' | 可选 |
 | loadedText | 加载完成文字     | string | 'Load finished' | 可选 |
 | bgColor | 背景颜色     | string | 'transparent' | 可选 |
 | textColor | 字体颜色     | string |'#616161' | 可选 |
 | showMore | 显示更多信息     | bool  | false | 可选 |
 | moreInfo | 更多信息     | string | 'Updated at %T' | 可选('%T'会替换为时间) |
 | moreInfoColor | 更多信息颜色     | string | '#aaaaaa' | 可选 |
-| height | 刷新高度     | number  | 70 | 可选 |
+| height | 加载高度     | number  | 70 | 可选 |
 | finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
 | isFloat | 是否浮动     | bool | false | 可选 |
