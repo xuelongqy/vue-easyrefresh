@@ -1,5 +1,5 @@
 <template>
-    <div class="user-profile">
+    <div ref="userProfile" class="user-profile">
         <AppBar :title="$t('sample.userProfile')" elevation="0" titleColor="white"/>
         <div class="user-profile-list">
             <!--背景-->
@@ -121,13 +121,15 @@
 
         // 初始化
         private mounted() {
+            // 同步宽度
+            this.screenWidth = (this.$refs['userProfile'] as Element).clientWidth
             // 监听屏幕大小改变
             window.addEventListener('resize', this.onResize)
         }
 
         // 大小改变
         private onResize() {
-            this.screenWidth = document.body.clientWidth
+            this.screenWidth = (this.$refs['userProfile'] as Element).clientWidth
         }
 
         // 打开项目地址
