@@ -235,6 +235,10 @@
             const content = this.content
             this.scroller.setDimensions(container!!.clientWidth, container!!.clientHeight,
                 content!!.offsetWidth, content!!.offsetHeight)
+            // 如果不需要加载更多，则计算footer位置
+            if (this.loadMore) {
+                this.footerTop = this.container!!.clientHeight
+            }
         }
 
         // 监听是否正在刷新
