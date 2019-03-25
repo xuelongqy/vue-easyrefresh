@@ -46,6 +46,8 @@
 </style>
 ~~~
 
+# EasyRefresh
+
 # 属性表格 - EasyRefresh
 | 属性名称     |     属性描述     | 参数类型 | 默认值  | 要求 |
 |---------|--------------------------|:-----:|:-----:|:-----:|
@@ -75,3 +77,55 @@
 | getContainer      | 获取容器     | () => HTMLElement   |  无 |
 | getContent      | 获取内容     | () => HTMLElement   |  无 |
 
+# Header
+其他Header没有一一列举,请查看相关Header的@Prop属性 [Headers](https://github.com/xuelongqy/vue-easyrefresh/tree/master/src/components/header)
+
+## 属性表格 - EmptyHeader(用于自由定义Header)
+| 属性名称     |     属性描述     | 参数类型 | 默认值  | 要求 |
+|---------|--------------------------|:-----:|:-----:|:-----:|
+| height | 刷新高度     | number  | 70 | 可选 |
+| finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
+| isFloat | 是否浮动     | bool | false | 可选 |
+
+## 属性表格 - ClassicsHeader
+| 属性名称     |     属性描述     | 参数类型 | 默认值  | 要求 |
+|---------|--------------------------|:-----:|:-----:|:-----:|
+| refreshText | 刷新提示文字     | string  | 'Pull to refresh' | 可选 |
+| refreshReadyText      | 准备刷新文字     | string   |   'Release to refresh' |  可选 |
+| refreshingText | 正在刷新文字     | string  | 'Refreshing...' | 可选 |
+| refreshedText | 刷新完成文字     | string | 'Refresh finished' | 可选 |
+| bgColor | 背景颜色     | string | 'transparent' | 可选 |
+| textColor | 字体颜色     | string |'#616161' | 可选 |
+| showMore | 显示更多信息     | bool  | false | 可选 |
+| moreInfo | 更多信息     | string | 'Updated at %T' | 可选('%T'会替换为时间) |
+| moreInfoColor | 更多信息颜色     | string | '#aaaaaa' | 可选 |
+| height | 刷新高度     | number  | 70 | 可选 |
+| finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
+| isFloat | 是否浮动     | bool | false | 可选 |
+
+# Footer
+其他Footer没有一一列举,请查看相关Footer的@Prop属性 [Footers](https://github.com/xuelongqy/vue-easyrefresh/tree/master/src/components/footer)
+
+## 属性表格 - EmptyFooter(用于自由定义Footer)
+| 属性名称     |     属性描述     | 参数类型 | 默认值  | 要求 |
+|---------|--------------------------|:-----:|:-----:|:-----:|
+| height | 加载高度     | number  | 70 | 可选 |
+| finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
+| isFloat | 是否浮动     | bool | false | 可选 |
+
+## 属性表格 - ClassicsHeader
+| 属性名称     |     属性描述     | 参数类型 | 默认值  | 要求 |
+|---------|--------------------------|:-----:|:-----:|:-----:|
+| loadText | 加载提示文字     | string  | 'Push to load' | 可选 |
+| loadReadyText      | 准备加载文字     | string   |   'Release to load' |  可选 |
+| loadingText | 正在加载文字     | string  | 'Loading...' | 可选 |
+| noMoreText | 没有更新文字     | string  | 'No more' | 可选 |
+| loadedText | 加载完成文字     | string | 'Load finished' | 可选 |
+| bgColor | 背景颜色     | string | 'transparent' | 可选 |
+| textColor | 字体颜色     | string |'#616161' | 可选 |
+| showMore | 显示更多信息     | bool  | false | 可选 |
+| moreInfo | 更多信息     | string | 'Updated at %T' | 可选('%T'会替换为时间) |
+| moreInfoColor | 更多信息颜色     | string | '#aaaaaa' | 可选 |
+| height | 刷新高度     | number  | 70 | 可选 |
+| finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
+| isFloat | 是否浮动     | bool | false | 可选 |
