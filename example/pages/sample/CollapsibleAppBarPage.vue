@@ -201,13 +201,13 @@
         width: 100%;
         height: 100%;
         .collapsible-app-bar-background {
-            position: fixed;
+            position: absolute;
             width: 100%;
             height: 65px;
             background: #ff9800;
         }
         .collapsible-app-bar {
-            position: fixed;
+            position: relative;
             width: 100%;
             height: 60px;
             z-index: 1000;
@@ -243,7 +243,6 @@
         .collapsible-app-bar-list {
             width: 100%;
             height: calc(100% - 60px);
-            margin-top: 60px;
             z-index: 1000;
             .collapsible-app-bar-content {
                 width: 100%;
