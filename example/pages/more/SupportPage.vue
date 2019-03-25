@@ -49,7 +49,7 @@
                 </ListItem>
             </EasyRefresh>
             <!--弹窗-->
-            <v-dialog v-model="showDialog">
+            <v-dialog v-model="showDialog" max-width="350">
                 <v-card class="text-xs-center support-page-dialog-content">
                     <img :src="imgBase64">
                 </v-card>
