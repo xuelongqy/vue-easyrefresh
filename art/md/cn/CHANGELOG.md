@@ -8,5 +8,5 @@
 
 ## V 1.0.1
 >修复：BezierCircleHeader偏移  
->修复：快速自动加载Footer生命周期错乱 
+>修复：快速自动加载Footer生命周期错乱  
 >添加：scrollTo方法  
