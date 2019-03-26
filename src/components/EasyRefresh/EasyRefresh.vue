@@ -194,6 +194,11 @@
             return this.content as HTMLElement
         }
 
+        // 滚动到指定位置
+        private scrollTo(top: number, animate: boolean) {
+            this.scroller.scrollTo(0, top, animate, null)
+        }
+
         // 初始化
         public mounted() {
             // 获取Footer和Header
@@ -506,7 +511,7 @@
                             this.updateFooterHeight(0)
                         }
                     }
-                }, this.footer.footerFinishDuration())
+                }, this.autoLoad ? 0 : this.footer.footerFinishDuration())
             }, noMore)
         }
         // 滚动动作结束(例如手指离开屏幕)

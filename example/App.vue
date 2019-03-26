@@ -94,7 +94,7 @@
             position: fixed;
             left: 0;
             right: 0;
-            width: 411px;
+            width: 410px;
             height: 731px;
             margin-top: 25px;
             margin-left:auto;

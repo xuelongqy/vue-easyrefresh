@@ -76,6 +76,7 @@
 | callLoadMore      | Trigger loading     | () => void   |  Does not take effect when refreshed or loaded |
 | getContainer      | Get container     | () => HTMLElement   |  none |
 | getContent      | Get content     | () => HTMLElement   |  none |
+| scrollTo      | Scroll to the specified location     | (top: number, animate: boolean) => void   |  Top is height offset, animate is scrolling animation |
 
 # Header
 Other Headers are not listed one by one, please check the related Header @Prop properties [Headers](https://github.com/xuelongqy/vue-easyrefresh/tree/master/src/components/header)

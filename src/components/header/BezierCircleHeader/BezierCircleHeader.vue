@@ -218,7 +218,7 @@ export default class BezierCircleHeader extends Vue implements Header {
     // 绘制弹出的圆圈
     private drawCircle() {
         this.canvas.fillStyle = this.color
-        const circleX = this.canvasDom.width / 2 + 0.5
+        const circleX = this.canvasDom.width / 2
         const circleY = this.reboundCircleValue
         this.canvas.beginPath();
         this.canvas.arc(circleX, circleY, this.circleR, 0 , 2 * Math.PI)

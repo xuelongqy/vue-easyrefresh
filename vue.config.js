@@ -11,15 +11,15 @@ module.exports = {
             filename: 'index.html',
             // 当使用 title 选项时，
             // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-            title: 'EasyRefresh'
-        }
+            title: 'EasyRefresh',
+        },
     },
     css: {
-        extract: false
+        extract: false,
     },
     configureWebpack: {
         resolve: {
-            symlinks: true
-        }
+            symlinks: true,
+        },
     },
 }

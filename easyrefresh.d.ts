@@ -10,4 +10,5 @@ export default class EasyRefresh {
     public callLoadMore: () => void
     public getContainer: () => HTMLElement
     public getContent: () => HTMLElement
+    public scrollTo: (top: number, animate: boolean) => void
 }

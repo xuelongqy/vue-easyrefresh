@@ -76,6 +76,7 @@
 | callLoadMore      | 触发加载     | () => void   |  没有刷新或加载时生效 |
 | getContainer      | 获取容器     | () => HTMLElement   |  无 |
 | getContent      | 获取内容     | () => HTMLElement   |  无 |
+| scrollTo      | 滚动到指定位置     | (top: number, animate: boolean) => void   |  top为高度偏移,animate为滚动动画 |
 
 # Header
 其他Header没有一一列举,请查看相关Header的@Prop属性 [Headers](https://github.com/xuelongqy/vue-easyrefresh/tree/master/src/components/header)
