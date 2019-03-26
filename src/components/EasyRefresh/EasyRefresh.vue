@@ -25,6 +25,11 @@
                 <ClassicsFooter ref="footer"/>
             </slot>
         </div>
+        <div class="v-easy-refresh-progress-bar">
+            <slot name="progress">
+                <ClassicsProgress ref="progress"/>
+            </slot>
+        </div>
     </div>
 </template>
 
@@ -36,6 +41,8 @@
     import ClassicsFooter from '../footer/ClassicsFooter'
     import { Header, HeaderStatus } from '../header/header'
     import { Footer, FooterStatus } from '../footer/footer'
+    import Progress from "@/components/progress/progress"
+    import ClassicsProgress from '@/components/progress/ClassicsProgress/ClassicsProgress.vue'
 
     // Header回调状态
     enum HeaderCallBackStatus {
@@ -63,6 +70,7 @@
         components: {
             ClassicsHeader,
             ClassicsFooter,
+            ClassicsProgress,
         },
     })
     export default class EasyRefresh extends Vue {
@@ -70,6 +78,8 @@
         private header!: Header
         // Footer
         private footer!: Footer
+        // Progress
+        private progress!: Progress
 
         @Prop() // 刷新回调
         private onRefresh!: (done: () => void) => void
@@ -101,6 +111,8 @@
         private updateFooterHeight!: (height: number) => void
         @Prop({default: null}) // Footer状态改变
         private footerStatusChanged!: (status: number) => void
+        @Prop({default: false}) // 显示进度条
+        private showProgressBar!: number
 
         // EasyRefresh id
         private easyRefreshId: string = 'easy-refresh-' + Math.random().toString(36).substring(3, 8)
@@ -138,13 +150,17 @@
         // 没有更多数据
         private noMore: boolean = false
 
-        // Header和Footer
+        // 设置Header和Footer
         public setHeader(header: Header) {
             this.header = header
         }
         public setFooter(footer: Footer) {
             this.footer = footer
             this.footerOffset = footer.loadHeight()
+        }
+        // 设置Progress
+        public setProgress(progress: Progress) {
+            this.progress = progress
         }
         // 触发刷新
         public callRefresh() {
@@ -207,6 +223,8 @@
                     this.setHeader((node as unknown) as Header)
                 } else if (node.hasOwnProperty('loadHeight') && !this.footer) {
                     this.setFooter((node as unknown) as Footer)
+                } else if (node.hasOwnProperty('updateProgress') && !this.progress) {
+                    this.setProgress((node as unknown) as Progress)
                 }
             }
             // 初始化EasyRefresh以及滚动组件
@@ -259,8 +277,46 @@
             }
         }
 
+        // 更新滚动条
+        private updateProgressBar(top: number) {
+            // 超出长度
+            let exceededLength
+            // 顶部距离
+            let topOffset
+            // 进度条长度
+            let progressBarLength
+            // 进度比例
+            let progressScale
+            // 列表可滚动的距离
+            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
+            if (this.container!!.clientHeight > this.content!!.offsetHeight) {
+                progressBarLength = 0
+                return
+            } else if (top < 0) {
+                exceededLength = -top
+                progressBarLength = this.container!!.clientHeight *
+                    this.container!!.clientHeight / (this.content!!.offsetHeight + exceededLength)
+                topOffset = 0
+                progressScale = 0
+            } else if (top > scrollableDistance) {
+                exceededLength = top - scrollableDistance
+                progressBarLength = this.container!!.clientHeight *
+                    this.container!!.clientHeight / (this.content!!.offsetHeight + exceededLength)
+                topOffset = this.container!!.clientHeight - progressBarLength
+                progressScale = 1
+            } else {
+                exceededLength = 0
+                progressBarLength = this.container!!.clientHeight *
+                    this.container!!.clientHeight / this.content!!.offsetHeight
+                progressScale = top / (this.content!!.offsetHeight - this.container!!.clientHeight)
+                topOffset = progressScale * (this.container!!.clientHeight - progressBarLength)
+            }
+            console.log(topOffset)
+        }
+
         // 滚动回调
         private scrollerCallBack(left: number, top: number, zoom: number) {
+            this.updateProgressBar(top)
             // 调用滚动回调
             if (this.onScroll) {
                 this.onScroll(top)
