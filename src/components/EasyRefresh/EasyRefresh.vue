@@ -25,7 +25,7 @@
                 <ClassicsFooter ref="footer"/>
             </slot>
         </div>
-        <div v-if="showScrollBar" class="v-easy-refresh-progress-bar">
+        <div :style="`showScrollBar ? '':'display:none;'`">
             <slot name="scrollbar">
                 <ClassicsScrollBar ref="progress"/>
             </slot>
