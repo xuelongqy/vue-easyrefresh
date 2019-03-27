@@ -66,6 +66,9 @@
 | headerStatusChanged | Header status change     | (status: number) => void | null | Optional |
 | updateFooterHeight | Footer height update     | (height: number) => void | null | Optional |
 | footerStatusChanged | Footer status change     | (status: number) => void | null | Optional |
+| slot:header | Header     | Header | ClassicsHeader | Optional |
+| slot:footer | Footer     | Footer | ClassicsFooter | Optional |
+| slot:scrollbar | ScrollBar     | ScrollBar | ClassicsScrollBar | Optional |
 
 ## Methods Table - EasyRefresh
 | Method Name     |     Method Explain     | Method Type | Requirement |
@@ -130,3 +133,17 @@ Other Footers are not listed one by one, please check the related Footer @Prop p
 | height | Loading height     | number  | 70 | Optional |
 | finishDuration | Completion delay(ms)     | number | 1000 | Optional |
 | isFloat | Whether it floats     | bool | false | Optional |
+
+# ScrollBar
+
+## Props Table - ClassicsScrollBar
+| Attribute Name     |     Attribute Explain     | Parameter Type | Default Value  | Requirement |
+|---------|--------------------------|:-----:|:-----:|:-----:|
+| bgColor | Background color     | string | 'transparent' | Optional |
+| color | Color     | string |'rgba(0, 0, 0, 0.5)' | Optional |
+| position | Position     | string  | 'right' | Optional (default is 'left', others are 'right') |
+| width |  Width    | number | 5 | Optional |
+| radius | border-radius     | number | 2 | Optional |
+| padding | Padding (left and right)     | number  | 0 | Optional |
+| autoHide | Auto hide     | bool | true | Optional |
+| autoHideDuration | Auto hide delay (ms)   | number | 2000 | Optional |
