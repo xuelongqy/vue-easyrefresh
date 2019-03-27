@@ -10,3 +10,6 @@
 >Fix: BezierCircleHeader Offset  
 >Fix: Fast and automatic loading of Footer lifecycle disorder  
 >Add: scrollTo method  
+
+## V 1.0.2
+>Add: scrollbar and custom  

@@ -10,3 +10,6 @@
 >修复：BezierCircleHeader偏移  
 >修复：快速自动加载Footer生命周期错乱  
 >添加：scrollTo方法  
+
+## V 1.0.2
+>添加：滚动条以及自定义  
