@@ -1,3 +1,3 @@
-import EasyRefresh from './lib/easyrefresh.common'
+import EasyRefresh from "./lib/easyrefresh.common";
 
-export default EasyRefresh
+export default EasyRefresh;

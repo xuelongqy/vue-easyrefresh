@@ -19,7 +19,7 @@
                     <div class="user-profile-header-content">
                         <div class="user-profile-header-title">KnoYo</div>
                         <div class="user-profile-header-img-box">
-                            <img :src="headerBase64" class="user-profile-header-img">
+                            <img :src="headerBase64" class="user-profile-header-img" alt="" ondragstart="return false;"/>
                         </div>
                     </div>
                 </div>
@@ -122,14 +122,14 @@
         // 初始化
         private mounted() {
             // 同步宽度
-            this.screenWidth = (this.$refs['userProfile'] as Element).clientWidth
+            this.screenWidth = (this.$refs.userProfile as Element).clientWidth
             // 监听屏幕大小改变
             window.addEventListener('resize', this.onResize)
         }
 
         // 大小改变
         private onResize() {
-            this.screenWidth = (this.$refs['userProfile'] as Element).clientWidth
+            this.screenWidth = (this.$refs.userProfile as Element).clientWidth
         }
 
         // 打开项目地址

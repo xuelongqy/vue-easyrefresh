@@ -62,6 +62,16 @@
                         <v-icon size="25" color="orange">format_line_spacing</v-icon>
                     </template>
                 </ListItem>
+                <v-divider/>
+                <!--滚动条-->
+                <ListItem
+                        :title="$t('sample.scrollBar')"
+                        :describe="$t('sample.scrollBarDescribe')"
+                        @click.native="$router.push('/scroll-bar')">
+                    <template v-slot:icon>
+                        <v-icon size="25" color="orange">border_right</v-icon>
+                    </template>
+                </ListItem>
             </EasyRefresh>
         </div>
     </div>

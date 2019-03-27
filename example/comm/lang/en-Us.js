@@ -43,6 +43,8 @@ module.exports = {
         email: "E-Mail",
         collapsibleAppBar: "Collapsible AppBar",
         collapsibleAppBarDescribe: "Example of a collapsible AppBar",
+        scrollBar: "ScrollBar",
+        scrollBarDescribe: "Add a scroll bar to the list",
     },
     style: {
         classicDescribe: "Classic and default",

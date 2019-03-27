@@ -10,12 +10,14 @@ import BezierBounceFooter from './components/footer/BezierBounceFooter'
 import ClassicsFooter from './components/footer/ClassicsFooter'
 import EmptyFooter from './components/footer/EmptyFooter'
 import MaterialFooter from './components/footer/MaterialFooter'
+import ClassicsScrollBar from './components/scrollbar/ClassicsScrollBar'
 
 const components = {
     EasyRefresh, BallPulseHeader, BezierBounceHeader,
     BezierCircleHeader, ClassicsHeader, MaterialHeader,
     EmptyHeader, BallPulseFooter, BezierBounceFooter,
     ClassicsFooter, EmptyFooter, MaterialFooter,
+    ClassicsScrollBar,
 }
 
 // 安装插件
@@ -36,7 +38,8 @@ export {
     EasyRefresh, BallPulseHeader, BezierBounceHeader,
     BezierCircleHeader, ClassicsHeader, MaterialHeader,
     EmptyHeader, BallPulseFooter, BezierBounceFooter,
-    ClassicsFooter, EmptyFooter, MaterialFooter, install,
+    ClassicsFooter, EmptyFooter, MaterialFooter,
+    ClassicsScrollBar, install,
 }
 
 export default {

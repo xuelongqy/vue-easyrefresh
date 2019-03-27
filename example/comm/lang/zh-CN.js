@@ -43,6 +43,8 @@ module.exports = {
         email: "邮箱",
         collapsibleAppBar: "折叠AppBar",
         collapsibleAppBarDescribe: "可折叠的AppBar",
+        scrollBar: "滚动条",
+        scrollBarDescribe: "为列表添加滚动条",
     },
     style: {
         classicDescribe: "经典(默认)风格",

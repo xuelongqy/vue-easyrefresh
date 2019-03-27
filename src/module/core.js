@@ -593,21 +593,21 @@
         /**
          * 触发上拉刷新
          */
-        triggerPullToRefresh: function (height, callBack) {
+        triggerPullToRefresh: function(height, callBack) {
             this.__publish(this.__scrollLeft, -height, this.__zoomLevel, true, callBack)
         },
 
         /**
          * 完成下拉刷新
          */
-        finishPullToRefresh: function () {
-            this.scrollTo(this.__scrollLeft, this.__scrollTop, true)
+        finishPullToRefresh: function() {
+            //this.scrollTo(this.__scrollLeft, this.__scrollTop, true)
         },
 
         /**
          * 触发上拉加载
          */
-        triggerPushToLoad: function (height, callBack, scroll) {
+        triggerPushToLoad: function(height, callBack, scroll) {
             if (scroll) {
                 this.__publish(this.__scrollLeft, this.__maxScrollTop + height, this.__zoomLevel, true, callBack)
             } else {
@@ -619,14 +619,14 @@
         /**
          * 完成上拉加载
          */
-        finishPushToLoad: function () {
+        finishPushToLoad: function() {
             this.scrollTo(this.__scrollLeft, this.__maxScrollTop, true)
         },
 
         /**
          * 计算列表大小
          */
-        computeScrollMax: function () {
+        computeScrollMax: function() {
             this.__computeScrollMax()
         },
 

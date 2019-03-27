@@ -25,9 +25,9 @@
                 <ClassicsFooter ref="footer"/>
             </slot>
         </div>
-        <div class="v-easy-refresh-progress-bar">
-            <slot name="progress">
-                <ClassicsProgress ref="progress"/>
+        <div v-if="showScrollBar" class="v-easy-refresh-progress-bar">
+            <slot name="scrollbar">
+                <ClassicsScrollBar ref="progress"/>
             </slot>
         </div>
     </div>
@@ -41,8 +41,8 @@
     import ClassicsFooter from '../footer/ClassicsFooter'
     import { Header, HeaderStatus } from '../header/header'
     import { Footer, FooterStatus } from '../footer/footer'
-    import Progress from "@/components/progress/progress"
-    import ClassicsProgress from '@/components/progress/ClassicsProgress/ClassicsProgress.vue'
+    import ScrollBar from '@/components/scrollbar/scrollbar'
+    import ClassicsScrollBar from '@/components/scrollbar/ClassicsScrollBar/ClassicsScrollBar.vue'
 
     // Header回调状态
     enum HeaderCallBackStatus {
@@ -70,7 +70,7 @@
         components: {
             ClassicsHeader,
             ClassicsFooter,
-            ClassicsProgress,
+            ClassicsScrollBar,
         },
     })
     export default class EasyRefresh extends Vue {
@@ -78,8 +78,8 @@
         private header!: Header
         // Footer
         private footer!: Footer
-        // Progress
-        private progress!: Progress
+        // ScrollBar
+        private scrollBar!: ScrollBar
 
         @Prop() // 刷新回调
         private onRefresh!: (done: () => void) => void
@@ -111,8 +111,8 @@
         private updateFooterHeight!: (height: number) => void
         @Prop({default: null}) // Footer状态改变
         private footerStatusChanged!: (status: number) => void
-        @Prop({default: false}) // 显示进度条
-        private showProgressBar!: number
+        @Prop({default: true}) // 显示滚动条
+        private showScrollBar!: boolean
 
         // EasyRefresh id
         private easyRefreshId: string = 'easy-refresh-' + Math.random().toString(36).substring(3, 8)
@@ -158,9 +158,9 @@
             this.footer = footer
             this.footerOffset = footer.loadHeight()
         }
-        // 设置Progress
-        public setProgress(progress: Progress) {
-            this.progress = progress
+        // 设置ScrollBar
+        public setScrollBar(scrollBar: ScrollBar) {
+            this.scrollBar = scrollBar
         }
         // 触发刷新
         public callRefresh() {
@@ -216,15 +216,15 @@
         }
 
         // 初始化
-        public mounted() {
+        private mounted() {
             // 获取Footer和Header
             for (const node of this.$children) {
                 if (node.hasOwnProperty('refreshHeight') && !this.header) {
                     this.setHeader((node as unknown) as Header)
                 } else if (node.hasOwnProperty('loadHeight') && !this.footer) {
                     this.setFooter((node as unknown) as Footer)
-                } else if (node.hasOwnProperty('updateProgress') && !this.progress) {
-                    this.setProgress((node as unknown) as Progress)
+                } else if (node.hasOwnProperty('updateScrollBar') && !this.scrollBar) {
+                    this.setScrollBar((node as unknown) as ScrollBar)
                 }
             }
             // 初始化EasyRefresh以及滚动组件
@@ -262,6 +262,10 @@
             if (this.loadMore) {
                 this.footerTop = this.container!!.clientHeight
             }
+            // 计算滚动条
+            this.scrollBar.setClientHeight(container!!.clientHeight)
+            const {left, top, zoom} = this.scroller.getValues()
+            this.updateScrollBar(top)
         }
 
         // 监听是否正在刷新
@@ -274,49 +278,54 @@
                 this.scroller.setDimensions(container!!.clientWidth, container!!.clientHeight,
                     content!!.offsetWidth, content!!.offsetHeight)
                 this.scroller.computeScrollMax()
+                // 更新滚动条
+                const {left, top, zoom} = this.scroller.getValues()
+                this.updateScrollBar(top)
             }
         }
 
         // 更新滚动条
-        private updateProgressBar(top: number) {
+        private updateScrollBar(top: number) {
+            if (!this.showScrollBar) { return }
             // 超出长度
             let exceededLength
             // 顶部距离
-            let topOffset
-            // 进度条长度
-            let progressBarLength
-            // 进度比例
-            let progressScale
+            let topOffset = 0
+            // 滚动条长度
+            let scrollBarLength = 0
+            // 滚动比例
+            let scrollBarScale = 0
             // 列表可滚动的距离
             const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             if (this.container!!.clientHeight > this.content!!.offsetHeight) {
-                progressBarLength = 0
+                scrollBarLength = 0
                 return
             } else if (top < 0) {
                 exceededLength = -top
-                progressBarLength = this.container!!.clientHeight *
+                scrollBarLength = this.container!!.clientHeight *
                     this.container!!.clientHeight / (this.content!!.offsetHeight + exceededLength)
                 topOffset = 0
-                progressScale = 0
+                scrollBarScale = 0
             } else if (top > scrollableDistance) {
                 exceededLength = top - scrollableDistance
-                progressBarLength = this.container!!.clientHeight *
+                scrollBarLength = this.container!!.clientHeight *
                     this.container!!.clientHeight / (this.content!!.offsetHeight + exceededLength)
-                topOffset = this.container!!.clientHeight - progressBarLength
-                progressScale = 1
+                topOffset = this.container!!.clientHeight - scrollBarLength
+                scrollBarScale = 1
             } else {
-                exceededLength = 0
-                progressBarLength = this.container!!.clientHeight *
+                // exceededLength = 0
+                scrollBarLength = this.container!!.clientHeight *
                     this.container!!.clientHeight / this.content!!.offsetHeight
-                progressScale = top / (this.content!!.offsetHeight - this.container!!.clientHeight)
-                topOffset = progressScale * (this.container!!.clientHeight - progressBarLength)
+                scrollBarScale = top / (this.content!!.offsetHeight - this.container!!.clientHeight)
+                topOffset = scrollBarScale * (this.container!!.clientHeight - scrollBarLength)
             }
-            console.log(topOffset)
+            this.scrollBar.updateScrollBar(scrollBarLength, topOffset, scrollBarScale)
         }
 
         // 滚动回调
         private scrollerCallBack(left: number, top: number, zoom: number) {
-            this.updateProgressBar(top)
+            // 更新滚动条
+            this.updateScrollBar(top)
             // 调用滚动回调
             if (this.onScroll) {
                 this.onScroll(top)
