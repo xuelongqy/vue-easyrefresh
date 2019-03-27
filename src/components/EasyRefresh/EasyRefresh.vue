@@ -111,7 +111,7 @@
         private updateFooterHeight!: (height: number) => void
         @Prop({default: null}) // Footer状态改变
         private footerStatusChanged!: (status: number) => void
-        @Prop({default: true}) // 显示滚动条
+        @Prop({default: false}) // 显示滚动条
         private showScrollBar!: boolean
 
         // EasyRefresh id
