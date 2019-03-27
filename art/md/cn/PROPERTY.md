@@ -66,6 +66,9 @@
 | headerStatusChanged | Header状态改变     | (status: number) => void | null | 可选 |
 | updateFooterHeight | Footer高度更新     | (height: number) => void | null | 可选 |
 | footerStatusChanged | Footer状态改变     | (status: number) => void | null | 可选 |
+| slot:header | Header     | Header | ClassicsHeader | 可选 |
+| slot:footer | Footer     | Footer | ClassicsFooter | 可选 |
+| slot:scrollbar | ScrollBar     | ScrollBar | ClassicsScrollBar | 可选 |
 
 ## 方法表格 - EasyRefresh
 | 方法名称     |     方法描述     | 方法类型 | 要求 |
@@ -130,3 +133,17 @@
 | height | 加载高度     | number  | 70 | 可选 |
 | finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
 | isFloat | 是否浮动     | bool | false | 可选 |
+
+# ScrollBar
+
+## 属性表格 - ClassicsScrollBar
+| 属性名称     |     属性描述     | 参数类型 | 默认值  | 要求 |
+|---------|--------------------------|:-----:|:-----:|:-----:|
+| bgColor | 背景颜色     | string | 'transparent' | 可选 |
+| color | 颜色     | string |'rgba(0, 0, 0, 0.5)' | 可选 |
+| position | 位置     | string  | 'right' | 可选(默认为'left',其他为'right') |
+| width |  宽度    | number | 5 | 可选 |
+| radius | 圆角     | number | 2 | 可选 |
+| padding | 内边距(左和右)     | number  | 0 | 可选 |
+| autoHide | 自动隐藏     | bool | true | 可选 |
+| autoHideDuration | 自隐藏延时(ms)   | number | 2000 | 可选 |
