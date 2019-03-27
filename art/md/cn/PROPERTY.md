@@ -146,4 +146,4 @@
 | radius | 圆角     | number | 2 | 可选 |
 | padding | 内边距(左和右)     | number  | 0 | 可选 |
 | autoHide | 自动隐藏     | bool | true | 可选 |
-| autoHideDuration | 自隐藏延时(ms)   | number | 2000 | 可选 |
+| autoHideDuration | 自动隐藏延时(ms)   | number | 2000 | 可选 |
