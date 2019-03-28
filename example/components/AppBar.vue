@@ -78,6 +78,11 @@
                 align-items: Start;
                 color: black;
                 font-size: 14pt;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -o-user-select: none;
+                user-select: none;
             }
         }
     }

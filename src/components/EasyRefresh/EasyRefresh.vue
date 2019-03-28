@@ -157,6 +157,8 @@
         // 设置ScrollBar
         public setScrollBar(scrollBar: ScrollBar) {
             this.scrollBar = scrollBar
+            // 绑定滚动条
+            this.scrollBar.setScroller(this.scroller)
         }
         // 触发刷新
         public callRefresh() {
@@ -213,16 +215,6 @@
 
         // 初始化
         private mounted() {
-            // 获取Footer和Header
-            for (const node of this.$children) {
-                if (node.hasOwnProperty('refreshHeight') && !this.header) {
-                    this.setHeader((node as unknown) as Header)
-                } else if (node.hasOwnProperty('loadHeight') && !this.footer) {
-                    this.setFooter((node as unknown) as Footer)
-                } else if (node.hasOwnProperty('updateScrollBar') && !this.scrollBar) {
-                    this.setScrollBar((node as unknown) as ScrollBar)
-                }
-            }
             // 初始化EasyRefresh以及滚动组件
             this.container = document.getElementById(this.easyRefreshId)
             this.content = document.getElementById(this.contentId)
@@ -240,6 +232,16 @@
             // snapping
             if (this.snapping) {
                 this.scroller.setSnapSize(this.snapWidth, this.snapHeight)
+            }
+            // 获取Footer,Header和ScrollBar
+            for (const node of this.$children) {
+                if (node.hasOwnProperty('refreshHeight') && !this.header) {
+                    this.setHeader((node as unknown) as Header)
+                } else if (node.hasOwnProperty('loadHeight') && !this.footer) {
+                    this.setFooter((node as unknown) as Footer)
+                } else if (node.hasOwnProperty('updateScrollBar') && !this.scrollBar) {
+                    this.setScrollBar((node as unknown) as ScrollBar)
+                }
             }
             // 监听大小变化
             this.onResize()
