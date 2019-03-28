@@ -158,6 +158,11 @@ export default class ClassicsHeader extends Vue implements Header {
         display: flex;
         justify-content:center;
         align-items:Center;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
         .er-classics-header-flex {
             flex: 1;
         }

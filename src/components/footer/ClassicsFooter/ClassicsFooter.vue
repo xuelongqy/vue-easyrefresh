@@ -165,6 +165,11 @@ export default class ClassicsFooter extends Vue implements Footer {
         display: flex;
         justify-content:center;
         align-items:Center;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
         .er-classics-footer-flex {
             flex: 1;
         }
