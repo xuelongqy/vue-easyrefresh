@@ -3,11 +3,7 @@
         <div class="v-easy-refresh-body" :id="easyRefreshId"
              :class="{'er_user_select_none': !userSelect}"
              @touchstart="touchStart($event)"
-             @touchmove="touchMove($event)"
-             @touchend="touchEnd($event)"
              @mousedown="mouseDown($event)"
-             @mousemove="mouseMove($event)"
-             @mouseup="mouseUp($event)"
              @wheel="wheel($event)">
             <div :id="contentId">
                 <div class="v-easy-refresh-float-offset" :style="'margin-top: ' + floatTop + 'px;'"></div>
@@ -251,7 +247,23 @@
             this.headerBottom = -this.container!!.clientHeight
             this.footerTop = this.container!!.clientHeight
             window.addEventListener('resize', this.onResize)
+            // 监听鼠标移动
+            document.addEventListener('mousemove', this.mouseMove)
+            // 监听鼠标抬起事件
+            document.addEventListener('mouseup', this.mouseUp)
+            // 监听触摸移动
+            document.addEventListener('touchmove', this.touchMove)
+            // 监听触摸结束
+            document.addEventListener('touchend', this.touchEnd)
         }
+        // 销毁前
+        private beforeDestroy() {
+            document.removeEventListener('mousemove', this.mouseMove)
+            document.removeEventListener('mouseup', this.mouseUp)
+            document.removeEventListener('touchmove', this.touchMove)
+            document.removeEventListener('touchend', this.touchEnd)
+        }
+
         // 大小改变
         private onResize() {
             const container = this.container
@@ -677,9 +689,7 @@
         // 鼠标移动事件
         private mouseMove(e: MouseEvent) {
             if (this.userSelect) {return}
-            if (!this.mousedown) {
-                return
-            }
+            if (!this.mousedown) {return}
             this.scroller.doTouchMove([{
                 pageX: e.pageX,
                 pageY: e.pageY,
