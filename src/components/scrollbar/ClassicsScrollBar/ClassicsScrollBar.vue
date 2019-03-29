@@ -101,7 +101,9 @@
                     clearTimeout(this.scrollBarTimer)
                 }
                 this.scrollBarTimer = setTimeout(() => {
-                    this.showBar = false
+                    if (!this.pressDown) {
+                        this.showBar = false
+                    }
                 }, this.autoHideDuration)
             }
         }
@@ -187,6 +189,7 @@
             this.pressTop = null
             this.pressDown = false
             this.scroller.doTouchEnd(e.timeStamp, false)
+            this.showBarChange()
         }
     }
 </script>
