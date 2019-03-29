@@ -1,6 +1,6 @@
 {
   "name": "vue-easyrefresh",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Vue component for pull-refresh and push-load.",
   "author": "KnoYo <xuelongqy@foxmail.com>",
   "main": "easyrefresh.js",

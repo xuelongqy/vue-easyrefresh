@@ -13,3 +13,8 @@
 
 ## V 1.0.2
 >Add: scrollbar and custom  
+
+## V 1.0.4
+>Modify: Mouse and touch events are global listeners  
+>Fix: Scrolling conflicts caused by classic style text selection  
+>Add: Scroll bar can be dragged  
