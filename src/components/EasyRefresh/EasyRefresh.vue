@@ -663,7 +663,6 @@
         // 滑动事件
         private touchMove(e: TouchEvent) {
             if (!this.userScrolling) { return }
-            e.preventDefault()
             this.scroller.doTouchMove(e.touches, e.timeStamp)
         }
         // 触摸结束事件
@@ -752,6 +751,7 @@
         height: 100%;
         position: relative;
         overflow: hidden;
+        touch-action: none;
         .v-easy-refresh-body {
             width: 100%;
             height: 100%;
