@@ -185,6 +185,7 @@
         // 处理滚动结束事件
         private scrollActionEnd(e: UIEvent) {
             if (!this.draggable) {return}
+            if (!this.pressDown) {return}
             this.pressPosition = null
             this.pressTop = null
             this.pressDown = false
