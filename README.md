@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](/LICENSE)
 [![Awesome Flutter](https://img.shields.io/badge/Awesome-Vue-orange.svg)](https://vuejs.org)
-[![Pub](https://img.shields.io/badge/npm-v1.0.4-orange.svg)](https://www.npmjs.com/package/vue-easyrefresh)
+[![Pub](https://img.shields.io/badge/npm-v1.0.5-orange.svg)](https://www.npmjs.com/package/vue-easyrefresh)
 
 ## [English](https://github.com/xuelongqy/vue-easyrefresh/blob/master/README_EN.md) | 中文
 
