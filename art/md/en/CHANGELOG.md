@@ -18,3 +18,8 @@
 >Modify: Mouse and touch events are global listeners  
 >Fix: Scrolling conflicts caused by classic style text selection  
 >Add: Scroll bar can be dragged  
+
+## V 1.0.5
+>Fix: Internationalized default language issues  
+>Disabled: Browser default event  
+>Fix: Gestures slide too fast without displaying animations  
