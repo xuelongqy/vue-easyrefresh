@@ -235,6 +235,9 @@
                 }
             }
         }
+        .elevation-0 {
+            box-shadow: 0 0 0 0 rgba(0,0,0,.2), 0 0 0 0 rgba(0,0,0,.14), 0 0 0 0 rgba(0,0,0,.12);
+        }
     }
 </style>
 

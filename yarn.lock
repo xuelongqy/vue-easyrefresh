@@ -7522,10 +7522,10 @@ vue@^2.6.10:
   resolved "http://r.cnpmjs.org/vue/download/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha1-pysaQqTYKnIepDjRtr9V5mGVxjc=
 
-vuetify@^2.0.0-alpha.11:
-  version "2.0.0-alpha.14"
-  resolved "https://registry.npmjs.org/vuetify/-/vuetify-2.0.0-alpha.14.tgz#22ee7f46ea6d9107620582ba39947f8e9c061dab"
-  integrity sha512-EQpmd3GODk37o8JpZFAWbcY2PtrJGAxLypMDADSCYOAUIx7hMBlmbbfQ9Y3LjNQpk5eAYSGCPykSQgoWt3nKAg==
+vuetify@^2.0.0-alpha.16:
+  version "2.0.0-alpha.16"
+  resolved "http://r.cnpmjs.org/vuetify/download/vuetify-2.0.0-alpha.16.tgz#31e786d90ebed4a54eac3180fc28ab0baf56fa9e"
+  integrity sha1-MeeG2Q6+1KVOrDGA/CirC69W+p4=
 
 watchpack@^1.5.0:
   version "1.6.0"
