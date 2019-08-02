@@ -1,5 +1,5 @@
 <template>
-    <div class="er-classics-footer-box" :style="'height: ' + footerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
+    <div class="er-classics-footer-box" :style="'height: ' + footerHeight + 'px;' + 'background-color: ' + bgColor + ';' + 'align-items: ' + alignItems + ';'">
         <div class="er-classics-footer" :style="'height: ' + height + 'px;'">
             <!--图标-->
             <span class="er-classics-footer-flex er-classics-footer-icon">
@@ -85,6 +85,8 @@ export default class ClassicsFooter extends Vue implements Footer {
     private rotateArrow: boolean = false
     // Header状态
     private footerStatus: FooterStatus = FooterStatus.NO_LOAD
+    // 位置
+    private alignItems: string = 'flex-end'
 
     // 初始化
     public mounted() {
@@ -94,6 +96,14 @@ export default class ClassicsFooter extends Vue implements Footer {
         this.showMoreInfo = this.getMoreInfo()
         // 初始化高度
         this.footerHeight = this.height
+        // 初始化位置
+        if (this.alignment === 'bottom') {
+            this.alignItems = 'flex-end'
+        } else if (this.alignment === 'center') {
+            this.alignItems = 'center'
+        } else {
+            this.alignItems = 'flex-start'
+        }
     }
 
     // 加载高度

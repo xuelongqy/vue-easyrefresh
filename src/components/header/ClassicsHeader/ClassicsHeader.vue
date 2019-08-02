@@ -1,5 +1,5 @@
 <template>
-    <div class="er-classics-header-box" :style="'height: ' + headerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
+    <div class="er-classics-header-box" :style="'height: ' + headerHeight + 'px;' + 'background-color: ' + bgColor + ';' + 'align-items: ' + alignItems + ';'">
         <div class="er-classics-header" :style="'height: ' + height + 'px;'">
             <!--图标-->
             <span class="er-classics-header-flex er-classics-header-icon">
@@ -82,6 +82,8 @@ export default class ClassicsHeader extends Vue implements Header {
     private rotateArrow: boolean = false
     // Header状态
     private headerStatus: HeaderStatus = HeaderStatus.NO_REFRESH
+    // 位置
+    private alignItems: string = 'flex-end'
 
     // 初始化
     public mounted() {
@@ -91,6 +93,14 @@ export default class ClassicsHeader extends Vue implements Header {
         this.showMoreInfo = this.getMoreInfo()
         // 初始化高度
         this.headerHeight = this.height
+        // 初始化位置
+        if (this.alignment === 'top') {
+            this.alignItems = 'flex-start'
+        } else if (this.alignment === 'center') {
+            this.alignItems = 'center'
+        } else {
+            this.alignItems = 'flex-end'
+        }
     }
 
     // 刷新高度
@@ -161,7 +171,6 @@ export default class ClassicsHeader extends Vue implements Header {
     .er-classics-header-box {
         display: flex;
         justify-content: center;
-        align-items: flex-end;
         .er-classics-header {
             width: 100%;
             padding: 10px 0;
