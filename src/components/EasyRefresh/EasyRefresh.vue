@@ -131,9 +131,6 @@
         private wheelTimer!: number
         // 滚轮滚动
         private wheelScrolling: boolean = false
-        // 滚轮位置记录
-        private wheelPageX: number = 0
-        private wheelPageY: number = 0
         // Header和Footer的位置
         private headerBottom: number = 0
         private footerTop: number = 0
@@ -211,6 +208,9 @@
         // 滚动到指定位置
         private scrollTo(top: number, animate: boolean) {
             this.scroller.scrollTo(0, top, animate, null)
+        }
+        private scrollPublishTo(top: number, animate: boolean) {
+            this.scroller.scrollPublishTo(0, top, animate)
         }
 
         // 初始化
@@ -624,10 +624,10 @@
                     return
                 }
             }
+            // 列表可滚动的距离
+            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             // 判断是否需要加载更多
             if (this.loadMore && !this.noMore) {
-                // 列表可滚动的距离
-                const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
                 const {left, top, zoom} = this.scroller.getValues()
                 // 触发加载
                 if (this.footerStatus === FooterStatus.LOAD_READY &&
@@ -647,6 +647,8 @@
                     this.isRefresh = true
                     return
                 }
+            } else if (e instanceof  WheelEvent) {
+                this.scrollTo(scrollableDistance > 0 ? scrollableDistance : 0, true);
             }
             this.scroller.doTouchEnd(e.timeStamp, false)
         }
@@ -707,17 +709,10 @@
         }
         // 滚轮事件
         private wheel(e: WheelEvent) {
-            if (this.wheelScrolling) {
+            if (this.wheelScrolling || this.isRefresh) {
                 // 清除上一次计时
                 clearTimeout(this.wheelTimer)
             } else {
-                // 开始滚动
-                this.scroller.doTouchStart([{
-                    pageX: e.pageX,
-                    pageY: e.pageY,
-                }], e.timeStamp)
-                this.wheelPageX = e.pageX
-                this.wheelPageY = e.pageY
                 this.wheelScrolling = true
                 this.userScrolling = true
                 this.onResize()
@@ -726,19 +721,11 @@
             const scrollerValue = this.scroller.getValues()
             if (scrollerValue.top > - 60 - 50 &&
                 scrollerValue.top < this.content!!.offsetHeight - this.container!!.clientHeight + 60 + 50 ) {
-                // 计算偏移
-                this.wheelPageX -= e.deltaX
-                this.wheelPageY -= e.deltaY
-                this.scroller.doTouchMove([{
-                    pageX: this.wheelPageX,
-                    pageY: this.wheelPageY,
-                }], e.timeStamp)
+                this.scrollPublishTo(scrollerValue.top + e.deltaY, false);
             }
             // 设置计时器,结束滚动
             this.wheelTimer = setTimeout(() => {
                 this.wheelScrolling = false
-                this.wheelPageX = 0
-                this.wheelPageY = 0
                 this.scrollActionEnd(e)
             }, 200)
         }

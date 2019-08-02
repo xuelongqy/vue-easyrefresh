@@ -631,6 +631,13 @@
         },
 
         /**
+         * 滚动到指定高度
+         */
+        scrollPublishTo: function(left, top, animate) {
+            this.__publish(this.__scrollLeft, top, this.__zoomLevel, animate)
+        },
+
+        /**
          * Returns the scroll position and zooming values
          *
          * @return {Map} `left` and `top` scroll position and `zoom` level
