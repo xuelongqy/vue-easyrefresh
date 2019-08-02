@@ -1,17 +1,19 @@
 <template>
-    <div ref="header" class="er-classics-header" :style="'height: ' + headerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
-        <!--图标-->
-        <span class="er-classics-header-flex er-classics-header-icon">
+    <div class="er-classics-header-box" :style="'height: ' + headerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
+        <div class="er-classics-header" :style="'height: ' + height + 'px;'">
+            <!--图标-->
+            <span class="er-classics-header-flex er-classics-header-icon">
             <CircularProgress v-if="headerStatus === 4" :color="textColor" class="er-classics-header-progress"></CircularProgress>
             <Done v-else-if="headerStatus === 5 || headerStatus === 6" :color="textColor" class="er-classics-header-done-icon"></Done>
             <Arrow v-else :color="textColor" :rotate="rotateArrow" class="er-classics-header-arrow-icon"></Arrow>
         </span>
-        <!--文字-->
-        <span class="er-classics-header-flex er-classics-header-content">
+            <!--文字-->
+            <span class="er-classics-header-flex er-classics-header-content">
             <div :style="'color: ' + textColor + ';'" class="er-classics-header-content-text">{{showText}}</div>
             <div v-if="showMore" :style="'color: ' + moreInfoColor + ';'" class="er-classics-header-content-more">{{showMoreInfo}}</div>
         </span>
-        <span class="er-classics-header-flex"></span>
+            <span class="er-classics-header-flex"></span>
+        </div>
     </div>
 </template>
 
@@ -66,6 +68,9 @@ export default class ClassicsHeader extends Vue implements Header {
     // 是否浮动
     @Prop({default: false})
     private isFloat!: boolean
+    // 方位
+    @Prop({default: 'bottom'})
+    private alignment!: string
 
     // 显示文字
     private showText: string = this.refreshText
@@ -153,44 +158,50 @@ export default class ClassicsHeader extends Vue implements Header {
 </script>
 
 <style lang="scss">
-    .er-classics-header {
-        width: 100%;
+    .er-classics-header-box {
         display: flex;
-        justify-content:center;
-        align-items:Center;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -o-user-select: none;
-        user-select: none;
-        .er-classics-header-flex {
-            flex: 1;
-        }
-        .er-classics-header-icon {
+        justify-content: center;
+        align-items: flex-end;
+        .er-classics-header {
+            width: 100%;
+            padding: 10px 0;
             display: flex;
-            justify-content:flex-end;
-            align-items:Center;
-            .er-classics-header-arrow-icon, .er-classics-header-done-icon {
-                height: 24px;
-                width: 24px;
-                margin-right: 15px;
-                font-size: 24px;
-                align-self:flex-end;
+            justify-content: center;
+            align-items: center;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+            .er-classics-header-flex {
+                flex: 1;
             }
-            .er-classics-header-progress {
-                margin-right: 10px;
+            .er-classics-header-icon {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                .er-classics-header-arrow-icon, .er-classics-header-done-icon {
+                    height: 24px;
+                    width: 24px;
+                    margin-right: 15px;
+                    font-size: 24px;
+                    align-self:flex-end;
+                }
+                .er-classics-header-progress {
+                    margin-right: 10px;
+                }
             }
-        }
-        .er-classics-header-content {
-            display: flex;
-            flex-direction: column;
-            justify-content:center;
-            align-items:Center;
-            .er-classics-header-content-text {
-                font-size: 14px;
-            }
-            .er-classics-header-content-more {
-                font-size: 12px;
+            .er-classics-header-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                .er-classics-header-content-text {
+                    font-size: 14px;
+                }
+                .er-classics-header-content-more {
+                    font-size: 12px;
+                }
             }
         }
     }

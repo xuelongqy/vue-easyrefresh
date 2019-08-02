@@ -1,17 +1,19 @@
 <template>
-    <div ref="footer" class="er-classics-footer" :style="'height: ' + footerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
-        <!--图标-->
-        <span class="er-classics-footer-flex er-classics-footer-icon">
+    <div class="er-classics-footer-box" :style="'height: ' + footerHeight + 'px;' + 'background-color: ' + bgColor + ';'">
+        <div class="er-classics-footer" :style="'height: ' + height + 'px;'">
+            <!--图标-->
+            <span class="er-classics-footer-flex er-classics-footer-icon">
             <CircularProgress v-if="footerStatus === 4" :color="textColor" class="er-classics-footer-progress"></CircularProgress>
             <Done v-else-if="footerStatus === 5 || footerStatus === 6" :color="textColor" class="er-classics-footer-done-icon"></Done>
             <Arrow v-else direction="up" :color="textColor" :rotate="rotateArrow" class="er-classics-footer-arrow-icon"></Arrow>
         </span>
-        <!--文字-->
-        <span :style="'color: ' + textColor + ';'" class="er-classics-footer-flex er-classics-footer-content">
+            <!--文字-->
+            <span :style="'color: ' + textColor + ';'" class="er-classics-footer-flex er-classics-footer-content">
             <div :style="'color: ' + textColor + ';'" class="er-classics-footer-content-text">{{showText}}</div>
             <div v-if="showMore" :style="'color: ' + moreInfoColor + ';'" class="er-classics-footer-content-more">{{showMoreInfo}}</div>
         </span>
-        <span class="er-classics-footer-flex"></span>
+            <span class="er-classics-footer-flex"></span>
+        </div>
     </div>
 </template>
 
@@ -69,6 +71,9 @@ export default class ClassicsFooter extends Vue implements Footer {
     // 是否浮动
     @Prop({default: false})
     private isFloat!: boolean
+    // 方位
+    @Prop({default: 'top'})
+    private alignment!: string
 
     // 显示文字
     private showText = this.loadText
@@ -160,44 +165,48 @@ export default class ClassicsFooter extends Vue implements Footer {
 </script>
 
 <style lang="scss">
-    .er-classics-footer {
-        width: 100%;
+    .er-classics-footer-box {
         display: flex;
-        justify-content:center;
-        align-items:Center;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -o-user-select: none;
-        user-select: none;
-        .er-classics-footer-flex {
-            flex: 1;
-        }
-        .er-classics-footer-icon {
+        justify-content: center;
+        .er-classics-footer {
+            width: 100%;
             display: flex;
-            justify-content:flex-end;
-            align-items:Center;
-            .er-classics-footer-arrow-icon, .er-classics-footer-done-icon {
-                height: 24px;
-                width: 24px;
-                margin-right: 15px;
-                font-size: 24px;
-                align-self:flex-end;
+            justify-content: center;
+            align-items: center;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+            .er-classics-footer-flex {
+                flex: 1;
             }
-            .er-classics-footer-progress {
-                margin-right: 10px;
+            .er-classics-footer-icon {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                .er-classics-footer-arrow-icon, .er-classics-footer-done-icon {
+                    height: 24px;
+                    width: 24px;
+                    margin-right: 15px;
+                    font-size: 24px;
+                    align-self:flex-end;
+                }
+                .er-classics-footer-progress {
+                    margin-right: 10px;
+                }
             }
-        }
-        .er-classics-footer-content {
-            display: flex;
-            flex-direction: column;
-            justify-content:center;
-            align-items:Center;
-            .er-classics-footer-content-text {
-                font-size: 14px;
-            }
-            .er-classics-footer-content-more {
-                font-size: 12px;
+            .er-classics-footer-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                .er-classics-footer-content-text {
+                    font-size: 14px;
+                }
+                .er-classics-footer-content-more {
+                    font-size: 12px;
+                }
             }
         }
     }
