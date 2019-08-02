@@ -32,7 +32,7 @@
         @Prop({default: 'black'})
         private titleColor!: string
         // 颜色
-        @Prop({default: 'orange'})
+        @Prop({default: '#FF9800'})
         private color!: string
         // 阴影
         @Prop({default: 3})

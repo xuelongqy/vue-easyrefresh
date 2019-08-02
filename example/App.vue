@@ -7,7 +7,7 @@
         </div>
         <div v-if="!isMobile" class="screen-btn">
             <v-btn
-                color="orange"
+                color="#FF9800"
                 dark
                 fab
                 @click="onScreenChange">
