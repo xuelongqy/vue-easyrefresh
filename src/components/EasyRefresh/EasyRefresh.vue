@@ -369,7 +369,7 @@
             } else {
                 scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             }
-            if (top < 0) {
+            if (top < 0) { // 显示Header
                 if (!this.onRefresh) { return }
                 // if (this.headerStatus === HeaderStatus.REFRESHING ||
                 //     this.headerStatus === HeaderStatus.REFRESHED) { return }
@@ -409,7 +409,7 @@
                     }
                     this.headerStatus = HeaderStatus.REFRESH_START
                 }
-            } else if (top > scrollableDistance) {
+            } else if (top > 0 && top > scrollableDistance) { // 显示Footer
                 if (!this.loadMore) { return }
                 // if (this.footerStatus === FooterStatus.LOADING ||
                 //     this.footerStatus === FooterStatus.LOADED) { return }
