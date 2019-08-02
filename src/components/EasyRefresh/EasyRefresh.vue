@@ -247,7 +247,7 @@
             this.onResize()
             // 初始化Header和Footer的top值
             this.headerBottom = -this.container!!.clientHeight
-            this.footerTop = this.container!!.clientHeight
+            this.footerTop = this.container!!.clientHeight + 1000
             window.addEventListener('resize', this.onResize)
             // 监听鼠标移动
             document.addEventListener('mousemove', this.mouseMove)
@@ -512,38 +512,38 @@
         }
         // 刷新完成回调
         private callRefreshFinish() {
-            this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
-                this.userScrolling = false
-                this.mousedown = false
-                this.wheelScrolling = false
-                this.headerStatus = HeaderStatus.REFRESHED
-                this.header.onRefreshed()
+            // 注释以去掉刷新后回调顶部
+            // this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {})
+            this.userScrolling = false
+            this.mousedown = false
+            this.wheelScrolling = false
+            this.headerStatus = HeaderStatus.REFRESHED
+            this.header.onRefreshed()
+            if (this.headerStatusChanged) {
+                this.headerStatusChanged(HeaderCallBackStatus.REFRESHED)
+            }
+            setTimeout(() => {
+                this.header.onRefreshEnd()
                 if (this.headerStatusChanged) {
-                    this.headerStatusChanged(HeaderCallBackStatus.REFRESHED)
+                    this.headerStatusChanged(HeaderCallBackStatus.END)
                 }
-                setTimeout(() => {
-                    this.header.onRefreshEnd()
+                this.isRefresh = false
+                this.headerStatus = HeaderStatus.REFRESH_END
+                // 判断刷新过程中是否滑动到其他位置
+                const {left, top, zoom} = this.scroller.getValues()
+                if (-top !== this.header.refreshHeight()) {
+                    this.header.onRefreshClose()
                     if (this.headerStatusChanged) {
-                        this.headerStatusChanged(HeaderCallBackStatus.END)
+                        this.headerStatusChanged(HeaderCallBackStatus.CLOSE)
                     }
-                    this.isRefresh = false
-                    this.headerStatus = HeaderStatus.REFRESH_END
-                    // 判断刷新过程中是否滑动到其他位置
-                    const {left, top, zoom} = this.scroller.getValues()
-                    if (-top !== this.header.refreshHeight()) {
-                        this.header.onRefreshClose()
-                        if (this.headerStatusChanged) {
-                            this.headerStatusChanged(HeaderCallBackStatus.CLOSE)
-                        }
-                        this.headerStatus = HeaderStatus.NO_REFRESH
-                        this.header.updateHeaderHeight(0)
-                        if (this.updateHeaderHeight) {
-                            this.updateHeaderHeight(0)
-                        }
+                    this.headerStatus = HeaderStatus.NO_REFRESH
+                    this.header.updateHeaderHeight(0)
+                    if (this.updateHeaderHeight) {
+                        this.updateHeaderHeight(0)
                     }
-                    this.scroller.finishPullToRefresh()
-                }, this.header.headerFinishDuration())
-            })
+                }
+                this.scroller.finishPullToRefresh()
+            }, this.header.headerFinishDuration())
         }
         // 加载完成回调
         private callLoadMoreFinish(noMore: boolean = false) {
