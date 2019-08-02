@@ -16,7 +16,7 @@
     import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
     import ScrollBar from '../scrollbar'
     import Scroller from '@/module/core'
-    import PagePosition from "./PagePosition"
+    import PagePosition from './PagePosition'
 
     @Component
     export default class ClassicsScrollBar extends Vue implements ScrollBar {
