@@ -9,7 +9,7 @@
                     :describe="$t('sample.basicUseDescribe')"
                     @click.native="$router.push('/basic')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">format_list_bulleted</v-icon>
+                        <v-icon size="25" color="#FF9800">format_list_bulleted</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -19,7 +19,7 @@
                         :describe="$t('sample.autoLoadDescribe')"
                         @click.native="$router.push('/auto-load')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">autorenew</v-icon>
+                        <v-icon size="25" color="#FF9800">autorenew</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -29,7 +29,7 @@
                         :describe="$t('sample.freeTriggerDescribe')"
                         @click.native="$router.push('/free-trigger')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">gamepad</v-icon>
+                        <v-icon size="25" color="#FF9800">gamepad</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -39,7 +39,7 @@
                         :describe="$t('sample.floatViewDescribe')"
                         @click.native="$router.push('/float')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">layers</v-icon>
+                        <v-icon size="25" color="#FF9800">layers</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -49,7 +49,7 @@
                         :describe="$t('sample.userProfileDescribe')"
                         @click.native="$router.push('/user-profile')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">person</v-icon>
+                        <v-icon size="25" color="#FF9800">person</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -59,7 +59,7 @@
                         :describe="$t('sample.collapsibleAppBarDescribe')"
                         @click.native="$router.push('/collapsible-app-bar')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">format_line_spacing</v-icon>
+                        <v-icon size="25" color="#FF9800">format_line_spacing</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -69,7 +69,7 @@
                         :describe="$t('sample.scrollBarDescribe')"
                         @click.native="$router.push('/scroll-bar')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">border_right</v-icon>
+                        <v-icon size="25" color="#FF9800">border_right</v-icon>
                     </template>
                 </ListItem>
             </EasyRefresh>

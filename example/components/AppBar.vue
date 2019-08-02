@@ -29,7 +29,7 @@
         @Prop({default: true})
         private showBack!: boolean
         // 标题颜色
-        @Prop({default: 'black'})
+        @Prop({default: '#000000'})
         private titleColor!: string
         // 颜色
         @Prop({default: '#FF9800'})

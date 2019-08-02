@@ -8,7 +8,7 @@
                         :title="$t('more.star')"
                         @click.native="openProjectAddress">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">star</v-icon>
+                        <v-icon size="25" color="#FF9800">star</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -50,7 +50,7 @@
             </EasyRefresh>
             <!--弹窗-->
             <v-dialog v-model="showDialog" max-width="350">
-                <v-card class="text-xs-center support-page-dialog-content">
+                <v-card class="support-page-dialog-content">
                     <img :src="imgBase64">
                 </v-card>
             </v-dialog>
@@ -123,6 +123,7 @@
         }
         .support-page-dialog-content {
             padding: 20px;
+            text-align: center;
         }
     }
 </style>

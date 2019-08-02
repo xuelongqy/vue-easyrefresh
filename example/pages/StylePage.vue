@@ -9,7 +9,7 @@
                         :describe="$t('style.classicDescribe')"
                         @click.native="$router.push('/classic')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">format_list_bulleted</v-icon>
+                        <v-icon size="25" color="#FF9800">format_list_bulleted</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -19,7 +19,7 @@
                     :describe="$t('style.classicDescribe')"
                     @click.native="$router.push('/material')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">android</v-icon>
+                        <v-icon size="25" color="#FF9800">android</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -29,7 +29,7 @@
                         :describe="$t('style.ballPulseDescribe')"
                         @click.native="$router.push('/ball-push')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">lens</v-icon>
+                        <v-icon size="25" color="#FF9800">lens</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -39,7 +39,7 @@
                         :describe="$t('style.bezierCircleDescribe')"
                         @click.native="$router.push('/bezier-circle')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">radio_button_checked</v-icon>
+                        <v-icon size="25" color="#FF9800">radio_button_checked</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -49,7 +49,7 @@
                         :describe="$t('style.bezierBounceDescribe')"
                         @click.native="$router.push('/bezier-bounce')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">timelapse</v-icon>
+                        <v-icon size="25" color="#FF9800">timelapse</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -59,7 +59,7 @@
                         :describe="$t('style.moreStyleDescribe')"
                         @click.native="openQQGroup">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">style</v-icon>
+                        <v-icon size="25" color="#FF9800">style</v-icon>
                     </template>
                 </ListItem>
             </EasyRefresh>

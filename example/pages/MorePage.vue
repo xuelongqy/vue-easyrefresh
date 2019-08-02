@@ -9,7 +9,7 @@
                         :describe="$t('more.joinDiscussionDescribe')"
                         @click.native="openQQGroup">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">supervised_user_circle</v-icon>
+                        <v-icon size="25" color="#FF9800">supervised_user_circle</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -19,7 +19,7 @@
                         describe="https://github.com/xuelongqy/vue-easyrefresh"
                         @click.native="openProjectAddress">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">http</v-icon>
+                        <v-icon size="25" color="#FF9800">http</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -29,7 +29,7 @@
                         :describe="$t('more.supportAuthorDescribe')"
                         @click.native="$router.push('/support-page')">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">star</v-icon>
+                        <v-icon size="25" color="#FF9800">star</v-icon>
                     </template>
                 </ListItem>
                 <v-divider/>
@@ -38,7 +38,7 @@
                         :title="$t('more.about')"
                         @click.native="openProjectAddress">
                     <template v-slot:icon>
-                        <v-icon size="25" color="orange">info</v-icon>
+                        <v-icon size="25" color="#FF9800">info</v-icon>
                     </template>
                 </ListItem>
             </EasyRefresh>
