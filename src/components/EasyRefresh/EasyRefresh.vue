@@ -157,6 +157,7 @@
             // 绑定滚动条
             this.scrollBar.setScroller(this.scroller)
         }
+
         // 触发刷新
         public callRefresh() {
             if (this.isRefresh) { return }
@@ -165,9 +166,7 @@
             this.scroller.triggerPullToRefresh(this.header.refreshHeight() + 30, () => {
                 this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
                     this.header.onRefreshing()
-                    if (this.headerStatusChanged) {
-                        this.headerStatusChanged(HeaderCallBackStatus.REFRESHING)
-                    }
+                    this.changeHeaderStatus(HeaderCallBackStatus.REFRESHING)
                     if (this.noMore) {
                         this.noMore = false
                         this.footer.onLoadClose()
@@ -186,9 +185,7 @@
             this.scroller.triggerPushToLoad(this.footer.loadHeight() + 30, () => {
                 this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
                     this.footer.onLoading()
-                    if (this.footerStatusChanged) {
-                        this.footerStatusChanged(FooterCallBackStatus.LOADING)
-                    }
+                    this.changeFooterStatus(FooterCallBackStatus.LOADING)
                     this.footerStatus = FooterStatus.LOADING
                     this.loadMore(this.callLoadMoreFinish)
                 }, true)
@@ -203,6 +200,19 @@
         // 获取content
         public getContent(): HTMLElement {
             return this.content as HTMLElement
+        }
+
+        // 改变Header状态
+        private changeHeaderStatus(status: HeaderCallBackStatus) {
+            if (this.headerStatusChanged) {
+                this.headerStatusChanged(status)
+            }
+        }
+        // 改变Footer状态
+        private changeFooterStatus(status: FooterCallBackStatus) {
+            if (this.footerStatusChanged) {
+                this.footerStatusChanged(status)
+            }
         }
 
         // 滚动到指定位置
@@ -371,8 +381,6 @@
             }
             if (top < 0) { // 显示Header
                 if (!this.onRefresh) { return }
-                // if (this.headerStatus === HeaderStatus.REFRESHING ||
-                //     this.headerStatus === HeaderStatus.REFRESHED) { return }
                 // 更新Header高度
                 this.header.updateHeaderHeight(-top)
                 if (this.updateHeaderHeight) {
@@ -386,33 +394,25 @@
                     && this.userScrolling) {
                     // 刷新开始
                     this.header.onRefreshStart()
-                    if (this.headerStatusChanged) {
-                        this.headerStatusChanged(HeaderCallBackStatus.START)
-                    }
+                    this.changeHeaderStatus(HeaderCallBackStatus.START)
                     this.headerStatus = HeaderStatus.REFRESH_START
                 } else if (this.headerStatus === HeaderStatus.REFRESH_START &&
                     -top > this.header.refreshHeight() &&
                     this.userScrolling && !this.isRefresh) {
                     // 准备刷新
                     this.header.onRefreshReady()
-                    if (this.headerStatusChanged) {
-                        this.headerStatusChanged(HeaderCallBackStatus.READY)
-                    }
+                    this.changeHeaderStatus(HeaderCallBackStatus.READY)
                     this.headerStatus = HeaderStatus.REFRESH_READY
                 } else if (this.headerStatus === HeaderStatus.REFRESH_READY &&
                     -top < this.header.refreshHeight() &&
                     this.userScrolling) {
                     // 刷新恢复
                     this.header.onRefreshRestore()
-                    if (this.headerStatusChanged) {
-                        this.headerStatusChanged(HeaderCallBackStatus.RESTORE)
-                    }
+                    this.changeHeaderStatus(HeaderCallBackStatus.RESTORE)
                     this.headerStatus = HeaderStatus.REFRESH_START
                 }
             } else if (top > 0 && top > scrollableDistance) { // 显示Footer
                 if (!this.loadMore) { return }
-                // if (this.footerStatus === FooterStatus.LOADING ||
-                //     this.footerStatus === FooterStatus.LOADED) { return }
                 if (top === 0) { return }
                 let footerHeight = 0
                 // 更新Footer高度，判断是否超过屏幕底部
@@ -433,9 +433,7 @@
                         this.updateFooterHeight(this.footer.loadHeight())
                     }
                     this.footer.onLoading()
-                    if (this.footerStatusChanged) {
-                        this.footerStatusChanged(FooterCallBackStatus.LOADING)
-                    }
+                    this.changeFooterStatus(FooterCallBackStatus.LOADING)
                     this.footerStatus = FooterStatus.LOADING
                     if (!this.isRefresh) {
                         this.loadMore(this.callLoadMoreFinish)
@@ -452,27 +450,21 @@
                     this.userScrolling) {
                     // 开始加载
                     this.footer.onLoadStart()
-                    if (this.footerStatusChanged) {
-                        this.footerStatusChanged(FooterCallBackStatus.START)
-                    }
+                    this.changeFooterStatus(FooterCallBackStatus.START)
                     this.footerStatus = FooterStatus.LOAD_START
                 } else if (this.footerStatus === FooterStatus.LOAD_START &&
                     footerHeight > this.footer.loadHeight() &&
                     this.userScrolling && !this.isRefresh) {
                     // 准备加载
                     this.footer.onLoadReady()
-                    if (this.footerStatusChanged) {
-                        this.footerStatusChanged(FooterCallBackStatus.READY)
-                    }
+                    this.changeFooterStatus(FooterCallBackStatus.READY)
                     this.footerStatus = FooterStatus.LOAD_READY
                 } else if (this.footerStatus === FooterStatus.LOAD_READY &&
                     footerHeight < this.footer.loadHeight() &&
                     this.userScrolling) {
                     // 恢复加载
                     this.footer.onLoadRestore()
-                    if (this.footerStatusChanged) {
-                        this.footerStatusChanged(FooterCallBackStatus.RESTORE)
-                    }
+                    this.changeFooterStatus(FooterCallBackStatus.RESTORE)
                     this.footerStatus = FooterStatus.LOAD_START
                 }
             } else {
@@ -483,9 +475,7 @@
                     || this.headerStatus === HeaderStatus.REFRESH_END)
                     && this.onRefresh) {
                     this.header.onRefreshClose()
-                    if (this.headerStatusChanged) {
-                        this.headerStatusChanged(HeaderCallBackStatus.CLOSE)
-                    }
+                    this.changeHeaderStatus(HeaderCallBackStatus.CLOSE)
                     this.headerStatus = HeaderStatus.NO_REFRESH
                 }
                 // 加载关闭
@@ -502,9 +492,7 @@
                             this.scroller.scrollBy(0, top, false)
                         }
                         this.footer.onLoadClose()
-                        if (this.footerStatusChanged) {
-                            this.footerStatusChanged(FooterCallBackStatus.CLOSE)
-                        }
+                        this.changeFooterStatus(FooterCallBackStatus.CLOSE)
                     }
                     this.footerStatus = FooterStatus.NO_LOAD
                 }
@@ -519,23 +507,17 @@
             this.wheelScrolling = false
             this.headerStatus = HeaderStatus.REFRESHED
             this.header.onRefreshed()
-            if (this.headerStatusChanged) {
-                this.headerStatusChanged(HeaderCallBackStatus.REFRESHED)
-            }
+            this.changeHeaderStatus(HeaderCallBackStatus.REFRESHED)
             setTimeout(() => {
                 this.header.onRefreshEnd()
-                if (this.headerStatusChanged) {
-                    this.headerStatusChanged(HeaderCallBackStatus.END)
-                }
+                this.changeHeaderStatus(HeaderCallBackStatus.END)
                 this.isRefresh = false
                 this.headerStatus = HeaderStatus.REFRESH_END
                 // 判断刷新过程中是否滑动到其他位置
                 const {left, top, zoom} = this.scroller.getValues()
                 if (-top !== this.header.refreshHeight()) {
                     this.header.onRefreshClose()
-                    if (this.headerStatusChanged) {
-                        this.headerStatusChanged(HeaderCallBackStatus.CLOSE)
-                    }
+                    this.changeHeaderStatus(HeaderCallBackStatus.CLOSE)
                     this.headerStatus = HeaderStatus.NO_REFRESH
                     this.header.updateHeaderHeight(0)
                     if (this.updateHeaderHeight) {
@@ -556,21 +538,18 @@
                 this.footerStatus = FooterStatus.LOADED
                 if (noMore) {
                     this.footer.onNoMore()
-                    if (this.footerStatusChanged) {
-                        this.footerStatusChanged(FooterCallBackStatus.NO_MORE)
-                    }
+                    this.changeFooterStatus(FooterCallBackStatus.NO_MORE)
                 } else {
                     this.footer.onLoaded()
-                    if (this.footerStatusChanged) {
-                        this.footerStatusChanged(FooterCallBackStatus.LOADED)
-                    }
+                    this.changeFooterStatus(FooterCallBackStatus.LOADED)
                 }
                 setTimeout(() => {
+                    if (this.footerStatus === FooterStatus.NO_LOAD) {
+                        return
+                    }
                     if (!this.noMore) {
                         this.footer.onLoadEnd()
-                        if (this.footerStatusChanged) {
-                            this.footerStatusChanged(FooterCallBackStatus.END)
-                        }
+                        this.changeFooterStatus(FooterCallBackStatus.END)
                     }
                     this.isRefresh = false
                     this.footerStatus = FooterStatus.LOAD_END
@@ -580,9 +559,7 @@
                         if (!this.noMore) {
                             this.floatTop = 0;
                             this.footer.onLoadClose()
-                            if (this.footerStatusChanged) {
-                                this.footerStatusChanged(FooterCallBackStatus.CLOSE)
-                            }
+                            this.changeFooterStatus(FooterCallBackStatus.CLOSE)
                         }
                         this.footerStatus = FooterStatus.NO_LOAD
                         this.footerTop = this.container!!.clientHeight
@@ -590,7 +567,7 @@
                             this.updateFooterHeight(0)
                         }
                     }
-                }, this.autoLoad ? 0 : this.footer.footerFinishDuration())
+                }, this.autoLoad || !noMore ? 0 : this.footer.footerFinishDuration())
             }, noMore)
         }
         // 滚动动作结束(例如手指离开屏幕)
@@ -610,9 +587,7 @@
                     this.scroller.doTouchEnd(e.timeStamp, true)
                     this.scroller.triggerPullToRefresh(this.header.refreshHeight(), () => {
                         this.header.onRefreshing()
-                        if (this.headerStatusChanged) {
-                            this.headerStatusChanged(HeaderCallBackStatus.REFRESHING)
-                        }
+                        this.changeHeaderStatus(HeaderCallBackStatus.REFRESHING)
                         if (this.noMore) {
                             this.noMore = false
                             this.footer.onLoadClose()
@@ -624,10 +599,10 @@
                     return
                 }
             }
-            // 列表可滚动的距离
-            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             // 判断是否需要加载更多
             if (this.loadMore && !this.noMore) {
+                // 列表可滚动的距离
+                const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
                 const {left, top, zoom} = this.scroller.getValues()
                 // 触发加载
                 if (this.footerStatus === FooterStatus.LOAD_READY &&
@@ -638,17 +613,18 @@
                     this.scroller.doTouchEnd(e.timeStamp, true)
                     this.scroller.triggerPushToLoad(this.footer.loadHeight(), () => {
                         this.footer.onLoading()
-                        if (this.footerStatusChanged) {
-                            this.footerStatusChanged(FooterCallBackStatus.LOADING)
-                        }
+                        this.changeFooterStatus(FooterCallBackStatus.LOADING)
                         this.footerStatus = FooterStatus.LOADING
                         this.loadMore(this.callLoadMoreFinish)
                     }, true)
                     this.isRefresh = true
                     return
                 }
-            } else if (e instanceof  WheelEvent) {
-                this.scrollTo(scrollableDistance > 0 ? scrollableDistance : 0, true);
+            }
+            // 如果是滚轮则归位
+            if (e instanceof  WheelEvent) {
+                this.scrollTo(this.scroller.getValues().top, true);
+                return
             }
             this.scroller.doTouchEnd(e.timeStamp, false)
         }
@@ -719,8 +695,11 @@
             }
             // 判断是否到达最大高度
             const scrollerValue = this.scroller.getValues()
+            // 列表可滚动的距离
+            const scrollableDistance = this.content!!.offsetHeight - this.container!!.clientHeight
             if (scrollerValue.top > - 60 - 50 &&
-                scrollerValue.top < this.content!!.offsetHeight - this.container!!.clientHeight + 60 + 50 ) {
+                ((scrollableDistance >= 0 && scrollerValue.top < scrollableDistance + 60 + 50) ||
+                ((scrollableDistance < 0 && scrollerValue.top < 60 + 50)))) {
                 this.scrollPublishTo(scrollerValue.top + e.deltaY, false);
             }
             // 设置计时器,结束滚动
