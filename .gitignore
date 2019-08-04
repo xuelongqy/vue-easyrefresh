@@ -19,5 +19,4 @@ yarn-error.log*
 *.sln
 *.sw*
 dist
-lib
 yarn.lock
