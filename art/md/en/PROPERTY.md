@@ -106,6 +106,7 @@ Other Headers are not listed one by one, please check the related Header @Prop p
 | height | Refresh height     | number  | 70 | Optional |
 | finishDuration | Completion delay(ms)     | number | 1000 | Optional |
 | isFloat | Whether it floats     | bool | false | Optional |
+| alignment | Alignment(top,center,bottom)     | string | 'bottom' | Optional |
 
 # Footer
 Other Footers are not listed one by one, please check the related Footer @Prop properties [Footers](https://github.com/xuelongqy/vue-easyrefresh/tree/master/src/components/footer)
@@ -117,7 +118,7 @@ Other Footers are not listed one by one, please check the related Footer @Prop p
 | finishDuration | Completion delay(ms)     | number | 1000 | Optional |
 | isFloat | Whether it floats     | bool | false | Optional |
 
-## Props Table - ClassicsHeader
+## Props Table - ClassicsFooter
 | Attribute Name     |     Attribute Explain     | Parameter Type | Default Value  | Requirement |
 |---------|--------------------------|:-----:|:-----:|:-----:|
 | loadText | Load prompt text     | string  | 'Push to load' | Optional |
@@ -133,6 +134,7 @@ Other Footers are not listed one by one, please check the related Footer @Prop p
 | height | Loading height     | number  | 70 | Optional |
 | finishDuration | Completion delay(ms)     | number | 1000 | Optional |
 | isFloat | Whether it floats     | bool | false | Optional |
+| alignment | Alignment(top,center,bottom)     | string | 'top' | Optional |
 
 # ScrollBar
 

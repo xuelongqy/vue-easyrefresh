@@ -106,6 +106,7 @@
 | height | 刷新高度     | number  | 70 | 可选 |
 | finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
 | isFloat | 是否浮动     | bool | false | 可选 |
+| alignment | 方向(top,center,bottom)     | string | 'bottom' | 可选 |
 
 # Footer
 其他Footer没有一一列举,请查看相关Footer的@Prop属性 [Footers](https://github.com/xuelongqy/vue-easyrefresh/tree/master/src/components/footer)
@@ -117,7 +118,7 @@
 | finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
 | isFloat | 是否浮动     | bool | false | 可选 |
 
-## 属性表格 - ClassicsHeader
+## 属性表格 - ClassicsFooter
 | 属性名称     |     属性描述     | 参数类型 | 默认值  | 要求 |
 |---------|--------------------------|:-----:|:-----:|:-----:|
 | loadText | 加载提示文字     | string  | 'Push to load' | 可选 |
@@ -133,6 +134,7 @@
 | height | 加载高度     | number  | 70 | 可选 |
 | finishDuration | 完成延时(ms)     | number | 1000 | 可选 |
 | isFloat | 是否浮动     | bool | false | 可选 |
+| alignment | 方向(top,center,bottom)     | string | 'top' | 可选 |
 
 # ScrollBar
 

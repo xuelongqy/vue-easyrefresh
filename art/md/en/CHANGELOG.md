@@ -23,3 +23,8 @@
 >Fix: Internationalized default language issues  
 >Disabled: Browser default event  
 >Fix: Gestures slide too fast without displaying animations  
+
+## V 1.0.6
+>Fix: The list is not full and can only trigger a refresh  
+>Optimization: Wheel events  
+>Add: Classic style orientation properties  
