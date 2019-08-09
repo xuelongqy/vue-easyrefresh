@@ -202,6 +202,11 @@
             return this.content as HTMLElement
         }
 
+        // 滚动到指定位置
+        public scrollTo(top: number, animate: boolean) {
+            this.scroller.scrollTo(0, top, animate, null)
+        }
+
         // 改变Header状态
         private changeHeaderStatus(status: HeaderCallBackStatus) {
             if (this.headerStatusChanged) {
@@ -215,10 +220,7 @@
             }
         }
 
-        // 滚动到指定位置
-        private scrollTo(top: number, animate: boolean) {
-            this.scroller.scrollTo(0, top, animate, null)
-        }
+        // 滚动到指定位置(可越界)
         private scrollPublishTo(top: number, animate: boolean) {
             this.scroller.scrollPublishTo(0, top, animate)
         }
